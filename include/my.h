@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
+#include <ctype.h>
 
 typedef struct tab_s {
 	char c;
