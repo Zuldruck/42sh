@@ -46,6 +46,7 @@ void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 	}
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
 	if (check_built_ins(word_tab, env, ret_value, tree->fd) == 1)
-		*ret_value = my_exec(word_tab, env, tree->fd);
+		if (word_tab && word_tab[0] && word_tab[0][0])
+			*ret_value = my_exec(word_tab, env, tree->fd);
 	my_free_tab(word_tab);
 }

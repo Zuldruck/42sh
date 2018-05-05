@@ -7,13 +7,15 @@
 
 #include "42sh.h"
 
-void set_pipefd(btree_t *node)
+int set_pipefd(btree_t *node)
 {
 	int pipefd[2];
 
 	node->left->fd[0] = node->fd[0];
 	node->right->fd[1] = node->fd[1];
-	pipe(pipefd);
+	if (pipe(pipefd) == -1)
+		return (1);
 	node->right->fd[0] = pipefd[0];
 	node->left->fd[1] = pipefd[1];
+	return (0);
 }

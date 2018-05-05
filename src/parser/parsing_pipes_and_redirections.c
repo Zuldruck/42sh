@@ -52,7 +52,7 @@ void parse_cmd_for_pipes_and_redirections(btree_t *node)
 	int len = my_strlen(node->cmd);
 
 	recursivity_on_parsing(node);
-	for (int i = len - 1; i > 0; i--) {
+	for (int i = len - 1; i >= 0; i--) {
 		if (check_double_redirections_in_cmd(cmd, i, node))
 			break;
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|') {

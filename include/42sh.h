@@ -66,7 +66,7 @@ void display_btree(btree_t *);
 void parse_cmd_for_pipes_and_redirections(btree_t *);
 void parse_cmd_for_separator(btree_t *);
 void exec_tree(btree_t *, env_t *, int *);
-void set_pipefd(btree_t *);
+int set_pipefd(btree_t *);
 void exec_semicolon(btree_t *, env_t *, int *);
 void exec_double_and(btree_t *, env_t *, int *);
 void exec_double_or(btree_t *, env_t *, int *);

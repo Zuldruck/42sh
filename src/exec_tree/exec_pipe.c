@@ -11,7 +11,10 @@ void exec_pipe(btree_t *pipe, env_t *env, int *ret_value)
 {
 	pid_t pid = 0;
 
-	set_pipefd(pipe);
+	if (set_pipefd(pipe) == 1) {
+		*ret_value = 1;
+		return;
+	}
 	pid = fork();
 	if (!pid) {
 		exec_tree(pipe->left, env, ret_value);
