@@ -16,7 +16,8 @@ mysh
 NormEZ/
 NormEZ.rb
 segfault
-test
-tester.sh
+tester/*
+tester
+42sh_mouli
 norminette_similar_to_epitech
-mouli_sh2/
+42sh_mouli/*

@@ -48,6 +48,7 @@ void unsetenv_func(char **, env_t *, int *);
 void cd_func(char **, env_t *, int *);
 void exit_func(char **, env_t *, int *);
 void setenv_func(char **, env_t *, int *);
+void echo_func(char **, env_t *, int *);
 env_t *create_list(char **);
 void env_func(char **, env_t *, int *);
 char **list_to_2d_arr(env_t *);

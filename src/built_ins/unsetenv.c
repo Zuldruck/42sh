@@ -31,9 +31,10 @@ void unsetenv_func(char **str, env_t *env, int *ret_value)
 	if (my_tablen(str) == 1) {
 		my_printf("%s: Too few arguments.\n", str[0]);
 		*ret_value = 1;
-	} else
+	} else {
 		while (str[i] != NULL) {
 			unset_var(env, str[i]);
 			i++;
 		}
+	}
 }
