@@ -9,7 +9,12 @@
 
 int check_bad_pipes(btree_t *node, int error)
 {
-	if (!error && !my_strcmp(node->op, "|")
+	if (!error && !my_strcmp(node->op, "&&")
+	&& !node->left->op && (!node->left->cmd || !node->left->cmd[0])
+	&& !node->right->op && (!node->right->cmd || !node->right->cmd[0]))
+		return (0);
+	if (!error && (!my_strcmp(node->op, "|")
+	|| !my_strcmp(node->op, "||") || !my_strcmp(node->op, "&&"))
 	&& ((!node->left->op && (!node->left->cmd || !node->left->cmd[0]))
 	|| (!node->right->op && (!node->right->cmd || !node->right->cmd[0])))) {
 		my_printf("Invalid null command.\n");
