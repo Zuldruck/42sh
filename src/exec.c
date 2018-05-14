@@ -26,7 +26,7 @@ int exec_error_handling(char **str, env_t *env)
 void child_process(char **str, env_t *env, int input, int output)
 {
 	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
-		exit(1);
+		exit(84);
 	if (execve(str[0], str, list_to_2d_arr(env)) == -1) {
 		my_printf("%s: Exec format error. Wrong Architecture.\n",
 									str[0]);
@@ -40,8 +40,10 @@ int my_exec(char **str, env_t *env, int *fd)
 	int save[2];
 	pid_t pid = 0;
 
-	save[0] = dup(0);
-	save[1] = dup(1);
+	if ((save[0] = dup(0)) == -1)
+		exit(84);
+	if ((save[1] = dup(1)) == -1)
+		exit(84);
 	if (exec_error_handling(str, env) == 1)
 		return (1);
 	pid = fork();
@@ -50,7 +52,7 @@ int my_exec(char **str, env_t *env, int *fd)
 	waitpid(pid, &status, 0);
 	close(fd[0]);
 	close(fd[1]);
-	dup2(save[0], 0);
-	dup2(save[1], 1);
+	if (dup2(save[0], 0) == -1 || dup2(save[1], 1) == -1)
+		exit(84);
 	return (check_segfault(status));
 }
