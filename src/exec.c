@@ -44,7 +44,7 @@ int my_exec(char **str, env_t *env, int *fd)
 		exit(84);
 	if ((save[1] = dup(1)) == -1)
 		exit(84);
-	if (exec_error_handling(str, env) == 1)
+	if (exec_error_handling(str, env))
 		return (1);
 	pid = fork();
 	if (!pid)

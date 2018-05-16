@@ -33,6 +33,7 @@ SRC	= 	src/main.c					\
 		src/exec_tree/exec_redirect.c			\
 		src/exec_tree/exec_separator.c			\
 		src/exec_tree/exec_double_left_redirect.c	\
+		src/parser/parse_env_variables.c		\
 
 OBJ	=	$(SRC:.c=.o)
 

@@ -7,7 +7,7 @@
 
 #include "42sh.h"
 
-int is_a_env_value(env_t *env, char *str)
+int __is_a_env_value(env_t *env, char *str)
 {
 	if (get_env(env, str + 1) == NULL)
 		return (0);
@@ -17,7 +17,7 @@ int is_a_env_value(env_t *env, char *str)
 int check_undefined_variable(char **str, env_t *env)
 {
 	for (int i = 1 ; str[i] ; i++)
-		if (str[i][0] == '$' && is_a_env_value(env, str[i]) == 0) {
+		if (str[i][0] == '$' && __is_a_env_value(env, str[i]) == 0) {
 			my_printf("%s: Undefined variable.\n", str[i] + 1);
 			return (1);
 		}
