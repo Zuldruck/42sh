@@ -6,6 +6,7 @@
 */
 
 #include "42sh.h"
+
 /*
 int check_environment_variables(char **str, env_t *env, int *ret_value,
 __attribute__((unused))int *fd)
@@ -29,6 +30,7 @@ __attribute__((unused))int *fd)
 	return (1);
 }
 */
+
 void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 {
 	char **word_tab = NULL;
