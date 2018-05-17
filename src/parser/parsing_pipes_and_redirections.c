@@ -17,7 +17,7 @@ void set_op_for_redirections_and_pipes(btree_t *node, char c)
 		node->op = my_strdup("|");
 }
 
-int check_double_redirections_in_cmd(char *cmd, int i, btree_t *node)
+int check_double_redirections(char *cmd, int i, btree_t *node)
 {
 	if ((cmd[i] == '<' && cmd[i - 1] == '<')
 	|| (cmd[i] == '>' && cmd[i - 1] == '>')) {
@@ -38,6 +38,22 @@ int check_double_redirections_in_cmd(char *cmd, int i, btree_t *node)
 	return (0);
 }
 
+int check_redirections_and_pipes(char *cmd, int i, btree_t *node)
+{
+	if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|') {
+		set_op_for_redirections_and_pipes(node, cmd[i]);
+		cmd[i] = 0;
+		node->right = create_btree_node( \
+				my_clean_str(node->cmd + i + 1), NULL);
+		node->left = create_btree_node(my_clean_str(cmd), NULL);
+		node->cmd = NULL;
+		parse_cmd_for_pipes_and_redirections(node->left);
+		parse_cmd_for_pipes_and_redirections(node->right);
+		return (1);
+	}
+	return (0);
+}
+
 void recursivity_on_parsing(btree_t *node)
 {
 	if (!node->cmd) {
@@ -46,26 +62,19 @@ void recursivity_on_parsing(btree_t *node)
 	}
 }
 
-void parse_cmd_for_pipes_and_redirections(btree_t *node)
+int parse_cmd_for_pipes_and_redirections(btree_t *node)
 {
-	char *cmd = my_strdup(node->cmd);
+	char *cmd = node->cmd;
 	int len = my_strlen(node->cmd);
 
 	recursivity_on_parsing(node);
 	for (int i = len - 1; i >= 0; i--) {
-		if (check_double_redirections_in_cmd(cmd, i, node))
+		i = check_quotes(cmd, i);
+		if (i == -1)
+			return (1);
+		if (check_double_redirections(cmd, i, node)
+		|| check_redirections_and_pipes(cmd, i, node))
 			break;
-		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|') {
-			set_op_for_redirections_and_pipes(node, cmd[i]);
-			cmd[i] = 0;
-			node->right = create_btree_node( \
-					my_clean_str(node->cmd + i + 1), NULL);
-			node->left = create_btree_node(my_clean_str(cmd), NULL);
-			node->cmd = NULL;
-			parse_cmd_for_pipes_and_redirections(node->left);
-			parse_cmd_for_pipes_and_redirections(node->right);
-			break;
-		}
 	}
-	free(cmd);
+	return (0);
 }

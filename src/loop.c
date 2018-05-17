@@ -12,7 +12,6 @@ void my_signals(void)
 	signal(SIGINT, sig_handler);
 	//signal(SIGSEGV, sig_handler);
 	signal(SIGPIPE, sig_handler);
-	signal(12, sig_handler);
 }
 
 void my_loop(env_t *env, int ret_value)

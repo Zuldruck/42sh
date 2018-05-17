@@ -44,18 +44,20 @@ int check_double_and_double_or(btree_t *node, char *cmd, int i)
 	return (0);
 }
 
-void parse_cmd_for_separator(btree_t *node)
+int parse_cmd_for_separator(btree_t *node)
 {
-	char *cmd = my_strdup(node->cmd);
+	char *cmd = node->cmd;
 	int len = my_strlen(node->cmd);
 
 	for (int i = len - 1; i >= 0; i--) {
-		if (check_semicolon(node, cmd, i))
-			break;
-		if (check_double_and_double_or(node, cmd, i))
+		i = check_quotes(cmd, i);
+		if (i == -1)
+			return (1);
+		if (check_semicolon(node, cmd, i)
+		|| check_double_and_double_or(node, cmd, i))
 			break;
 	}
-	free(cmd);
+	return (0);
 }
 
 void free_tree(btree_t *tree)
@@ -73,9 +75,9 @@ void parse_cmd(env_t *env, char *cmd, int *ret_value)
 	btree_t *node = create_btree_node(my_clean_str(cmd), NULL);
 
 	free(cmd);
-	parse_cmd_for_separator(node);
-	parse_cmd_for_pipes_and_redirections(node);
-	if (btree_error_handling(node, 0)) {
+	if (parse_cmd_for_separator(node)
+	|| parse_cmd_for_pipes_and_redirections(node)
+	|| btree_error_handling(node, 0)) {
 		*ret_value = 1;
 		free_tree(node);
 		return;

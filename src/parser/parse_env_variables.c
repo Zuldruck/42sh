@@ -7,16 +7,47 @@
 
 #include "42sh.h"
 
+char *get_var_name(char *str)
+{
+	char *name = NULL;
+	int i = 0;
+
+	while (str[i] != '"' && str[i] != '\'')
+		i++;
+	name = strndup(str, i);
+	return (name);
+}
+
 int is_a_env_value(env_t *env, char *str)
 {
-	if (get_env(env, str + 1) == NULL)
+	char *var_name = get_var_name(str + 1);
+
+	if (get_env(env, var_name) == NULL) {
+		free(var_name);
 		return (0);
+	}
+	free(var_name);
 	return (1);
+}
+
+char *get_str_with_env(env_t *env, char *var_name,
+						char *beg_str, char **str)
+{
+	char *end_str = *str + strlen(beg_str) + 1 + strlen(var_name);
+	char *end_with_env = my_strcat(get_env(env, var_name), end_str);
+	char *ret = my_strcat(beg_str, end_with_env);
+
+	free(*str);
+	free(beg_str);
+	free(var_name);
+	free(end_with_env);
+	return (ret);
 }
 
 int parse_env_var_in_args(char **str, env_t *env)
 {
 	char *new_str = NULL;
+	char *var_name = NULL;
 
 	for (int i = 0; (*str)[i]; i++) {
 		if ((*str)[i] == '$' && (*str)[i + 1]
@@ -24,11 +55,9 @@ int parse_env_var_in_args(char **str, env_t *env)
 			my_printf("%s: Undefined variable.\n", (*str) + i + 1);
 			return (1);
 		} else if ((*str)[i] == '$' && (*str)[i + 1]) {
+			var_name = get_var_name(*str + i + 1);
 			new_str = strndup(*str, i);
-			new_str = realloc(new_str, i + 1
-			+ strlen(get_env(env, *str + i + 1)));
-			strcat(new_str, get_env(env, (*str) + i + 1));
-			*str = new_str;
+			*str = get_str_with_env(env, var_name, new_str, str);
 			return (0);
 		}
 	}
