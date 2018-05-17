@@ -35,6 +35,7 @@ SRC	=	my_getnbr.c			\
 		my_free_tab.c			\
 		my_tablen.c			\
 		my_clean_str.c			\
+		convert_tab.c			\
 
 
 OBJ	=	$(SRC:.c=.o)

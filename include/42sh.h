@@ -9,6 +9,9 @@
 #define	__42sh__
 
 #include "my.h"
+#include <glob.h>
+
+#define UNUSED(x) (void)(x)
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
@@ -78,5 +81,14 @@ void exec_left_redirect(btree_t *, env_t *, int *);
 void exec_double_left_redirect(btree_t *, env_t *, int *);
 int redirect_error_handling(int, char **, env_t *, int *);
 int btree_error_handling(btree_t *, int);
+
+// GLOBBING
+int process_globbing(char **cmd);
+char *convert_tab_to_string(char **tab);
+int check_wildcard(char *cmd);
+char *parse_wildcard(char *cmd, int clean);
+int count_wild(char *cmd);
+int process_wildcard(char **cmd);
+
 
 #endif /* __42sh__ */

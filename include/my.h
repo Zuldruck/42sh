@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <ctype.h>
+#include <string.h>
 
 typedef struct tab_s {
 	char c;

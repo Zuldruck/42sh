@@ -33,6 +33,11 @@ SRC	= 	src/main.c					\
 		src/exec_tree/exec_redirect.c			\
 		src/exec_tree/exec_separator.c			\
 		src/exec_tree/exec_double_left_redirect.c	\
+		src/parser/globbing/brackets.c			\
+		src/parser/globbing/glob.c			\
+		src/parser/globbing/interrogation.c		\
+		src/parser/globbing/wildcard/wildcard.c		\
+		src/parser/globbing/wildcard/wildcard_parser.c	\
 
 OBJ	=	$(SRC:.c=.o)
 
