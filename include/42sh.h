@@ -36,6 +36,11 @@ typedef struct operator_s {
 	void (*fptr)(btree_t *, env_t *, int *);
 } operator_t;
 
+typedef struct builtin_s {
+	char *name;
+	void (*fptr)(char **, env_t *, int *);
+} builtin_t;
+
 env_t *global_env;
 
 int count_args(char **cmd);
