@@ -10,6 +10,7 @@
 
 #include "my.h"
 #include <glob.h>
+#include <ctype.h>
 
 #define UNUSED(x) (void)(x)
 
