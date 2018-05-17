@@ -7,12 +7,22 @@
 
 #include "42sh.h"
 
+int check_brackets(char *cmd)
+{
+	for (int i = 0 ; cmd[i] ; i++) {
+		if (cmd[i] == '[' && cmd[i + 1] == ']')
+			return (1);
+	}
+	return (0);
+}
+
 int check_wildcard(char *cmd)
 {
 	if (!cmd)
 		return (84);
 	for (int i = 0 ; cmd[i] ; i++)
-		if (cmd[i] == '*')
+		if (cmd[i] == '*' || cmd[i] == '?' || cmd[i] == '['
+		|| cmd[i] == ']')
 			return (1);
 	return (0);
 }

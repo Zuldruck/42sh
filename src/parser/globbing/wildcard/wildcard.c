@@ -42,10 +42,11 @@ void loop_wildcard(char **cmd, int retval, glob_t *paths, int *check_error)
 		globfree(paths);
 	} else {
 		ref = parse_wildcard(*cmd, 2);
-		total_wildcard == 1 ? printf("%s: No match.\n",
+		total_wildcard == 1 && check_brackets(*cmd) != 1
+		? printf("%s: No match.\n",
 		ref) : 0;
 		free (ref);
-		*check_error = 1;
+		check_brackets(*cmd) != 1 ? *check_error = 1 : 0;
 	}
 }
 
@@ -66,7 +67,7 @@ void body_wildcard(glob_t *paths, char **cmd, int *check_error)
 	parse_wildcard(*cmd, 1);
 }
 
-int process_wildcard(char **cmd)
+int process_glob(char **cmd)
 {
 	glob_t paths;
 	int check_error = 0;

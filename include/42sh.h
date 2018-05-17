@@ -95,7 +95,7 @@ char *convert_tab_to_string(char **tab);
 int check_wildcard(char *cmd);
 char *parse_wildcard(char *cmd, int clean);
 int count_wild(char *cmd);
-int process_wildcard(char **cmd);
-
+int process_glob(char **cmd);
+int check_brackets(char *cmd);
 
 #endif /* __42sh__ */
