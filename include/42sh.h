@@ -10,6 +10,7 @@
 
 #include "my.h"
 #include <glob.h>
+#include <ctype.h>
 
 #define PATH_42SH "~/../../.42sh"
 #define UNUSED(x) (void)(x)
@@ -65,6 +66,8 @@ int concat_exec(char **cmd, env_t *env);
 int check_built_ins(char **cmd, env_t *env, int *ret_value, int *fd);
 void unsetenv_func(char **cmd, env_t *env, int *ret_value);
 void cd_func(char **cmd, env_t *env, int *ret_value);
+void where_func(char **cmd, env_t *env, int *ret_value);
+void which_func(char **cmd, env_t *env, int *ret_value);
 void exit_func(char **cmd, env_t *env, int *ret_value);
 void setenv_func(char **cmd, env_t *env, int *ret_value);
 void echo_func(char **cmd, env_t *env, int *ret_value);
@@ -99,8 +102,11 @@ int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
 int parse_env_variables(char **cmd, env_t *env, int *ret_value);
 int check_quotes(char *cmd, int i);
+int is_a_built_in(char *str);
+int test_concat_exec(char *test_access, char **path, char **str);
 
 // GLOBBING
+
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
 int check_wildcard(char *cmd);
@@ -118,5 +124,9 @@ ll_alias_t 	*init_lla(void);
 void		sort_lla(ll_alias_t *lla);
 void 		alias_func(char **str, env_t *env, int *ret_value);
 void 		my_free_lla(ll_alias_t *lla);
-char		**replace_alias(char **str, ll_alias_t *lla);
+char **replace_alias(char **, ll_alias_t *, int *);
+
+// BUILTIN
+void repeat_func(char **str, env_t *env, int *ret_value);
+
 #endif /* __42sh__ */
