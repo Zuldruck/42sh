@@ -7,7 +7,7 @@
 
 #include "42sh.h"
 
-static const operator_t op_tab[] = 
+static const operator_t op_tab[] =
 {
 	{";", &exec_semicolon},
 	{"|", &exec_pipe},
