@@ -35,6 +35,8 @@ void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 		return;
 	}
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
+	word_tab = replace_alias(word_tab, lla);
+
 	if (!parse_env_variables(word_tab, env, ret_value)
 	&& check_built_ins(word_tab, env, ret_value, tree->fd) == 1)
 		if (word_tab && word_tab[0] && word_tab[0][0])

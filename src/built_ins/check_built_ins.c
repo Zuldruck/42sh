@@ -15,6 +15,7 @@ static const builtin_t built_ins[] =
 	{"setenv", &setenv_func},
 	{"unsetenv", &unsetenv_func},
 	{"echo", &echo_func},
+	{"alias", &alias_func},
 	{NULL, NULL}
 };
 

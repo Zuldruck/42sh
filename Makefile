@@ -6,6 +6,7 @@
 ##
 
 SRC	= 	src/main.c					\
+		src/alias/alias.c				\
 		src/loop.c					\
 		src/prompt.c					\
 		src/concat_exec.c				\
