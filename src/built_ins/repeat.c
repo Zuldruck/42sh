@@ -11,34 +11,63 @@ int is_alpha_string(char *str)
 {
 	if (!str)
 		return (1);
-	for (int i = 0 ; str[i] ; i++)
-		if (is_alpha(str[i]) == 1)
+	for (int i = 0 ; str[i] ; i++) {
+		if (isalpha(str[i]))
 			return (1);
+	}
 	return (0);
 }
 
 int check_error_handling_repeat(char **str)
 {
-	if (is_alpha_string(str[1]) == 1) {
-		printf("repeat: Badly formed number.\n");
-		return (1);
-	}
 	if (my_tablen(str) < 3) {
 		printf("repeat: Too few arguments.\n");
+		return (1);
+	}
+	if (is_alpha_string(str[1]) == 1) {
+		printf("repeat: Badly formed number.\n");
 		return (1);
 	}
 	return (0);
 }
 
-int repeat(char **str, env_t *env, int *ret_value)
+char **add_special_tab(char **tab, int user_choice)
+{
+	char **tmp = calloc(0, sizeof(char *) * (my_tablen(tab) + 1));
+	int j = 0;
+
+	for (int i = user_choice ; tab[i] ; i++)
+		tmp[j++] = strdup(tab[i]);
+	tmp[j] = NULL;
+	return (tmp);
+}
+
+int process_repeat(char **str, env_t *env)
+{
+	char **tmp_tab = NULL;
+	int user_loop = atoi(str[1]);
+	int ret_value_cmd = 0;
+	int fd = 1;
+
+	tmp_tab = add_special_tab(str, 2);
+	for (int i = 0 ; i != user_loop ; i++)
+		my_exec(tmp_tab, env, &fd);
+	my_free_tab(tmp_tab);
+	return (ret_value_cmd);
+}
+
+void repeat_func(char **str, env_t *env, int *ret_value)
 {
 	if (!str || !env) {
 		*ret_value = 1;
-		return (84);
+		return;
 	}
 	if (check_error_handling_repeat(str) != 0) {
 		*ret_value = 1;
-		return (84);
+		return;
 	}
-	return (0);
+	if (str[0] && str[1] && process_repeat(str, env) != 0) {
+		*ret_value = 1;
+		return;
+	}
 }

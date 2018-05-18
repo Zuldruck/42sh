@@ -91,6 +91,7 @@ int parse_env_variables(char **cmd, env_t *env, int *ret_value);
 int check_quotes(char *cmd, int i);
 
 // GLOBBING
+
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
 int check_wildcard(char *cmd);
@@ -98,5 +99,9 @@ char *parse_wildcard(char *cmd, int clean);
 int count_wild(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
+
+// BUILTIN
+void repeat_func(char **str, env_t *env, int *ret_value);
+
 
 #endif /* __42sh__ */
