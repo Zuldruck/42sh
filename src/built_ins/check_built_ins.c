@@ -17,6 +17,8 @@ static const builtin_t built_ins[] =
 	{"echo", &echo_func},
 	{"repeat", &repeat_func},
 	{"if", &if_func},
+	{"where", &where_func},
+	{"which", &which_func},
 	{NULL, NULL}
 };
 
@@ -36,6 +38,15 @@ void process_dups(int *fd)
 		exit(84);
 	if (dup2(fd[1], 1) == -1)
 		exit(84);
+}
+
+int is_a_built_in(char *str)
+{
+	for (int i = 0; built_ins[i].name; i++) {
+		if (str && !my_strcmp(str, built_ins[i].name))
+			return (1);
+	}
+	return (0);
 }
 
 int check_built_ins(char **str, env_t *env, int *ret_value, int *fd)
