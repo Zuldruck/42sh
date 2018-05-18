@@ -47,11 +47,11 @@ int process_repeat(char **str, env_t *env)
 	char **tmp_tab = NULL;
 	int user_loop = atoi(str[1]);
 	int ret_value_cmd = 0;
-	int fd = 1;
 
 	tmp_tab = add_special_tab(str, 2);
-	for (int i = 0 ; i != user_loop ; i++)
-		my_exec(tmp_tab, env, &fd);
+	for (int i = 0 ; i != user_loop ; i++) {
+		parse_cmd(env, convert_tab_to_string(tmp_tab), &ret_value_cmd);
+	}
 	my_free_tab(tmp_tab);
 	return (ret_value_cmd);
 }
