@@ -21,3 +21,11 @@ tester
 42sh_mouli
 norminette_similar_to_epitech
 42sh_mouli/*
+.idea/codeStyles
+.idea/misc.xml
+.idea/modules.xml
+.idea/PSU_42sh_2017.iml
+.idea/vcs.xml
+.idea/workspace.xml
+cmake-build-debug
+norm
