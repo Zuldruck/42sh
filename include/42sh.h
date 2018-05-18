@@ -55,6 +55,8 @@ int concat_exec(char **cmd, env_t *env);
 int check_built_ins(char **cmd, env_t *env, int *ret_value, int *fd);
 void unsetenv_func(char **cmd, env_t *env, int *ret_value);
 void cd_func(char **cmd, env_t *env, int *ret_value);
+void where_func(char **cmd, env_t *env, int *ret_value);
+void which_func(char **cmd, env_t *env, int *ret_value);
 void exit_func(char **cmd, env_t *env, int *ret_value);
 void setenv_func(char **cmd, env_t *env, int *ret_value);
 void echo_func(char **cmd, env_t *env, int *ret_value);
@@ -89,6 +91,8 @@ int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
 int parse_env_variables(char **cmd, env_t *env, int *ret_value);
 int check_quotes(char *cmd, int i);
+int is_a_built_in(char *str);
+int test_concat_exec(char *test_access, char **path, char **str);
 
 // GLOBBING
 
