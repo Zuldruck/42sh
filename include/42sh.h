@@ -102,6 +102,7 @@ int check_brackets(char *cmd);
 
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
+void if_func(char **str, env_t *env, int *ret_value);
 
 
 #endif /* __42sh__ */

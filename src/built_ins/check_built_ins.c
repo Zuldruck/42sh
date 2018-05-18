@@ -16,6 +16,7 @@ static const builtin_t built_ins[] =
 	{"unsetenv", &unsetenv_func},
 	{"echo", &echo_func},
 	{"repeat", &repeat_func},
+	{"if", &if_func},
 	{NULL, NULL}
 };
 

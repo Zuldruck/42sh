@@ -17,6 +17,7 @@ SRC	= 	src/main.c					\
 		src/built_ins/env.c				\
 		src/built_ins/echo.c				\
 		src/built_ins/repeat.c				\
+		src/built_ins/if.c				\
 		src/linked_list.c				\
 		src/exec.c					\
 		src/get_env_var.c				\
