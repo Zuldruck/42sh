@@ -90,8 +90,7 @@ void exec_double_left_redirect(btree_t *tree, env_t *env, int *ret_value);
 int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
 int parse_env_variables(char **cmd, env_t *env, int *ret_value);
-int check_quotes_for_separators(char *cmd, int i);
-int check_quotes_for_pipes_and_redirect(char *cmd, int i);
+int check_quotes(char *cmd, int i);
 int is_a_built_in(char *str);
 int test_concat_exec(char *test_access, char **path, char **str);
 
