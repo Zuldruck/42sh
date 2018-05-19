@@ -47,10 +47,9 @@ int check_double_and_double_or(btree_t *node, char *cmd, int i)
 int parse_cmd_for_separator(btree_t *node)
 {
 	char *cmd = node->cmd;
-	int len = my_strlen(node->cmd);
 
-	for (int i = len - 1; i >= 0; i--) {
-		i = check_quotes(cmd, i);
+	for (int i = 0; cmd[i]; i++) {
+		i = check_quotes_for_separators(cmd, i);
 		if (i == -1)
 			return (1);
 		if (check_semicolon(node, cmd, i)
