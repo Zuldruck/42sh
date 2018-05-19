@@ -27,7 +27,7 @@ void child_process(char **str, env_t *env, int input, int output)
 {
 	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
 		exit(84);
-	if (execve(str[0], str, list_to_2d_arr(env)) == -1) {
+	if (execve(concat_exec(str, env), str, list_to_2d_arr(env)) == -1) {
 		my_printf("%s: Exec format error. Wrong Architecture.\n",
 									str[0]);
 		exit(1);

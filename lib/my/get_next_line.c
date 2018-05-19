@@ -10,14 +10,13 @@
 #include <stdio.h>
 
 
-char *get_next_line(int fd)
+char *get_next_line(FILE *stream)
 {
 	__ssize_t left = 0;
-	size_t buff_size = 10;
+	size_t buff_size = 0;
 	char *input = NULL;
-	FILE *fd_open = fdopen(fd, "r");
 
-	left = getline(&input, &buff_size, fd_open);
+	left = getline(&input, &buff_size, stream);
 	if (left == -1) {
 		free(input);
 		return (NULL);
