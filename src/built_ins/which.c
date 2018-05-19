@@ -44,7 +44,7 @@ void which_func(char **str, env_t *env, int *ret_value)
 		}
 		if (print_first_path(env, str[i])
 		&& !is_a_built_in(str[i])) {
-			printf("%s:Command not found.\n", str[i]);
+			printf("%s: Command not found.\n", str[i]);
 			*ret_value = 1;
 		}
 	}
