@@ -28,8 +28,6 @@ int check_error_handling_repeat(char **str)
 		printf("repeat: Badly formed number.\n");
 		return (1);
 	}
-	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0)
-		return (2);
 	return (0);
 }
 
@@ -60,14 +58,12 @@ int process_repeat(char **str, env_t *env)
 
 void repeat_func(char **str, env_t *env, int *ret_value)
 {
-	int ret = 0;
-
 	if (!str || !env) {
 		*ret_value = 1;
 		return;
 	}
-	if ((ret = check_error_handling_repeat(str)) != 0) {
-		ret != 2 ? *ret_value = 1 : 0;
+	if (check_error_handling_repeat(str) != 0) {
+		*ret_value = 1;
 		return;
 	}
 	if (str[0] && str[1] && process_repeat(str, env) != 0) {

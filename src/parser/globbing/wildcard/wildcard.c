@@ -7,6 +7,9 @@
 
 #include "42sh.h"
 
+static int check_passed_at_least_one_tour;
+static int check_error_nomatch;
+
 int check_whereis_ref(char **tab , char *ref)
 {
 	for (int i = 0 ; tab[i] ; i++)
@@ -30,9 +33,8 @@ void add_new_value_from_wildcard(char **tab, char **cmd, char *ref)
 
 void loop_wildcard(char **cmd, int retval, glob_t *paths, int *check_error)
 {
-	int count_wildcard = count_wild(*cmd);
-	int total_wildcard = count_wildcard;
 	char *ref = NULL;
+	char **ref_tab = my_str_to_word_array(*cmd, 32);
 
 	if (retval == 0) {
 		ref = parse_wildcard(*cmd, 2);
@@ -40,13 +42,14 @@ void loop_wildcard(char **cmd, int retval, glob_t *paths, int *check_error)
 		ref);
 		free (ref);
 		globfree(paths);
+		my_free_tab(ref_tab);
+		check_passed_at_least_one_tour += 1;
 	} else {
-		ref = parse_wildcard(*cmd, 2);
-		total_wildcard == 1 && check_brackets(*cmd) != 1
-		? printf("%s: No match.\n",
-		ref) : 0;
-		free (ref);
+		check_passed_at_least_one_tour != 1 && check_error_nomatch != 1
+		&& check_brackets(*cmd) != 1 ? printf("%s: No match.\n",
+		ref_tab[0]), check_error_nomatch = 1 : 0;
 		check_brackets(*cmd) != 1 ? *check_error = 1 : 0;
+		my_free_tab(ref_tab);
 	}
 }
 
@@ -77,6 +80,8 @@ int process_glob(char **cmd)
 	paths.gl_pathc = 0;
 	paths.gl_pathv = NULL;
 	paths.gl_offs = 0;
+	check_passed_at_least_one_tour = 0;
+	check_error_nomatch = 0;
 	body_wildcard(&paths, cmd, &check_error);
 	if (check_error != 0) {
 		check_error = 0;

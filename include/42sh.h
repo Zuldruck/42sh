@@ -51,7 +51,7 @@ char *get_dir(env_t *env);
 int my_exec(char **cmd, env_t *env, int *ret_value);
 void my_exec_pipe(btree_t *, env_t *env, int *ret_value, int *fd);
 void print_prompt(env_t *env);
-int concat_exec(char **cmd, env_t *env);
+char *concat_exec(char **cmd, env_t *env);
 int check_built_ins(char **cmd, env_t *env, int *ret_value, int *fd);
 void unsetenv_func(char **cmd, env_t *env, int *ret_value);
 void cd_func(char **cmd, env_t *env, int *ret_value);
