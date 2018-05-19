@@ -54,7 +54,7 @@ int check_redirections_and_pipes(char *cmd, int i, btree_t *node)
 	return (0);
 }
 
-void recursivity_on_parsing(btree_t *node)
+void recursivity_on_parsing_pipes_redirect(btree_t *node)
 {
 	if (!node->cmd) {
 		parse_cmd_for_pipes_and_redirections(node->left);
@@ -67,7 +67,7 @@ int parse_cmd_for_pipes_and_redirections(btree_t *node)
 	char *cmd = node->cmd;
 	int len = my_strlen(node->cmd);
 
-	recursivity_on_parsing(node);
+	recursivity_on_parsing_pipes_redirect(node);
 	for (int i = len - 1; i >= 0; i--) {
 		i = check_quotes(cmd, i);
 		if (i == -1)

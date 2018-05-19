@@ -29,7 +29,8 @@ SRC	= 	src/main.c					\
 		src/pwd_changes.c				\
 		src/binary_tree.c				\
 		src/parser/parsing_cmd.c			\
-		src/parser/parsing_and_or.c			\
+		src/parser/parsing_or.c				\
+		src/parser/parsing_and.c			\
 		src/parser/parsing_pipes_and_redirections.c	\
 		src/parser/error_handling.c			\
 		src/parser/parse_quotes.c			\
