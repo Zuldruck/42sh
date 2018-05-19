@@ -25,9 +25,13 @@ int exec_error_handling(char **str, env_t *env)
 
 void child_process(char **str, env_t *env, int input, int output)
 {
+	char *real_path = concat_exec(str, env);
+
 	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
 		exit(84);
-	if (execve(concat_exec(str, env), str, list_to_2d_arr(env)) == -1) {
+	if (!real_path)
+		real_path = str[0];
+	if (execve(real_path, str, list_to_2d_arr(env)) == -1) {
 		my_printf("%s: Exec format error. Wrong Architecture.\n",
 									str[0]);
 		exit(1);
