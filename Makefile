@@ -20,6 +20,7 @@ SRC	= 	src/main.c					\
 		src/built_ins/if.c				\
 		src/built_ins/where.c				\
 		src/built_ins/which.c				\
+		src/built_ins/foreach.c				\
 		src/linked_list.c				\
 		src/exec.c					\
 		src/get_env_var.c				\

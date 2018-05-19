@@ -19,6 +19,7 @@ static const builtin_t built_ins[] =
 	{"if", &if_func},
 	{"where", &where_func},
 	{"which", &which_func},
+	{"foreach", &foreach_func},
 	{NULL, NULL}
 };
 

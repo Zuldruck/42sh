@@ -7,67 +7,60 @@
 
 #include "42sh.h"
 
-int is_alpha_string(char *str)
+int check_error_handling_foreach(char **str)
 {
-	if (!str)
-		return (1);
-	for (int i = 0 ; str[i] ; i++) {
-		if (isalpha(str[i]))
-			return (1);
-	}
-	return (0);
-}
-
-int check_error_handling_repeat(char **str)
-{
-	if (my_tablen(str) < 3) {
-		printf("repeat: Too few arguments.\n");
-		return (1);
-	}
-	if (is_alpha_string(str[1]) == 1) {
-		printf("repeat: Badly formed number.\n");
+	if (is_alpha_string(str[1]) != 1) {
+		printf("foreach: Variable name must begin with a letter.\n");
 		return (1);
 	}
 	return (0);
 }
 
-char **add_special_tab(char **tab, int user_choice)
+char *process_foreach(void)
 {
-	char **tmp = calloc(0, sizeof(char *) * (my_tablen(tab) + 1));
-	int j = 0;
+	char *s = NULL;
+	char *string = NULL;
 
-	for (int i = user_choice ; tab[i] ; i++)
-		tmp[j++] = strdup(tab[i]);
-	tmp[j] = NULL;
-	return (tmp);
-}
-
-int process_repeat(char **str, env_t *env)
-{
-	char **tmp_tab = NULL;
-	int user_loop = atoi(str[1]);
-	int ret_value_cmd = 0;
-
-	tmp_tab = add_special_tab(str, 2);
-	for (int i = 0 ; i != user_loop ; i++) {
-		parse_cmd(env, convert_tab_to_string(tmp_tab), &ret_value_cmd);
+	isatty(0) ? write(1, "foreach? ", 9) : 0;
+	while ((s = get_next_line(stdin))) {
+		if (!my_strcmp("end", s))
+			break;
+		else
+			string = my_strcat(string ? string : "",
+			my_strcat(";", s));
+		isatty(0) ? write(1, "foreach? ", 9) : 0;
+		free(s);
 	}
-	my_free_tab(tmp_tab);
-	return (ret_value_cmd);
+	free(s);
+	return (string);
 }
 
-void repeat_func(char **str, env_t *env, int *ret_value)
+void print_tab(char **tab)
 {
+	if (!tab)
+		return;
+	for (int i = 0 ; tab[i] ; i++) {
+		printf("%s\n", tab[i]);
+	}
+}
+
+void foreach_func(char **str, env_t *env, int *ret_value)
+{
+	char *ret = NULL;
+//	int loop_foreach = 0;
+
 	if (!str || !env) {
 		*ret_value = 1;
 		return;
 	}
-	if (check_error_handling_repeat(str) != 0) {
+	if (check_error_handling_foreach(str) != 0) {
 		*ret_value = 1;
 		return;
 	}
-	if (str[0] && str[1] && process_repeat(str, env) != 0) {
+	if ((ret = process_foreach()) == NULL) {
 		*ret_value = 1;
 		return;
 	}
+//	loop_foreach = my_tablen(str) - 2;
+	parse_cmd(env, ret, ret_value);
 }
