@@ -13,6 +13,8 @@
 #include <ctype.h>
 
 #define UNUSED(x) (void)(x)
+#define FILE_TOO_LONG ("%s: File name too long.\n")
+#define N_MAX 255
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
