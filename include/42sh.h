@@ -12,7 +12,7 @@
 #include <glob.h>
 #include <ctype.h>
 
-#define PATH_42SH "~/../../.42sh"
+#define PATH_42SH "42shrc"
 #define UNUSED(x) (void)(x)
 
 typedef struct env_s env_t;
@@ -124,8 +124,15 @@ ll_alias_t 	*init_lla(void);
 void		sort_lla(ll_alias_t *lla);
 void 		alias_func(char **str, env_t *env, int *ret_value);
 void 		my_free_lla(ll_alias_t *lla);
-char **replace_alias(char **, ll_alias_t *, int *);
-
+char 		**replace_alias(char **, ll_alias_t *, int *);
+char 		*get_str_alias(char **str);
+int 		alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
+int 		alias_is_another(char *alias, ll_alias_t *lla);
+ll_alias_t 	*step_up_alias(char *alias, ll_alias_t *lla);
+char		**my_strtab_cat(char **cmd, char **str);
+char 		*get_file(char *path);
+char 		*get_name(char *line);
+char 		*get_alias(char *line);
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
 
