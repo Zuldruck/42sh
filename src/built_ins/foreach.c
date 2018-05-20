@@ -9,6 +9,10 @@
 
 int check_error_handling_foreach(char **str)
 {
+	if (my_tablen(str) < 3) {
+		printf("foreach: Too few arguments.\n");
+		return (1);
+	}
 	if (is_alpha_string(str[1]) != 1) {
 		printf("foreach: Variable name must begin with a letter.\n");
 		return (1);
@@ -35,11 +39,14 @@ char *add_last_char(char *res, int last_semicolon)
 char *process_foreach(void)
 {
 	char *res = NULL;
-	char *input = get_next_line(stdin);
+	char *input = NULL;
 	int last_semicolon = 0;
 
+	write (1, "foreach? ", 9);
+	input = get_next_line(stdin);
 	while (input != NULL && my_strcmp(input, "end") != 0) {
 		last_semicolon++;
+		write (1, "foreach? ", 9);
 		res = my_strcat(res, input);
 		res = my_strcat(res, " ; ");
 		if ((input = get_next_line(stdin)) == NULL)
