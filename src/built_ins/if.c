@@ -78,7 +78,7 @@ void if_func(char **str,env_t *env, int *ret_value)
 		return;
 	}
 	if (process_if(str, env) != 0) {
-		*ret_value = 1;
+		*ret_value = 0;
 		return;
 	}
 }
