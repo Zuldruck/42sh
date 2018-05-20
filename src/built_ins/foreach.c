@@ -42,11 +42,11 @@ char *process_foreach(void)
 	char *input = NULL;
 	int last_semicolon = 0;
 
-	write (1, "foreach? ", 9);
+	isatty(0) ? write (1, "foreach? ", 9) : 0;
 	input = get_next_line(stdin);
 	while (input != NULL && my_strcmp(input, "end") != 0) {
 		last_semicolon++;
-		write (1, "foreach? ", 9);
+		isatty(0) ? write (1, "foreach? ", 9) : 0;
 		res = my_strcat(res, input);
 		res = my_strcat(res, " ; ");
 		if ((input = get_next_line(stdin)) == NULL)
