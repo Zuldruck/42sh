@@ -12,12 +12,22 @@
 #include <glob.h>
 #include <ctype.h>
 
+#define PATH_42SH "42shrc"
 #define UNUSED(x) (void)(x)
 #define FILE_TOO_LONG ("%s: File name too long.\n")
 #define N_MAX 255
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
+typedef struct ll_alias_s ll_alias_t;
+
+typedef struct 		ll_alias_s
+{
+    char 		*name;
+    char 		*alias;
+    int			par;
+    ll_alias_t 		*next;
+} 			ll_alias_t;
 
 typedef struct env_s {
 	char *name;
@@ -44,6 +54,7 @@ typedef struct builtin_s {
 } builtin_t;
 
 env_t *global_env;
+ll_alias_t *lla;
 
 int count_args(char **cmd);
 void display_args(char **cmd);
@@ -108,6 +119,24 @@ int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
 
+//ALIAS
+void		synchro_with_file(ll_alias_t *n);
+int		check_name_exist(ll_alias_t *lla, char *name, char *alias);
+void		add_alias(char *name, char *alias, ll_alias_t *lla, int par);
+void		print_alias(ll_alias_t *n);
+ll_alias_t 	*init_lla(void);
+void		sort_lla(ll_alias_t *lla);
+void 		alias_func(char **str, env_t *env, int *ret_value);
+void 		my_free_lla(ll_alias_t *lla);
+char 		**replace_alias(char **, ll_alias_t *, int *);
+char 		*get_str_alias(char **str);
+int 		alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
+int 		alias_is_another(char *alias, ll_alias_t *lla);
+ll_alias_t 	*step_up_alias(char *alias, ll_alias_t *lla);
+char		**my_strtab_cat(char **cmd, char **str);
+char 		*get_file(char *path);
+char 		*get_name(char *line);
+char 		*get_alias(char *line);
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
 void if_func(char **str, env_t *env, int *ret_value);

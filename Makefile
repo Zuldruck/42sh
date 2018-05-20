@@ -6,6 +6,11 @@
 ##
 
 SRC	= 	src/main.c					\
+		src/alias/alias.c				\
+		src/alias/alias_loop.c				\
+		src/alias/create_alias.c			\
+		src/alias/get_alias.c				\
+		src/alias/sort_alias.c				\
 		src/loop.c					\
 		src/prompt.c					\
 		src/concat_exec.c				\

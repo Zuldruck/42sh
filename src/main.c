@@ -26,6 +26,7 @@ int main(int ac, char **av, char **envp)
 	env_t *my_env = NULL;
 	int ret = 0;
 
+	lla = init_lla();
 	(void) av;
 	if (ac != 1)
 		return (84);
