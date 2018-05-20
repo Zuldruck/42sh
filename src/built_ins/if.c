@@ -11,8 +11,9 @@ static int ret_if = 0;
 
 int check_error_handling_if(char **str)
 {
-	if (my_tablen(str) < 3) {
-		printf("if: Empty if.\n");
+	if (my_tablen(str) < 3 || my_tablen(str) < 2) {
+		my_tablen(str) < 2 ?
+		printf("if: Too few arguments.\n") : printf("if: Empty if.\n");
 		return (1);
 	}
 	if (isdigit(str[1][0]) && isalpha(str[1][1])) {
