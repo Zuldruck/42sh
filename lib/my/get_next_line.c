@@ -18,7 +18,7 @@ char *get_next_line(FILE *stream)
 
 	left = getline(&input, &buff_size, stream);
 	if (left == -1) {
-		free(input);
+		input ? free(input) : 0;
 		return (NULL);
 	}
 	if (input[left - 1] == 10)

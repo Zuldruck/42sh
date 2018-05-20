@@ -114,5 +114,6 @@ void foreach_func(char **str, env_t *env, int *ret_value);
 
 // UTILS
 int is_alpha_string(char *str);
+void print_tab(char **tab);
 
 #endif /* __42sh__ */
