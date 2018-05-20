@@ -28,6 +28,5 @@ int process_globbing(char **cmd)
 		return (ret);
 	if (process_glob(cmd) != 0)
 		return (1);
-//	process_brackets(cmd);
 	return (0);
 }

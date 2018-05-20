@@ -100,9 +100,9 @@ int test_concat_exec(char *test_access, char **path, char **str);
 
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
-int check_wildcard(char *cmd);
-char *parse_wildcard(char *cmd, int clean);
-int count_wild(char *cmd);
+int check_glob(char *cmd);
+char *parse_glob(char *cmd, int clean);
+int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
 

@@ -35,11 +35,9 @@ SRC	= 	src/main.c					\
 		src/parser/parsing_pipes_and_redirections.c	\
 		src/parser/error_handling.c			\
 		src/parser/parse_quotes.c			\
-		src/parser/globbing/brackets.c			\
 		src/parser/globbing/glob.c			\
-		src/parser/globbing/interrogation.c		\
-		src/parser/globbing/wildcard/wildcard.c		\
-		src/parser/globbing/wildcard/wildcard_parser.c	\
+		src/parser/globbing/process/process_glob.c		\
+		src/parser/globbing/process/process_parser_glob.c	\
 		src/set_pipefd.c				\
 		src/exec_tree/exec_tree.c			\
 		src/exec_tree/exec_pipe.c			\
