@@ -7,25 +7,51 @@
 
 #include "42sh.h"
 
+static int ret_if = 0;
+
 int check_error_handling_if(char **str)
 {
-	if (my_tablen(str) < 5) {
+	if (my_tablen(str) < 3) {
 		printf("if: Empty if.\n");
 		return (1);
 	}
+	if (isdigit(str[1][0]) && isalpha(str[1][1])) {
+		printf("if: Badly formed number.\n");
+		return (1);
+	}
+	if (strlen(str[1]) == 1 && is_alpha_string(str[1])) {
+		printf("if: Expression Syntax.\n");
+		return (1);
+	}
 	return (0);
+}
+
+int check_only_number(char **s)
+{
+	if (strcmp(s[2], ">") == 0 || strcmp(s[2], ">=") == 0 ||
+	strcmp(s[2], "<") == 0 || strcmp(s[2], "<=") == 0
+	|| strcmp(s[2], "==") == 0 || strcmp(s[2], "!=") == 0)
+		return (1);
+	if (is_alpha_string(s[1]) == 0) {
+		ret_if = 2;
+		return (0);
+	}
+	return (1);
 }
 
 int check_if(char **s)
 {
 	int ret = 0;
 
+	if (check_only_number(s) == 0)
+		return (1);
 	strcmp(s[2], ">") == 0 && strcmp(s[1], s[3]) > 0 ? ret = 1 : 0;
 	strcmp(s[2], ">=") == 0 && strcmp(s[1], s[3]) >= 0 ? ret = 1 : 0;
 	strcmp(s[2], "<") == 0 && strcmp(s[1], s[3]) < 0 ? ret = 1 : 0;
 	strcmp(s[2], "<=") == 0 && strcmp(s[1], s[3]) <= 0 ? ret = 1 : 0;
 	strcmp(s[2], "==") == 0 && strcmp(s[1], s[3]) == 0 ? ret = 1 : 0;
 	strcmp(s[2], "!=") == 0 && strcmp(s[1], s[3]) != 0 ? ret = 1 : 0;
+	ret_if = 4;
 	return (ret);
 }
 
@@ -36,7 +62,7 @@ int process_if(char **str, env_t *env)
 
 	if (check_if(str) != 1)
 		return (0);
-	tmp = convert_tab_to_string(str + 4);
+	tmp = convert_tab_to_string(str + ret_if);
 	parse_cmd(env, tmp, &ret_value);
 	return (ret_value);
 }
