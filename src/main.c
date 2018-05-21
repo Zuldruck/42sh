@@ -9,7 +9,8 @@
 
 void sig_handler(int sig_num)
 {
-	if (sig_num == SIGINT) {
+	(void)sig_num;
+	/*if (sig_num == SIGINT) {
 		my_putchar('\n');
 		print_prompt(global_env);
 	} else if (sig_num == SIGSEGV) {
@@ -18,7 +19,7 @@ void sig_handler(int sig_num)
 	} else if (sig_num == SIGPIPE) {
 		my_printf("Error.\n");
 		exit(84);
-	}
+	}*/
 }
 
 int main(int ac, char **av, char **envp)
