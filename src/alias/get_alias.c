@@ -81,7 +81,7 @@ char 		*get_str_alias(char **str)
 
 	while (str[i]) {
 		str_alias = my_strcat(str_alias, str[i]);
-		if (str[i+1])
+		if (str[i + 1])
 			str_alias = my_strcat(str_alias, " ");
 		i++;
 	}
