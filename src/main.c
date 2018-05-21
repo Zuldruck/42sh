@@ -7,7 +7,7 @@
 
 #include "42sh.h"
 
-void sig_handler(int sig_num)
+void sig_handler(__attribute__((unused))int sig_num)
 {
 	/*if (sig_num == SIGINT) {
 		my_putchar('\n');
