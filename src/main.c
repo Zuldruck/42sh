@@ -18,7 +18,7 @@ void sig_handler(int sig_num)
 	} else if (sig_num == SIGPIPE) {
 		my_printf("Error.\n");
 		exit(84);
-	}*:
+	}*/
 }
 
 int main(int ac, char **av, char **envp)
