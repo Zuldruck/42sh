@@ -43,6 +43,7 @@ typedef struct builtin_s {
 
 env_t *global_env;
 
+void sig_handler(int sig_num);
 int count_args(char **cmd);
 void display_args(char **cmd);
 char *get_line(void);
@@ -110,5 +111,10 @@ int check_brackets(char *cmd);
 void repeat_func(char **str, env_t *env, int *ret_value);
 void if_func(char **str, env_t *env, int *ret_value);
 
+//SCRIPTING
+void replace_argument(char **parsed, char **arguments, int i);
+void seek_arguments(char **parsed, char **arguments);
+char *replace_arguments(char *buffer, char **arguments);
+int seek_script(env_t *env, char **binary, int *ret_value);
 
 #endif /* __42sh__ */
