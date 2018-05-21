@@ -26,6 +26,10 @@ void		add_alias(char *name, char *alias, ll_alias_t *lla, int par)
 
 	if (check_name_exist(lla, name, alias) == 1)
 		return;
+	if (strcmp("alias", name) == 0) {
+		printf("alias: Too dangerous to alias that.\n");
+		return;
+	}
 	n = malloc(sizeof(*n));
 	n->par = par;
 	n->name = malloc(sizeof(char) * strlen(name) + 1);
