@@ -12,7 +12,7 @@
 #include <glob.h>
 #include <ctype.h>
 
-#define PATH_42SH "42shrc"
+#define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
 #define FILE_TOO_LONG ("%s: File name too long.\n")
 #define N_MAX 255
