@@ -44,16 +44,16 @@ char *get_alias(char *line)
 {
 	char *alias = malloc(sizeof(char) * strlen(line) + 1);
 	int i = 0;
+	int b = 0;
 
-	while (line[0] != ' ' && line[0])
-		line++;
-	line++;
-	while (line[0]) {
-		alias[i] = line[0];
+	while (line[i] != ' ' && line[i])
 		i++;
-		line++;
+	while (line[i] != '\0') {
+		alias[b] = line[i];
+		i++;
+		b++;
 	}
-	alias[i] = 0;
+	alias[b] = 0;
 	return (alias);
 }
 

@@ -12,6 +12,8 @@ int		check_name_exist(ll_alias_t *lla, char *name, char *alias)
 {
 	for (ll_alias_t *tmp = lla->next; tmp; tmp = tmp->next) {
 		if (strcmp(tmp->name, name) == 0) {
+			free(tmp->alias);
+			tmp->alias = malloc(sizeof(char) * strlen(alias) + 1);
 			strcpy(tmp->alias, alias);
 			return (1);
 		}
