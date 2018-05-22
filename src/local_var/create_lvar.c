@@ -109,23 +109,49 @@ void sort_lvar(ll_lvar_t *lvar)
 void print_lvar(ll_lvar_t *lvar)
 {
 	sort_lvar(lvar);
+	printf("_\t\n\n");
 	for (ll_lvar_t *tmp = lvar->next; tmp; tmp = tmp->next) {
 		printf("%s\t%s\n", tmp->name, tmp->value);
 	}
 }
 
+int there_is_a_equal(char *str)
+{
+	for (int i = 0; i < (int)strlen(str); i++) {
+		if (str[i] == '=')
+			return (1);
+	}
+	return (0);
+}
+
+int begin_with_letter(char *str)
+{
+	char invalid[9] = "()[]=@+-%";
+
+	for (int j = 0; j < 9; j++) {
+		if (str[0] == invalid[j])
+			return (0);
+	}
+	return (1);
+}
+
 void set_func(char **str, env_t *env, int *ret_value)
 {
-	int ret = 0;
-
-	if (my_tablen(str) == 2) {
-		ret = valid_lvar(str[1]);
-		if (ret == 1) {
-			create_lvar(get_lvar_one(str[1]),
-			get_lvar_two(str[1]), lvar);
-		}
-	} else if (my_tablen(str) == 1) {
+	if (my_tablen(str) == 1) {
 		print_lvar(lvar);
+		return;
+	}
+	for (int i = 1; i < my_tablen(str); i++) {
+		if (begin_with_letter(str[i]) == 1) {
+			if (there_is_a_equal(str[i]) == 1) {
+				create_lvar(get_lvar_one(str[i]),
+				get_lvar_two(str[i]), lvar);
+			} else
+				create_lvar(get_lvar_one(str[i]), " ", lvar);
+		} else {
+			printf("%s: Variable name must begin with a letter.\n",
+			str[0]);
+		}
 	}
 	(void)env;
 	(void)ret_value;
