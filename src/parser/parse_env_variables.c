@@ -12,7 +12,7 @@ char *get_var_name(char *str)
 	char *name = NULL;
 	int i = 0;
 
-	while (str[i] != '"' && str[i] != '\'')
+	while (str[i] && str[i] != '"' && str[i] != '\'')
 		i++;
 	name = strndup(str, i);
 	return (name);
@@ -66,7 +66,7 @@ int parse_env_var_in_args(char **str, env_t *env)
 
 int parse_env_variables(char **cmd, env_t *env, int *ret_value)
 {
-	for (int i = 0; cmd[i]; i++) {
+	for (int i = 0; cmd && cmd[i]; i++) {
 		if (parse_env_var_in_args(&cmd[i], env) == 1) {
 			*ret_value = 1;
 			return (1);

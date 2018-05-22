@@ -18,9 +18,8 @@ int check_quotes(char *cmd, int i)
 	c = cmd[i];
 	for (i--; i >= 0; i--) {
 		offset++;
-		if (cmd[i] == '"' || cmd[i] == '\'') {
-			return (save - (offset));
-		}
+		if (cmd[i] == c)
+			return (save - offset);
 	}
 	printf("Unmatched %c.\n", c);
 	return (-1);

@@ -7,6 +7,9 @@
 
 #include "42sh.h"
 
+static int check_passed_at_least_one_tour;
+static int check_error_nomatch;
+
 int check_whereis_ref(char **tab , char *ref)
 {
 	for (int i = 0 ; tab[i] ; i++)
@@ -15,7 +18,7 @@ int check_whereis_ref(char **tab , char *ref)
 	return (0);
 }
 
-void add_new_value_from_wildcard(char **tab, char **cmd, char *ref)
+void add_new_value_from_glob(char **tab, char **cmd, char *ref)
 {
 	char **tab_tmp = my_str_to_word_array(*cmd, ' ');
 	char *ret_convert = NULL;
@@ -28,43 +31,43 @@ void add_new_value_from_wildcard(char **tab, char **cmd, char *ref)
 	my_free_tab(tab_tmp);
 }
 
-void loop_wildcard(char **cmd, int retval, glob_t *paths, int *check_error)
+void loop_glob(char **cmd, int retval, glob_t *paths, int *check_error)
 {
-	int count_wildcard = count_wild(*cmd);
-	int total_wildcard = count_wildcard;
 	char *ref = NULL;
+	char **ref_tab = my_str_to_word_array(*cmd, 32);
 
 	if (retval == 0) {
-		ref = parse_wildcard(*cmd, 2);
-		add_new_value_from_wildcard(paths->gl_pathv, cmd,
+		ref = parse_glob(*cmd, 2);
+		add_new_value_from_glob(paths->gl_pathv, cmd,
 		ref);
 		free (ref);
 		globfree(paths);
+		my_free_tab(ref_tab);
+		check_passed_at_least_one_tour += 1;
 	} else {
-		ref = parse_wildcard(*cmd, 2);
-		total_wildcard == 1 && check_brackets(*cmd) != 1
-		? printf("%s: No match.\n",
-		ref) : 0;
-		free (ref);
+		check_passed_at_least_one_tour != 1 && check_error_nomatch != 1
+		&& check_brackets(*cmd) != 1 ? printf("%s: No match.\n",
+		ref_tab[0]), check_error_nomatch = 1 : 0;
 		check_brackets(*cmd) != 1 ? *check_error = 1 : 0;
+		my_free_tab(ref_tab);
 	}
 }
 
-void body_wildcard(glob_t *paths, char **cmd, int *check_error)
+void body_glob(glob_t *paths, char **cmd, int *check_error)
 {
 	char *parse_star = NULL;
-	int count_wildcard = count_wild(*cmd);
+	int count_globcard = count_glob(*cmd);
 	int retval = 0;
 
-	while (count_wildcard != 0) {
-		parse_star = parse_wildcard(*cmd, 0);
+	while (count_globcard != 0) {
+		parse_star = parse_glob(*cmd, 0);
 		retval = glob(parse_star, GLOB_NOCHECK && GLOB_NOSORT
 		&& GLOB_NOMATCH, NULL, paths);
-		loop_wildcard(cmd, retval, paths, check_error);
-		count_wildcard--;
+		loop_glob(cmd, retval, paths, check_error);
+		count_globcard--;
 		free (parse_star);
 	}
-	parse_wildcard(*cmd, 1);
+	parse_glob(*cmd, 1);
 }
 
 int process_glob(char **cmd)
@@ -77,7 +80,9 @@ int process_glob(char **cmd)
 	paths.gl_pathc = 0;
 	paths.gl_pathv = NULL;
 	paths.gl_offs = 0;
-	body_wildcard(&paths, cmd, &check_error);
+	check_passed_at_least_one_tour = 0;
+	check_error_nomatch = 0;
+	body_glob(&paths, cmd, &check_error);
 	if (check_error != 0) {
 		check_error = 0;
 		return (1);

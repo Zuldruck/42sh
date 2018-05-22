@@ -14,6 +14,8 @@
 
 #define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
+#define FILE_TOO_LONG ("%s: File name too long.\n")
+#define N_MAX 255
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
@@ -71,7 +73,7 @@ char *get_dir(env_t *env);
 int my_exec(char **cmd, env_t *env, int *ret_value);
 void my_exec_pipe(btree_t *, env_t *env, int *ret_value, int *fd);
 void print_prompt(env_t *env);
-int concat_exec(char **cmd, env_t *env);
+char *concat_exec(char **cmd, env_t *env);
 int check_built_ins(char **cmd, env_t *env, int *ret_value, int *fd);
 void unsetenv_func(char **cmd, env_t *env, int *ret_value);
 void cd_func(char **cmd, env_t *env, int *ret_value);
@@ -96,7 +98,9 @@ btree_t *create_btree_node(char *, char *);
 void parse_cmd(env_t *env, char *, int *ret_value);
 void display_btree(btree_t *tree);
 int parse_cmd_for_pipes_and_redirections(btree_t *tree);
-int parse_cmd_for_separator(btree_t *tree);
+int parse_cmd_for_semicolon(btree_t *tree);
+int parse_cmd_for_and(btree_t *node);
+int parse_cmd_for_or(btree_t *node);
 void exec_tree(btree_t *tree, env_t *env, int *ret_value);
 int set_pipefd(btree_t *tree);
 void exec_semicolon(btree_t *tree, env_t *env, int *ret_value);
@@ -118,9 +122,9 @@ int test_concat_exec(char *test_access, char **path, char **str);
 
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
-int check_wildcard(char *cmd);
-char *parse_wildcard(char *cmd, int clean);
-int count_wild(char *cmd);
+int check_glob(char *cmd);
+char *parse_glob(char *cmd, int clean);
+int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
 
@@ -140,8 +144,8 @@ int 		alias_is_another(char *alias, ll_alias_t *lla);
 ll_alias_t 	*step_up_alias(char *alias, ll_alias_t *lla);
 char		**my_strtab_cat(char **cmd, char **str);
 char 		*get_file(char *path);
-char 		*get_name(char *line);
-char 		*get_alias(char *line);
+void write_alias(ll_alias_t *lla);
+char 		**get_alias(char *line);
 
 //LOCAL_VAR
 ll_lvar_t *init_lvar(void);
@@ -152,5 +156,12 @@ void create_lvar(char *name, char *value, ll_lvar_t *lvar);
 
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
+void if_func(char **str, env_t *env, int *ret_value);
+void foreach_func(char **str, env_t *env, int *ret_value);
+
+
+// UTILS
+int is_alpha_string(char *str);
+void print_tab(char **tab);
 
 #endif /* __42sh__ */

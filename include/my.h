@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <limits.h>
 #include <stdio.h>
 #include <signal.h>
 #include <ctype.h>
@@ -66,7 +67,7 @@ int spec_plus(va_list, int);
 int spec_minus(va_list, int);
 int spec_hashtag(va_list, int);
 char **my_str_to_word_array(char *, char);
-char *get_next_line(int);
+char *get_next_line(FILE *);
 void my_free_tab(char **);
 int my_tablen(char **);
 char *my_clean_str(char *);

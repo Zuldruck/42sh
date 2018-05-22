@@ -5,21 +5,17 @@
 ** CPE_getnextline_2017 made by Sanchez Lucas
 */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
+#include "../../include/my.h"
 
-
-char *get_next_line(int fd)
+char *get_next_line(FILE *stream)
 {
 	__ssize_t left = 0;
-	size_t buff_size = 10;
+	size_t buff_size = 1;
 	char *input = NULL;
-	FILE *fd_open = fdopen(fd, "r");
 
-	left = getline(&input, &buff_size, fd_open);
+	left = getline(&input, &buff_size, stream);
 	if (left == -1) {
-		free(input);
+		input ? free(input) : 0;
 		return (NULL);
 	}
 	if (input[left - 1] == 10)
