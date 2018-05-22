@@ -153,7 +153,23 @@ ll_lvar_t *init_lvar(void);
 void set_func(char **str, env_t *env, int *ret_value);
 void unset_func(char **str, env_t *env, int *ret_value);
 void create_lvar(char *name, char *value, ll_lvar_t *lvar);
-
+int replace_lvar(char *name, char *value, ll_lvar_t *lvar);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+void add_valid_lvar(char **str, int i);
+void set_func(char **str, env_t *env, int *ret_value);
+int there_is_a_equal(char *str);
+int begin_with_letter(char *str);
+int is_int(char c);
+int check_too_deep(char *str);
+int is_sorted_lvar(ll_lvar_t *lvar);
+void swap_elem_lvar(ll_lvar_t *lvar1, ll_lvar_t *lvar2);
+void sort_lvar_core(ll_lvar_t *tmp);
+void sort_lvar(ll_lvar_t *lvar);
+void print_lvar(ll_lvar_t *lvar);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+char *get_lvar_one(char *str);
+char *get_lvar_two(char *str);
+int valid_lvar(char *str);
 
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
