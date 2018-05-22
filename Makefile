@@ -6,6 +6,8 @@
 ##
 
 SRC	= 	src/main.c					\
+		src/local_var/create_lvar.c			\
+		src/local_var/unset.c				\
 		src/alias/alias.c				\
 		src/alias/alias_loop.c				\
 		src/alias/create_alias.c			\

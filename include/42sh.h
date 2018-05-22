@@ -12,20 +12,28 @@
 #include <glob.h>
 #include <ctype.h>
 
-#define PATH_42SH "42shrc"
+#define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
 typedef struct ll_alias_s ll_alias_t;
+typedef struct ll_lvar_s ll_lvar_t;
 
-typedef struct 		ll_alias_s
+typedef struct ll_alias_s
 {
-    char 		*name;
-    char 		*alias;
-    int			par;
-    ll_alias_t 		*next;
-} 			ll_alias_t;
+	char *name;
+	char *alias;
+	int par;
+	ll_alias_t *next;
+} ll_alias_t;
+
+typedef struct ll_lvar_s
+{
+	char *name;
+	char *value;
+	ll_lvar_t *next;
+} ll_lvar_t;
 
 typedef struct env_s {
 	char *name;
@@ -53,6 +61,7 @@ typedef struct builtin_s {
 
 env_t *global_env;
 ll_alias_t *lla;
+ll_lvar_t *lvar;
 
 int count_args(char **cmd);
 void display_args(char **cmd);
@@ -133,6 +142,14 @@ char		**my_strtab_cat(char **cmd, char **str);
 char 		*get_file(char *path);
 char 		*get_name(char *line);
 char 		*get_alias(char *line);
+
+//LOCAL_VAR
+ll_lvar_t *init_lvar(void);
+void set_func(char **str, env_t *env, int *ret_value);
+void unset_func(char **str, env_t *env, int *ret_value);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+
+
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
 

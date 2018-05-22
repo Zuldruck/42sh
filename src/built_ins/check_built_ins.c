@@ -19,6 +19,8 @@ static const builtin_t built_ins[] =
 	{"repeat", &repeat_func},
 	{"where", &where_func},
 	{"which", &which_func},
+	{"set", &set_func},
+	{"unset", &unset_func},
 	{NULL, NULL}
 };
 
