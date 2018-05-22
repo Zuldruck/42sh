@@ -109,7 +109,6 @@ void sort_lvar(ll_lvar_t *lvar)
 void print_lvar(ll_lvar_t *lvar)
 {
 	sort_lvar(lvar);
-	printf("_\t\n\n");
 	for (ll_lvar_t *tmp = lvar->next; tmp; tmp = tmp->next) {
 		printf("%s\t%s\n", tmp->name, tmp->value);
 	}
