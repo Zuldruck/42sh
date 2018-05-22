@@ -126,9 +126,9 @@ int there_is_a_equal(char *str)
 
 int begin_with_letter(char *str)
 {
-	char invalid[9] = "()[]=@+-%";
+	char invalid[18] = "()[]=@+-%123456789";
 
-	for (int j = 0; j < 9; j++) {
+	for (int j = 0; j < 18; j++) {
 		if (str[0] == invalid[j])
 			return (0);
 	}
