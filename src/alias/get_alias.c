@@ -52,18 +52,22 @@ char **get_alias(char *line)
 
 char		**my_strtab_cat(char **cmd, char **str)
 {
-	char **nstr = malloc(sizeof(char *) * my_tablen(str));
+	char **nstr = malloc(sizeof(char *) * my_tablen(str) + my_tablen(cmd) + 100);
 	int i = 0;
 	int b = 1;
 
 	if (my_tablen(str) == 1)
 		return (cmd);
 	while (i < my_tablen(cmd)) {
-		strcpy(nstr[i], cmd[i]);
+		nstr[i] = cmd[i];
 		i++;
 	}
-	while (b < my_tablen(str))
-		strcpy(nstr[i++], str[b++]);
+	while (b < my_tablen(str)) {
+		nstr[i] = str[b];
+		i++;
+		b++;
+	}
+	nstr[i] = NULL;
 	return (nstr);
 }
 
