@@ -13,6 +13,7 @@ void write_alias(ll_alias_t *lla)
 	FILE *file = fopen(PATH_42SH, "w");
 
 	sort_lla(lla);
+
 	for (ll_alias_t *tmp = lla->next; tmp; tmp = tmp->next) {
 		if (tmp->next)
 			fprintf(file, "%s\t%s\n", tmp->name, tmp->alias);
@@ -64,7 +65,7 @@ ll_alias_t 	*init_lla(void)
 	n->name = NULL;
 	n->alias = NULL;
 	n->next = NULL;
-	synchro_with_file(n);
+	//synchro_with_file(n);
 	return (n);
 }
 
