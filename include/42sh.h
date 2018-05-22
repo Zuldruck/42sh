@@ -129,23 +129,24 @@ int process_glob(char **cmd);
 int check_brackets(char *cmd);
 
 //ALIAS
-void		synchro_with_file(ll_alias_t *n);
-int		check_name_exist(ll_alias_t *lla, char *name, char *alias);
-void		add_alias(char *name, char *alias, ll_alias_t *lla, int par);
-void		print_alias(ll_alias_t *n);
-ll_alias_t 	*init_lla(void);
-void		sort_lla(ll_alias_t *lla);
-void 		alias_func(char **str, env_t *env, int *ret_value);
-void 		my_free_lla(ll_alias_t *lla);
-char 		**replace_alias(char **, ll_alias_t *, int *);
-char 		*get_str_alias(char **str);
-int 		alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
-int 		alias_is_another(char *alias, ll_alias_t *lla);
-ll_alias_t 	*step_up_alias(char *alias, ll_alias_t *lla);
-char		**my_strtab_cat(char **cmd, char **str);
-char 		*get_file(char *path);
+void synchro_with_file(ll_alias_t *n);
+int check_name_exist(ll_alias_t *lla, char *name, char *alias);
+void add_alias(char *name, char *alias, ll_alias_t *lla, int par);
+void print_alias(ll_alias_t *n);
+ll_alias_t *init_lla(void);
+void sort_lla(ll_alias_t *lla);
+void alias_func(char **str, env_t *env, int *ret_value);
+void my_free_lla(ll_alias_t *lla);
+char **replace_alias(char **, ll_alias_t *, int *);
+char *get_str_alias(char **str);
+int alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
+int alias_is_another(char *alias, ll_alias_t *lla);
+ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla);
+char **my_strtab_cat(char **cmd, char **str);
+char *get_file(char *path);
 void write_alias(ll_alias_t *lla);
-char 		**get_alias(char *line);
+char **get_alias(char *line);
+void unalias_func(char **str, env_t *env, int *ret_value);
 
 //LOCAL_VAR
 ll_lvar_t *init_lvar(void);
