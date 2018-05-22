@@ -27,33 +27,26 @@ char 		*get_file(char *path)
 	return (file);
 }
 
-char *get_name(char *line)
+char **get_alias(char *line)
 {
-	char *name = malloc(sizeof(char) * strlen(line) + 1);
+	char **alias = malloc(sizeof(char *) * 2);
 	int i = 0;
+	int a = 0;
 
-	while (line[i] != ' ' && line[i]) {
-		name[i] = line[i];
+	alias[0] = malloc(sizeof(char) * strlen(line) + 1);
+	alias[1] = malloc(sizeof(char) * strlen(line) + 1);
+
+	while (line[i] != ' ' && line[i] != '\t' && line[i]) {
+		alias[0][i] = line[i];
 		i++;
 	}
-	name[i] = 0;
-	return (name);
-}
-
-char *get_alias(char *line)
-{
-	char *alias = malloc(sizeof(char) * strlen(line) + 1);
-	int i = 0;
-	int b = 0;
-
-	while (line[i] != ' ' && line[i])
+	i++;
+	while (line[i] != 0) {
+		alias[1][a] = line[i];
+		a++;
 		i++;
-	while (line[i] != '\0') {
-		alias[b] = line[i];
-		i++;
-		b++;
 	}
-	alias[b] = 0;
+	printf("salut\n");
 	return (alias);
 }
 

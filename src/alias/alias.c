@@ -15,6 +15,7 @@ int		check_name_exist(ll_alias_t *lla, char *name, char *alias)
 			free(tmp->alias);
 			tmp->alias = malloc(sizeof(char) * strlen(alias) + 1);
 			strcpy(tmp->alias, alias);
+			write_alias(lla);
 			return (1);
 		}
 	}
@@ -44,6 +45,8 @@ char **alias_core(char **cmd, ll_alias_t *tmp, char **str, int *loop)
 	if (alias_loop(tmp, lla) == 1) {
 		printf("Alias loop.\n");
 		*loop = 1;
+		return (str);
+	} else if (alias_loop(tmp, lla) == 2) {
 		return (str);
 	}
 	while (alias_is_another(tmp->alias, lla))
