@@ -14,7 +14,8 @@ void write_alias(ll_alias_t *lla)
 
 	sort_lla(lla);
 	for (ll_alias_t *tmp = lla->next; tmp; tmp = tmp->next) {
-		fprintf(file, "%s\t%s\n", tmp->name, tmp->alias);
+		if (tmp && tmp->name && tmp->alias)
+			fprintf(file, "%s\t%s\n", tmp->name, tmp->alias);
 	}
 	fclose(file);
 }
