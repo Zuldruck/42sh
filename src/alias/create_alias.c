@@ -65,7 +65,7 @@ ll_alias_t 	*init_lla(void)
 	n->name = NULL;
 	n->alias = NULL;
 	n->next = NULL;
-	synchro_with_file(n);
+	//synchro_with_file(n);
 	return (n);
 }
 
