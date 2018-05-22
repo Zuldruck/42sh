@@ -82,9 +82,8 @@ void		synchro_with_file(ll_alias_t *lla)
 			return;
 		}
 		file_dd = my_str_to_word_array(file, '\n');
-		for (int i = 0; file_dd[i]; i += 2) {
+		for (int i = 0; file_dd[i]; i += 2)
 			add_alias(file_dd[i], file_dd[i+1], lla, 0);
-		}
 	} else {
 		fd = fopen(PATH_42SH, "w+");
 		fclose(fd);
