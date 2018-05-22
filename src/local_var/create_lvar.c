@@ -134,6 +134,34 @@ int begin_with_letter(char *str)
 	return (1);
 }
 
+int is_int(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int check_too_deep(char *str)
+{
+	int i = 1;
+	int letter = 0;
+
+	if (str[0] != '=')
+		return (0);
+	else {
+		while (str[i] != 0) {
+			if (is_int(str[i]) == 0)
+				letter = 1;
+			i++;
+		}
+	}
+	if (letter == 0)
+		return (1);
+	else
+		return (0);
+}
+
 void set_func(char **str, env_t *env, int *ret_value)
 {
 	if (my_tablen(str) == 1) {
@@ -143,6 +171,10 @@ void set_func(char **str, env_t *env, int *ret_value)
 	for (int i = 1; i < my_tablen(str); i++) {
 		if (begin_with_letter(str[i]) == 1) {
 			if (there_is_a_equal(str[i]) == 1) {
+				if (check_too_deep(get_lvar_two(str[i])) == 1) {
+					printf("Directory stack not that deep.\n");
+					return;
+				}
 				create_lvar(get_lvar_one(str[i]),
 				get_lvar_two(str[i]), lvar);
 			} else
