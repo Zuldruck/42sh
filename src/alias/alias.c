@@ -46,9 +46,8 @@ char **alias_core(char **cmd, ll_alias_t *tmp, char **str, int *loop)
 		printf("Alias loop.\n");
 		*loop = 1;
 		return (str);
-	} else if (alias_loop(tmp, lla) == 2) {
+	} else if (alias_loop(tmp, lla) == 2)
 		return (str);
-	}
 	while (alias_is_another(tmp->alias, lla))
 		tmp = step_up_alias(tmp->alias, lla);
 	cmd = my_str_to_word_array(tmp->alias, ' ');
