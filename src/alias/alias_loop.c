@@ -17,11 +17,13 @@ int 	alias_is_another(char *alias, ll_alias_t *lla)
 	return (0);
 }
 
-ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla)
+ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla, int *ret)
 {
 	ll_alias_t *tmp = lla->next;
 
 	while (tmp) {
+		if (strcmp(tmp->alias, tmp->name) == 0)
+			*ret = -1;
 		if (strcmp(alias, tmp->name) == 0)
 			return (tmp);
 		tmp = tmp->next;
@@ -33,13 +35,17 @@ int 	alias_loop(ll_alias_t *tmp, ll_alias_t *lla)
 {
 	int pass = 0;
 	char *name = malloc(sizeof(char) * strlen(tmp->name) + 1);
+	int ret = 0;
 
 	if (strcmp(tmp->name, tmp->alias) == 0)
 		return (2);
 
 	strcpy(name, tmp->name);
 	while (alias_is_another(tmp->alias, lla) == 1) {
-		tmp = step_up_alias(tmp->alias, lla);
+		tmp = step_up_alias(tmp->alias, lla, &ret);
+		if (ret == -1) {
+			return (0);
+		}
 		if (strcmp(name, tmp->name) == 0)
 			pass++;
 		if (pass >= 2)
