@@ -34,8 +34,6 @@ void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
 	word_tab = replace_alias(word_tab, lla, &loop);
 	word_tab = parse_quotes(word_tab);
-	for (int i = 0; word_tab[i]; i++)
-		printf("word = %s\n", word_tab[i]);
 	if (loop == 1)
 		return;
 	if (check_built_ins(word_tab, env, ret_value, tree->fd) == 1)
