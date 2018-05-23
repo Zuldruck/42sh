@@ -16,7 +16,7 @@ int check_brackets(char *cmd)
 	return (0);
 }
 
-int check_wildcard(char *cmd)
+int check_glob_ref(char *cmd)
 {
 	if (!cmd)
 		return (84);
@@ -27,7 +27,7 @@ int check_wildcard(char *cmd)
 	return (0);
 }
 
-char *parse_wildcard(char *cmd, int clean)
+char *parse_glob(char *cmd, int clean)
 {
 	char **tab_cmd = NULL;
 	char *ret = NULL;
@@ -41,7 +41,7 @@ char *parse_wildcard(char *cmd, int clean)
 	}
 	tab_cmd = my_str_to_word_array(cmd, 32);
 	for (int i = clean == 2 ? 0 : pos_tab ; tab_cmd[i] ; i++) {
-		if (check_wildcard(tab_cmd[i]) == 1) {
+		if (check_glob_ref(tab_cmd[i]) == 1) {
 			pos_tab = i + 1;
 			ret = strdup(tab_cmd[i]);
 			my_free_tab(tab_cmd);
@@ -52,7 +52,7 @@ char *parse_wildcard(char *cmd, int clean)
 	return (NULL);
 }
 
-int count_wild(char *cmd)
+int count_glob(char *cmd)
 {
 	char **tab_cmd = NULL;
 	int wildcard = 0;
@@ -61,7 +61,7 @@ int count_wild(char *cmd)
 		exit (84);
 	tab_cmd = my_str_to_word_array(cmd, 32);
 	for (int i = 0 ; tab_cmd[i] ; i++)
-		if (check_wildcard(tab_cmd[i]) == 1)
+		if (check_glob_ref(tab_cmd[i]) == 1)
 			wildcard++;
 	my_free_tab(tab_cmd);
 	return (wildcard);

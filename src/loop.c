@@ -26,6 +26,7 @@ void my_loop(env_t *env, int ret_value)
 		if (str == NULL) {
 			(isatty(STDIN_FILENO) ? my_printf("exit\n") : 0);
 			free_list(env);
+			my_free_lla(lla);
 			exit(ret_value);
 		} else if (!str[0]) {
 			free(str);

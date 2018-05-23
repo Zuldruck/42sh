@@ -15,10 +15,15 @@ static const builtin_t built_ins[] =
 	{"setenv", &setenv_func},
 	{"unsetenv", &unsetenv_func},
 	{"echo", &echo_func},
+	{"alias", &alias_func},
+	{"unalias", &unalias_func},
 	{"repeat", &repeat_func},
 	{"if", &if_func},
 	{"where", &where_func},
 	{"which", &which_func},
+	{"set", &set_func},
+	{"unset", &unset_func},
+	{"foreach", &foreach_func},
 	{NULL, NULL}
 };
 

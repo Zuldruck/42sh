@@ -6,6 +6,17 @@
 ##
 
 SRC	= 	src/main.c					\
+		src/local_var/add_lvar.c			\
+		src/local_var/create_lvar.c			\
+		src/local_var/sort_lvar.c			\
+		src/local_var/too_deep.c			\
+		src/local_var/unset.c				\
+		src/alias/unalias.c				\
+		src/alias/alias.c				\
+		src/alias/alias_loop.c				\
+		src/alias/create_alias.c			\
+		src/alias/get_alias.c				\
+		src/alias/sort_alias.c				\
 		src/loop.c					\
 		src/prompt.c					\
 		src/concat_exec.c				\
@@ -20,6 +31,7 @@ SRC	= 	src/main.c					\
 		src/built_ins/if.c				\
 		src/built_ins/where.c				\
 		src/built_ins/which.c				\
+		src/built_ins/foreach.c				\
 		src/linked_list.c				\
 		src/exec.c					\
 		src/get_env_var.c				\
@@ -34,11 +46,9 @@ SRC	= 	src/main.c					\
 		src/parser/parsing_pipes_and_redirections.c	\
 		src/parser/error_handling.c			\
 		src/parser/parse_quotes.c			\
-		src/parser/globbing/brackets.c			\
 		src/parser/globbing/glob.c			\
-		src/parser/globbing/interrogation.c		\
-		src/parser/globbing/wildcard/wildcard.c		\
-		src/parser/globbing/wildcard/wildcard_parser.c	\
+		src/parser/globbing/process/process_glob.c		\
+		src/parser/globbing/process/process_parser_glob.c	\
 		src/set_pipefd.c				\
 		src/exec_tree/exec_tree.c			\
 		src/exec_tree/exec_pipe.c			\

@@ -28,7 +28,7 @@ void exec_double_left_redirect(btree_t *redirect, env_t *env, int *ret_value)
 	while (1) {
 		if (isatty(STDIN_FILENO))
 			my_printf("? ");
-		str = get_next_line(0);
+		str = get_next_line(stdin);
 		if (!str || !my_strcmp(str, redirect->right->cmd))
 			break;
 		write(fd, str, my_strlen(str));

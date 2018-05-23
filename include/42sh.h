@@ -12,10 +12,30 @@
 #include <glob.h>
 #include <ctype.h>
 
+#define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
+#define FILE_TOO_LONG ("%s: File name too long.\n")
+#define N_MAX 255
 
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
+typedef struct ll_alias_s ll_alias_t;
+typedef struct ll_lvar_s ll_lvar_t;
+
+typedef struct ll_alias_s
+{
+	char *name;
+	char *alias;
+	int par;
+	ll_alias_t *next;
+} ll_alias_t;
+
+typedef struct ll_lvar_s
+{
+	char *name;
+	char *value;
+	ll_lvar_t *next;
+} ll_lvar_t;
 
 typedef struct env_s {
 	char *name;
@@ -42,6 +62,8 @@ typedef struct builtin_s {
 } builtin_t;
 
 env_t *global_env;
+ll_alias_t *lla;
+ll_lvar_t *lvar;
 
 int count_args(char **cmd);
 void display_args(char **cmd);
@@ -100,15 +122,63 @@ int test_concat_exec(char *test_access, char **path, char **str);
 
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
-int check_wildcard(char *cmd);
-char *parse_wildcard(char *cmd, int clean);
-int count_wild(char *cmd);
+int check_glob(char *cmd);
+char *parse_glob(char *cmd, int clean);
+int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
+
+//ALIAS
+void synchro_with_file(ll_alias_t *n);
+int check_name_exist(ll_alias_t *lla, char *name, char *alias);
+void add_alias(char *name, char *alias, ll_alias_t *lla, int par);
+void print_alias(ll_alias_t *n);
+ll_alias_t *init_lla(void);
+void sort_lla(ll_alias_t *lla);
+void alias_func(char **str, env_t *env, int *ret_value);
+void my_free_lla(ll_alias_t *lla);
+char **replace_alias(char **, ll_alias_t *, int *);
+char *get_str_alias(char **str);
+int alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
+int alias_is_another(char *alias, ll_alias_t *lla);
+ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla);
+char **my_strtab_cat(char **cmd, char **str);
+char *get_file(char *path);
+void write_alias(ll_alias_t *lla);
+char **get_alias(char *line);
+void unalias_func(char **str, env_t *env, int *ret_value);
+
+//LOCAL_VAR
+ll_lvar_t *init_lvar(void);
+void set_func(char **str, env_t *env, int *ret_value);
+void unset_func(char **str, env_t *env, int *ret_value);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+int replace_lvar(char *name, char *value, ll_lvar_t *lvar);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+void add_valid_lvar(char **str, int i);
+void set_func(char **str, env_t *env, int *ret_value);
+int there_is_a_equal(char *str);
+int begin_with_letter(char *str);
+int is_int(char c);
+int check_too_deep(char *str);
+int is_sorted_lvar(ll_lvar_t *lvar);
+void swap_elem_lvar(ll_lvar_t *lvar1, ll_lvar_t *lvar2);
+void sort_lvar_core(ll_lvar_t *tmp);
+void sort_lvar(ll_lvar_t *lvar);
+void print_lvar(ll_lvar_t *lvar);
+void create_lvar(char *name, char *value, ll_lvar_t *lvar);
+char *get_lvar_one(char *str);
+char *get_lvar_two(char *str);
+int valid_lvar(char *str);
 
 // BUILTIN
 void repeat_func(char **str, env_t *env, int *ret_value);
 void if_func(char **str, env_t *env, int *ret_value);
+void foreach_func(char **str, env_t *env, int *ret_value);
 
+
+// UTILS
+int is_alpha_string(char *str);
+void print_tab(char **tab);
 
 #endif /* __42sh__ */
