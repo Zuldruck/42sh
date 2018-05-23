@@ -63,6 +63,7 @@ void set_func(char **str, env_t *env, int *ret_value)
 		} else {
 			printf("%s: Variable name must begin with a letter.\n",
 			       str[0]);
+			break;
 		}
 	}
 	(void)env;
