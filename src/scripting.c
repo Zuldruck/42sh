@@ -20,6 +20,8 @@ void replace_argument(char **parsed, char **arguments, int i)
 	if (arg <= max) {
 		tmp = parsed[i];
 		parsed[i] = my_strcat(tmp, arguments[arg]);
+		if (!parsed[i])
+			exit(84);
 		free(tmp);
 		if (!parsed[i])
 			exit(84);
@@ -57,5 +59,5 @@ int seek_script(env_t *env, char **binary, int *ret_value)
 		buffer = replace_arguments(buffer, binary);
 		parse_cmd(env, buffer, ret_value);
 	}
-	return (0);
+	return (1);
 }
