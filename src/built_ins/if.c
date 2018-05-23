@@ -58,17 +58,15 @@ int check_if(char **s)
 
 int process_if(char **str, env_t *env)
 {
-	char *tmp = NULL;
 	int ret_value = 0;
 
 	if (check_if(str) != 1)
 		return (0);
-	tmp = convert_tab_to_string(str + ret_if);
-	parse_cmd(env, tmp, &ret_value);
+	my_exec(str + ret_if, env, (int[2]){0, 1});
 	return (ret_value);
 }
 
-void if_func(char **str,env_t *env, int *ret_value)
+void if_func(char **str, env_t *env, int *ret_value)
 {
 	if (!str) {
 		*ret_value = 1;

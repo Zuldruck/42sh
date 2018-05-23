@@ -10,12 +10,8 @@
 void read_tmp_file(btree_t *redirect, env_t *env, int *ret_value)
 {
 	int fd = open(".tmp_redirect/tmp_a839", O_RDONLY);
-	char **tab = my_str_to_word_array(redirect->left->cmd, ' ');
 
 	redirect->left->fd[0] = fd;
-	if (redirect_error_handling(fd, tab, env, ret_value))
-		return;
-	my_free_tab(tab);
 	exec_tree(redirect->left, env, ret_value);
 	close(fd);
 }

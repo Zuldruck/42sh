@@ -11,6 +11,7 @@
 #include "my.h"
 #include <glob.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
@@ -113,10 +114,13 @@ void exec_left_redirect(btree_t *tree, env_t *env, int *ret_value);
 void exec_double_left_redirect(btree_t *tree, env_t *env, int *ret_value);
 int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
-int parse_env_variables(char **cmd, env_t *env, int *ret_value);
+int parse_env_variables(char **str, env_t *env);
 int check_quotes(char *cmd, int i);
+int check_bad_quotes(char *cmd);
 int is_a_built_in(char *str);
 int test_concat_exec(char *test_access, char **path, char **str);
+char **parse_quotes(char **cmd);
+void update_iterator(char *str, int *i, bool *d_quote);
 
 // GLOBBING
 
