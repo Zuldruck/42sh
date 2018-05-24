@@ -13,8 +13,12 @@ void write_alias(ll_alias_t *lla)
 	FILE *file = fopen(PATH_42SH, "w");
 
 	sort_lla(lla);
+
 	for (ll_alias_t *tmp = lla->next; tmp; tmp = tmp->next) {
-		fprintf(file, "%s\t%s\n", tmp->name, tmp->alias);
+		if (tmp->next)
+			fprintf(file, "%s\t%s\n", tmp->name, tmp->alias);
+		else
+			fprintf(file, "%s\t%s", tmp->name, tmp->alias);
 	}
 	fclose(file);
 }
@@ -26,6 +30,10 @@ void		add_alias(char *name, char *alias, ll_alias_t *lla, int par)
 
 	if (check_name_exist(lla, name, alias) == 1)
 		return;
+	if (strcmp("alias", name) == 0) {
+		printf("alias: Too dangerous to alias that.\n");
+		return;
+	}
 	n = malloc(sizeof(*n));
 	n->par = par;
 	n->name = malloc(sizeof(char) * strlen(name) + 1);
@@ -57,7 +65,7 @@ ll_alias_t 	*init_lla(void)
 	n->name = NULL;
 	n->alias = NULL;
 	n->next = NULL;
-	synchro_with_file(n);
+	//synchro_with_file(n);
 	return (n);
 }
 
@@ -75,9 +83,8 @@ void		synchro_with_file(ll_alias_t *lla)
 			return;
 		}
 		file_dd = my_str_to_word_array(file, '\n');
-		for (int i = 0; file_dd[i]; i++)
-			add_alias(get_name(file_dd[i]), get_alias(file_dd[i]), \
-			lla, 0);
+		for (int i = 0; file_dd[i]; i += 2)
+			add_alias(file_dd[i], file_dd[i+1], lla, 0);
 	} else {
 		fd = fopen(PATH_42SH, "w+");
 		fclose(fd);

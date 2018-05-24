@@ -27,50 +27,47 @@ char 		*get_file(char *path)
 	return (file);
 }
 
-char *get_name(char *line)
+char **get_alias(char *line)
 {
-	char *name = malloc(sizeof(char) * strlen(line) + 1);
+	char **alias = malloc(sizeof(char *) * 2);
 	int i = 0;
+	int a = 0;
 
-	while (line[i] != ' ' && line[i]) {
-		name[i] = line[i];
+	alias[0] = malloc(sizeof(char) * strlen(line) + 1);
+	alias[1] = malloc(sizeof(char) * strlen(line) + 1);
+
+	while (line[i] != ' ' && line[i] != '\t' && line[i]) {
+		alias[0][i] = line[i];
 		i++;
 	}
-	name[i] = 0;
-	return (name);
-}
-
-char *get_alias(char *line)
-{
-	char *alias = malloc(sizeof(char) * strlen(line) + 1);
-	int i = 0;
-
-	while (line[0] != ' ' && line[0])
-		line++;
-	line++;
-	while (line[0]) {
-		alias[i] = line[0];
+	i++;
+	while (line[i] != 0) {
+		alias[1][a] = line[i];
+		a++;
 		i++;
-		line++;
 	}
-	alias[i] = 0;
+	printf("salut\n");
 	return (alias);
 }
 
 char		**my_strtab_cat(char **cmd, char **str)
 {
-	char **nstr = malloc(sizeof(char *) * my_tablen(str));
+	char **nstr = malloc(sizeof(char *) * my_tablen(str) + my_tablen(cmd) + 100);
 	int i = 0;
 	int b = 1;
 
 	if (my_tablen(str) == 1)
 		return (cmd);
 	while (i < my_tablen(cmd)) {
-		strcpy(nstr[i], cmd[i]);
+		nstr[i] = cmd[i];
 		i++;
 	}
-	while (b < my_tablen(str))
-		strcpy(nstr[i++], str[b++]);
+	while (b < my_tablen(str)) {
+		nstr[i] = str[b];
+		i++;
+		b++;
+	}
+	nstr[i] = NULL;
 	return (nstr);
 }
 
@@ -81,7 +78,7 @@ char 		*get_str_alias(char **str)
 
 	while (str[i]) {
 		str_alias = my_strcat(str_alias, str[i]);
-		if (str[i+1])
+		if (str[i + 1])
 			str_alias = my_strcat(str_alias, " ");
 		i++;
 	}
