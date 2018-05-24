@@ -50,9 +50,12 @@ char *replace_arguments(char *buffer, char **arguments)
 
 int seek_script(env_t *env, char **binary, int *ret_value)
 {
-	FILE *file = fopen(binary[0], "r");
+	FILE *file = NULL;
 	char *buffer = NULL;
 
+	if (!binary || !binary[0])
+		return (0);
+	fopen(binary[0], "r");
 	if (!file)
 		return (1);
 	while ((buffer = get_next_line(file))) {
