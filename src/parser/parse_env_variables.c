@@ -59,6 +59,8 @@ int parse_env_variables(char **str, env_t *env)
 	char *var_name = NULL;
 	bool d_quote = 0;
 
+	if (!str)
+		return (0);
 	for (int i = 0; *str && (*str)[i]; i++) {
 		update_iterator(*str, &i, &d_quote);
 		if ((*str)[i] == '$' && (*str)[i + 1]
