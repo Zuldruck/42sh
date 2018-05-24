@@ -54,6 +54,7 @@ void exec_exit(int ret_value, env_t *env)
 	if (isatty(STDIN_FILENO))
 		my_printf("exit\n");
 	free_list(env);
+	my_free_lla(lla);
 	exit(ret_value);
 }
 

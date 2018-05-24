@@ -53,7 +53,9 @@ void parse_cmd(env_t *env, char *cmd, int *ret_value)
 	btree_t *node = create_btree_node(my_clean_str(cmd), NULL);
 
 	free(cmd);
-	if (parse_cmd_for_semicolon(node)
+	if (check_bad_quotes(node->cmd)
+	|| parse_env_variables(&(node->cmd), env)
+	|| parse_cmd_for_semicolon(node)
 	|| parse_cmd_for_or(node)
 	|| parse_cmd_for_and(node)
 	|| parse_cmd_for_pipes_and_redirections(node)

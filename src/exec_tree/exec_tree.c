@@ -23,6 +23,7 @@ static const operator_t op_tab[] =
 void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 {
 	char **word_tab = NULL;
+	int loop = 0;
 
 	for (int i = 0; tree->op && op_tab[i].fptr; i++) {
 		if (!my_strcmp(tree->op, op_tab[i].op)) {
@@ -30,15 +31,19 @@ void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 			return;
 		}
 	}
-	if (process_globbing(&tree->cmd) != 0) {
+	if (process_globbing(&tree->cmd)) {
 		*ret_value = 1;
 		return;
 	}
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
-	if (!parse_env_variables(word_tab, env, ret_value)
+	word_tab = replace_alias(word_tab, lla, &loop);
+	word_tab = parse_quotes(word_tab);
+	if (loop == 1)
+		return;
+	if (!parse_env_variables(word_tab, env)
 	&& check_built_ins(word_tab, env, ret_value, tree->fd) == 1
 	&& seek_script(env, word_tab, ret_value) == 1)
-		if (word_tab && word_tab[0] && word_tab[0][0])
+		if (word_tab && word_tab[0])
 			*ret_value = my_exec(word_tab, env, tree->fd);
 	my_free_tab(word_tab);
 }

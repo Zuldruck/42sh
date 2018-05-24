@@ -29,9 +29,10 @@ void exec_cd(env_t *env, char **str, int *ret_value)
 	if (my_strcmp(str[1], "-") == 0)
 		exec_cd_minus(env, ret_value, old_pwd, cur_dir);
 	else if (chdir(str[1]) == -1) {
-		if (access(str[1], F_OK) == -1)
-			my_printf("%s: No such file or directory.\n", str[1]);
-		else
+		if (access(str[1], F_OK) == -1 || strlen(str[1]) > NAME_MAX) {
+			strlen(str[1]) > N_MAX ? printf(FILE_TOO_LONG, str[1])
+			: printf("%s: No such file or directory.\n", str[1]);
+		} else
 			my_printf("%s: Not a directory.\n", str[1]);
 		*ret_value = 1;
 	} else {
