@@ -54,8 +54,8 @@ int seek_script(env_t *env, char **binary, int *ret_value)
 	char *buffer = NULL;
 
 	if (!binary || !binary[0])
-		return (0);
-	fopen(binary[0], "r");
+		return (1);
+	file = fopen(binary[0], "r");
 	if (!file)
 		return (1);
 	while ((buffer = get_next_line(file))) {
