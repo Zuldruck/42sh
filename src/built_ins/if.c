@@ -46,6 +46,8 @@ int check_if(char **s)
 
 	if (check_only_number(s) == 0)
 		return (1);
+	if (!s[2] || !s[1] || !s[3])
+		return (0);
 	strcmp(s[2], ">") == 0 && strcmp(s[1], s[3]) > 0 ? ret = 1 : 0;
 	strcmp(s[2], ">=") == 0 && strcmp(s[1], s[3]) >= 0 ? ret = 1 : 0;
 	strcmp(s[2], "<") == 0 && strcmp(s[1], s[3]) < 0 ? ret = 1 : 0;
