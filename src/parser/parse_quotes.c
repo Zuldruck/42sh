@@ -30,7 +30,7 @@ int check_bad_quotes(char *cmd)
 {
 	char quote = 0;
 
-	for (int i = 0; cmd[i]; i++) {
+	for (int i = 0; cmd && cmd[i]; i++) {
 		if (!quote && (cmd[i] == '"' || cmd[i] == '\''))
 			quote = cmd[i];
 		else if (quote && cmd[i] == quote)
