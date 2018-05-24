@@ -9,10 +9,8 @@
 
 int check_brackets(char *cmd)
 {
-	bool d_quote = 0;
-
 	for (int i = 0 ; cmd[i] ; i++) {
-		update_iterator(cmd, &i, &d_quote);
+		update_iterator_for_quotes(cmd, &i);
 		if (cmd[i] == '[' && cmd[i + 1] == ']')
 			return (1);
 	}
@@ -21,12 +19,10 @@ int check_brackets(char *cmd)
 
 int check_glob_ref(char *cmd)
 {
-	bool d_quote = 0;
-
 	if (!cmd)
 		return (84);
 	for (int i = 0 ; cmd[i] ; i++) {
-		update_iterator(cmd, &i, &d_quote);
+		update_iterator_for_quotes(cmd, &i);
 		if (cmd[i] == '*' || cmd[i] == '?' || cmd[i] == '['
 		|| cmd[i] == ']')
 			return (1);

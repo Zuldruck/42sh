@@ -121,6 +121,7 @@ int is_a_built_in(char *str);
 int test_concat_exec(char *test_access, char **path, char **str);
 char **parse_quotes(char **cmd);
 void update_iterator(char *str, int *i, bool *d_quote);
+void update_iterator_for_quotes(char *str, int *i);
 
 // GLOBBING
 

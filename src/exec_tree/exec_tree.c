@@ -31,6 +31,10 @@ void exec_tree(btree_t *tree, env_t *env, int *ret_value)
 			return;
 		}
 	}
+	if (process_globbing(&tree->cmd)) {
+		*ret_value = 1;
+		return;
+	}
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
 	word_tab = replace_alias(word_tab, lla, &loop);
 	word_tab = parse_quotes(word_tab);
