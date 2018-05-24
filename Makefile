@@ -17,6 +17,7 @@ SRC	= 	src/main.c					\
 		src/alias/create_alias.c			\
 		src/alias/get_alias.c				\
 		src/alias/sort_alias.c				\
+		src/sig.c					\
 		src/loop.c					\
 		src/prompt.c					\
 		src/concat_exec.c				\
@@ -56,6 +57,7 @@ SRC	= 	src/main.c					\
 		src/exec_tree/exec_separator.c			\
 		src/exec_tree/exec_double_left_redirect.c	\
 		src/parser/parse_env_variables.c		\
+		src/scripting.c					\
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -76,6 +78,10 @@ CFLAGS		=	-I./include
 
 all:	prepare_lib $(NAME)
 
+tests_run: prepare_lib
+	make -C tests/
+	tests/unit-tests
+
 prepare_lib:
 	make -C lib/my
 
@@ -86,10 +92,12 @@ $(NAME):	$(OBJ)
 
 clean:
 	make clean -C lib/my
+	make clean -C tests/
 	rm -f $(OBJ)
 
 fclean:	clean
 	rm -f lib/my/$(LIB_NAME)
+	make fclean -C tests/
 	rm -f $(NAME)
 
 re:	fclean all
