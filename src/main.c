@@ -9,7 +9,7 @@
 
 void sig_handler(__attribute__((unused))int sig_num)
 {
-	/*if (sig_num == SIGINT) {
+/*	if (sig_num == SIGINT) {
 		my_putchar('\n');
 		print_prompt(global_env);
 	} else if (sig_num == SIGSEGV) {
