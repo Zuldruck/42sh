@@ -67,6 +67,7 @@ int process_loop_foreach(char *ret, char **str, env_t *env, int *ret_value)
 	if (!ret || !str || !env)
 		return (84);
 	tmp_tab = my_str_to_word_array(ret, ';');
+	tmp_tab[my_tablen(tmp_tab)] = NULL;
 	tmp = convert_tab_to_string(tmp_tab);
 	loop_foreach = my_tablen(str) - 2;
 	(void) ret_value;
