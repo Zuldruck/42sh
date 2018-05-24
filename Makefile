@@ -58,6 +58,7 @@ SRC	= 	src/main.c						\
 		src/exec_tree/exec_double_left_redirect.c		\
 		src/parser/parse_env_variables.c			\
 		src/scripting.c						\
+		src/error_handling_if.c					\
 
 OBJ	=	$(SRC:.c=.o)
 

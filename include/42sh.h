@@ -23,6 +23,13 @@ typedef struct btree_s btree_t;
 typedef struct ll_alias_s ll_alias_t;
 typedef struct ll_lvar_s ll_lvar_t;
 
+typedef struct error_var_s
+{
+	int check_error;
+	int check_passed_at_least_one_tour;
+	int check_error_nomatch;
+} error_var_t;
+
 typedef struct ll_alias_s
 {
 	char *name;
@@ -192,5 +199,12 @@ int seek_script(env_t *env, char **binary, int *ret_value);
 // UTILS
 int is_alpha_string(char *str);
 void print_tab(char **tab);
+
+
+// IF
+int check_only_number(char **s, int *ret_if);
+int check_error_handling_if(char **str);
+int check_tab_len_if(char **s);
+int is_if_error(char **s);
 
 #endif /* __42sh__ */
