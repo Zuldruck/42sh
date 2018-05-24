@@ -47,10 +47,11 @@ char *process_foreach(void)
 	while (input != NULL && my_strcmp(input, "end") != 0) {
 		last_semicolon++;
 		isatty(0) ? write (1, "foreach? ", 9) : 0;
+		input = my_clean_str(input);
 		res = my_strcat(res, input);
 		res = my_strcat(res, " ; ");
 		if ((input = get_next_line(stdin)) == NULL)
-			return (NULL);
+			break;
 	}
 	if (add_last_char(res, last_semicolon) == NULL)
 		return (NULL);
@@ -59,16 +60,20 @@ char *process_foreach(void)
 
 int process_loop_foreach(char *ret, char **str, env_t *env, int *ret_value)
 {
-	char **tmp_tab = NULL;
+	char **tmp_tab= NULL;
+	char *tmp= NULL;
 	int loop_foreach = 0;
 
 	if (!ret || !str || !env)
 		return (84);
 	tmp_tab = my_str_to_word_array(ret, ';');
+	tmp = convert_tab_to_string(tmp_tab);
 	loop_foreach = my_tablen(str) - 2;
 	(void) ret_value;
-	for (int i = 0 ; i < loop_foreach ; i++)
-		my_exec(tmp_tab, env, (int[2]){0, 1});
+	for (int i = 0 ; i < loop_foreach ; i++) {
+		parse_cmd(env, tmp, ret_value);
+		tmp = convert_tab_to_string(tmp_tab);
+	}
 	ret ? free (ret) : 0;
 	my_free_tab(tmp_tab);
 	return (0);

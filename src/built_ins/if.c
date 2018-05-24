@@ -27,6 +27,8 @@ int check_if(char **s, int *ret_if)
 
 int check_then(char **s)
 {
+	if (!s || !s[4])
+		return (1);
 	if (strcmp(s[4], "then") == 0)
 		return (0);
 	return (1);
@@ -59,7 +61,7 @@ int process_if(char **str, env_t *env)
 			return (1);
 		return (0);
 	}
-	check_then(str) != 0 ?
+	check_then(str) != 0 && str[ret_if] != NULL ?
 	my_exec(str + ret_if, env, (int[2]){0, 1}): 0;
 	return (ret_value);
 }

@@ -56,7 +56,8 @@ int my_exec(char **str, env_t *env, int *fd)
 	waitpid(pid, &status, 0);
 	close(fd[0]);
 	close(fd[1]);
-	if (dup2(save[0], 0) == -1 || dup2(save[1], 1) == -1)
+	if (dup2(save[0], 0) == -1 || dup2(save[1], 1) == -1) {
 		exit(84);
+	}
 	return (check_segfault(status));
 }

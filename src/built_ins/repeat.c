@@ -51,6 +51,7 @@ int process_repeat(char **str, env_t *env)
 	int ret_value_cmd = 0;
 
 	for (int i = 0 ; i != user_loop ; i++) {
+		printf("lol : %d\n", i);
 		my_exec(str + 2, env, (int[2]){0, 1});
 	}
 	return (ret_value_cmd);
