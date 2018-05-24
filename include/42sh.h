@@ -182,17 +182,15 @@ void repeat_func(char **str, env_t *env, int *ret_value);
 void if_func(char **str, env_t *env, int *ret_value);
 void foreach_func(char **str, env_t *env, int *ret_value);
 
-
-// UTILS
-
-int is_alpha_string(char *str);
-void print_tab(char **tab);
-
 //SCRIPTING
 
 void replace_argument(char **parsed, char **arguments, int i);
 void seek_arguments(char **parsed, char **arguments);
 char *replace_arguments(char *buffer, char **arguments);
 int seek_script(env_t *env, char **binary, int *ret_value);
+
+// UTILS
+int is_alpha_string(char *str);
+void print_tab(char **tab);
 
 #endif /* __42sh__ */
