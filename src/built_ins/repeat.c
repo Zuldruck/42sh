@@ -28,8 +28,9 @@ int check_error_handling_repeat(char **str)
 		printf("repeat: Badly formed number.\n");
 		return (1);
 	}
-	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0)
+	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0) {
 		return (2);
+	}
 	return (0);
 }
 
@@ -46,15 +47,12 @@ char **add_special_tab(char **tab, int user_choice)
 
 int process_repeat(char **str, env_t *env)
 {
-	char **tmp_tab = NULL;
 	int user_loop = atoi(str[1]);
 	int ret_value_cmd = 0;
 
-	tmp_tab = add_special_tab(str, 2);
 	for (int i = 0 ; i != user_loop ; i++) {
-		parse_cmd(env, convert_tab_to_string(tmp_tab), &ret_value_cmd);
+		my_exec(str + 2, env, (int[2]){0, 1});
 	}
-	my_free_tab(tmp_tab);
 	return (ret_value_cmd);
 }
 

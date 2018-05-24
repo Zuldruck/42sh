@@ -59,19 +59,18 @@ char *process_foreach(void)
 
 int process_loop_foreach(char *ret, char **str, env_t *env, int *ret_value)
 {
-	char *tmp = NULL;
+	char **tmp_tab = NULL;
 	int loop_foreach = 0;
 
 	if (!ret || !str || !env)
 		return (84);
-	tmp = strdup(ret);
+	tmp_tab = my_str_to_word_array(ret, ';');
 	loop_foreach = my_tablen(str) - 2;
-	for (int i = 0 ; i < loop_foreach ; i++) {
-		parse_cmd(env, tmp, ret_value);
-		tmp = strdup(ret);
-	}
+	(void) ret_value;
+	for (int i = 0 ; i < loop_foreach ; i++)
+		my_exec(tmp_tab, env, (int[2]){0, 1});
 	ret ? free (ret) : 0;
-	tmp ? free (tmp) : 0;
+	my_free_tab(tmp_tab);
 	return (0);
 }
 
