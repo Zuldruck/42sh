@@ -59,4 +59,5 @@ int seek_script(env_t *env, char **binary, int *ret_value)
 		buffer = replace_arguments(buffer, binary);
 		parse_cmd(env, buffer, ret_value);
 	}
+	return (0);
 }
