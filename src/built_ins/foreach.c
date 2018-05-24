@@ -44,7 +44,7 @@ char *process_foreach(void)
 
 	isatty(0) ? write (1, "foreach? ", 9) : 0;
 	input = get_next_line(stdin);
-	while (input != NULL && my_strcmp(input, "end") != 0) {
+	while (input != NULL && my_strcmp(my_clean_str(input), "end") != 0) {
 		last_semicolon++;
 		isatty(0) ? write (1, "foreach? ", 9) : 0;
 		input = my_clean_str(input);
