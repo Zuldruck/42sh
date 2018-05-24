@@ -21,7 +21,7 @@ char *concat_exec(char **str, env_t *env)
 	char *concat = NULL;
 	int i = 0;
 
-	if (!path || !str || !str[0])
+	if (!path || !str || !str[0] || !str[0][0])
 		return (0);
 	while (path[i] != NULL) {
 		concat = my_strcat("/", str[0]);

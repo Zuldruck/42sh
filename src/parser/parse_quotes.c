@@ -56,7 +56,7 @@ void check_recursivity_quote(char ***cmd, char **arg,
 
 char *get_next_arg(char ***cmd, char *arg, int *size, char *quote_char)
 {
-	if (!(*cmd)[0])
+	if (!*cmd || !(*cmd)[0])
 		return (NULL);
 	for (int i = 0; (*cmd[0]) && (*cmd[0])[i]; i++) {
 		if (((*cmd[0])[i] == '"' || (*cmd[0])[i] == '\'')
@@ -84,6 +84,8 @@ char **parse_quotes(char **cmd)
 	char *arg = NULL;
 	char **new = NULL;
 
+	if (!cmd)
+		return (NULL);
 	while ((arg = get_next_arg(&cmd, NULL, &i, &quote_char))) {
 		new = realloc(new, sizeof(char *) * size);
 		new[size - 1] = strdup(arg);
