@@ -69,7 +69,7 @@ int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 	tmp_tab = my_str_to_word_array(my_clean_str(ret), ' ');
 	tmp_tab[my_tablen(tmp_tab)] = NULL;
 	tmp = convert_tab_to_string(tmp_tab);
-	loop_foreach = my_tablen(str) - 2;
+	loop_foreach = count_loop_foreach(str);
 	(void) ret_value;
 	for (int i = 0 ; i < loop_foreach ; i++) {
 		parse_cmd(shell, tmp, ret_value);

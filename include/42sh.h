@@ -198,6 +198,7 @@ void set_func(char **str, shell_t shell, int *ret_value);
 void unset_func(char **str, shell_t shell, int *ret_value);
 void alias_func(char **str, shell_t shell, int *ret_value);
 void unalias_func(char **str, shell_t shell, int *ret_value);
+int count_loop_foreach(char **str);
 
 //SCRIPTING
 
