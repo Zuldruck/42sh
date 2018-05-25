@@ -14,7 +14,7 @@ int main(int ac, char **av, char **envp)
 	env_t *my_env = NULL;
 	shell_t shell = {.env = my_env, .aliases = lla, .local_var = lvar};
 	int ret = 0;
-	
+
 	(void) av;
 	if (ac != 1)
 		return (84);

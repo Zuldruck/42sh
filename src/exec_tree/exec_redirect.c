@@ -17,7 +17,8 @@ void exec_right_redirect(btree_t *redirect, shell_t shell, int *ret_value)
 	close(fd);
 }
 
-void exec_double_right_redirect(btree_t *redirect, shell_t shell, int *ret_value)
+void exec_double_right_redirect(btree_t *redirect, shell_t shell,
+								int *ret_value)
 {
 	int fd = open(redirect->right->cmd,
 					O_WRONLY | O_CREAT | O_APPEND, 00664);
