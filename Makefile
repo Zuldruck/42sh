@@ -49,6 +49,7 @@ SRC	= 	src/main.c						\
 		src/parser/parsing_pipes_and_redirections.c		\
 		src/parser/error_handling.c				\
 		src/parser/parse_quotes.c				\
+		src/parser/inhibitors.c					\
 		src/parser/globbing/glob.c				\
 		src/parser/globbing/process/process_glob.c		\
 		src/parser/globbing/process/process_parser_glob.c	\

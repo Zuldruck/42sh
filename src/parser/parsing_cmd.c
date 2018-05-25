@@ -50,8 +50,10 @@ void free_tree(btree_t *tree)
 
 void parse_cmd(shell_t shell, char *cmd, int *ret_value)
 {
-	btree_t *node = create_btree_node(my_clean_str(cmd), NULL);
+	btree_t *node = NULL;
 
+	parse_inhibitors(&cmd);
+	node = create_btree_node(my_clean_str(cmd), NULL);
 	free(cmd);
 	if (check_bad_quotes(node->cmd)
 	|| parse_env_variables(&(node->cmd), shell.env)

@@ -121,6 +121,7 @@ void exec_double_left_redirect(btree_t *tree, shell_t shell, int *ret_value);
 int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
 int parse_env_variables(char **str, env_t *env);
+void parse_inhibitors(char **str);
 int check_quotes(char *cmd, int i);
 int check_bad_quotes(char *cmd);
 int is_a_built_in(char *str);
@@ -130,7 +131,6 @@ void update_iterator(char *str, int *i, bool *d_quote);
 void update_iterator_for_quotes(char *str, int *i);
 
 // GLOBBING
-
 int process_globbing(char **cmd);
 char *convert_tab_to_string(char **tab);
 int check_glob(char *cmd);
