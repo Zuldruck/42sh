@@ -56,8 +56,13 @@ int seek_script(shell_t shell, char **binary, int *ret_value)
 	if (!binary || !binary[0])
 		return (1);
 	file = fopen(binary[0], "r");
-	if (!file)
+	if (!file || !(buffer = get_next_line(file))
+	|| (buffer[1] == 'E' && buffer[2] == 'L' && buffer[3] == 'F'))
 		return (1);
+	buffer = replace_arguments(buffer, binary);
+	if (!buffer)
+		return (0);
+	parse_cmd(shell, buffer, ret_value);
 	while ((buffer = get_next_line(file))) {
 		buffer = replace_arguments(buffer, binary);
 		if (!buffer)

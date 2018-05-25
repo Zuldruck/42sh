@@ -72,7 +72,7 @@ int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 	loop_foreach = my_tablen(str) - 2;
 	(void) ret_value;
 	for (int i = 0 ; i < loop_foreach ; i++) {
-		parse_cmd(env, tmp, ret_value);
+		parse_cmd(shell, tmp, ret_value);
 		tmp = convert_tab_to_string(tmp_tab);
 	}
 	ret ? free (ret) : 0;
