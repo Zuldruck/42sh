@@ -12,7 +12,6 @@ int check_segfault(int loc)
 	int a = 0;
 	int ret = 0;
 
-	ret = WEXITSTATUS(loc);
 	if (WTERMSIG(loc) == SIGSEGV) {
 		my_printf("Segmentation fault");
 		ret = 139;
