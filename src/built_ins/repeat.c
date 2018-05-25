@@ -24,12 +24,12 @@ int check_error_handling_repeat(char **str)
 		printf("repeat: Too few arguments.\n");
 		return (1);
 	}
+	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0) {
+		return (2);
+	}
 	if (is_alpha_string(str[1]) == 1) {
 		printf("repeat: Badly formed number.\n");
 		return (1);
-	}
-	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0) {
-		return (2);
 	}
 	return (0);
 }
