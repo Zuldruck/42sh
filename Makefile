@@ -50,6 +50,7 @@ SRC	= 	src/main.c						\
 		src/parser/globbing/glob.c				\
 		src/parser/globbing/process/process_glob.c		\
 		src/parser/globbing/process/process_parser_glob.c	\
+		src/parser/globbing/process/error_glob.c	\
 		src/set_pipefd.c					\
 		src/exec_tree/exec_tree.c				\
 		src/exec_tree/exec_pipe.c				\
