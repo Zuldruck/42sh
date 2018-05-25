@@ -51,9 +51,9 @@ void		print_alias(ll_alias_t *n)
 {
 	for (ll_alias_t *tmp = n->next; tmp; tmp = tmp->next) {
 		if (tmp->par == 0)
-			printf("%s\t%s\n", tmp->name, tmp->alias);
+			my_printf("%s\t%s\n", tmp->name, tmp->alias);
 		else
-			printf("%s\t(%s)\n", tmp->name, tmp->alias);
+			my_printf("%s\t(%s)\n", tmp->name, tmp->alias);
 	}
 
 }

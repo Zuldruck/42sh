@@ -69,6 +69,6 @@ void print_lvar(ll_lvar_t *lvar)
 {
 	sort_lvar(lvar);
 	for (ll_lvar_t *tmp = lvar->next; tmp; tmp = tmp->next) {
-		printf("%s\t%s\n", tmp->name, tmp->value);
+		my_printf("%s\t%s\n", tmp->name, tmp->value);
 	}
 }
