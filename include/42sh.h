@@ -23,6 +23,7 @@ typedef struct env_s env_t;
 typedef struct btree_s btree_t;
 typedef struct ll_alias_s ll_alias_t;
 typedef struct ll_lvar_s ll_lvar_t;
+typedef struct error_var_s error_var_t;
 
 typedef struct error_var_s
 {
@@ -137,6 +138,11 @@ char *parse_glob(char *cmd, int clean);
 int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
+void replace_ref(char **cmd, error_var_t *int_value, char **ref_tab);
+int check_no_match(error_var_t *int_value, char **ref_tab, char **cmd);
+void clear_string_pointer(char **string, char user_choice);
+void add_new_value_from_glob(char **tab, char **cmd, char *ref);
+int check_whereis_ref(char **tab , char *ref);
 
 //ALIAS
 void synchro_with_file(ll_alias_t *n);
@@ -192,6 +198,7 @@ void set_func(char **str, shell_t shell, int *ret_value);
 void unset_func(char **str, shell_t shell, int *ret_value);
 void alias_func(char **str, shell_t shell, int *ret_value);
 void unalias_func(char **str, shell_t shell, int *ret_value);
+int count_loop_foreach(char **str);
 
 //SCRIPTING
 

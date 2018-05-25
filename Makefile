@@ -33,6 +33,7 @@ SRC	= 	src/main.c						\
 		src/built_ins/where.c					\
 		src/built_ins/which.c					\
 		src/built_ins/foreach.c					\
+		src/built_ins/utils_foreach.c					\
 		src/linked_list.c					\
 		src/exec.c						\
 		src/get_env_var.c					\
@@ -50,6 +51,7 @@ SRC	= 	src/main.c						\
 		src/parser/globbing/glob.c				\
 		src/parser/globbing/process/process_glob.c		\
 		src/parser/globbing/process/process_parser_glob.c	\
+		src/parser/globbing/process/error_glob.c	\
 		src/set_pipefd.c					\
 		src/exec_tree/exec_tree.c				\
 		src/exec_tree/exec_pipe.c				\

@@ -15,27 +15,14 @@ int check_whereis_ref(char **tab , char *ref)
 	return (0);
 }
 
-void add_new_value_from_glob(char **tab, char **cmd, char *ref)
-{
-	char **tab_tmp = my_str_to_word_array(*cmd, ' ');
-	char *ret_convert = NULL;
-	int pos_ref = check_whereis_ref(tab_tmp, ref);
-
-	ret_convert = convert_tab_to_string(tab);
-	tab_tmp[pos_ref] = strdup(ret_convert);
-	*cmd = convert_tab_to_string(tab_tmp);
-	free (ret_convert);
-	my_free_tab(tab_tmp);
-}
-
 void loop_glob(char **cmd, int retval, glob_t *paths,
 error_var_t *int_value)
 {
 	char *ref = NULL;
 	char **ref_tab = my_str_to_word_array(*cmd, 32);
 
+	ref = parse_glob(*cmd, 2);
 	if (retval == 0) {
-		ref = parse_glob(*cmd, 2);
 		add_new_value_from_glob(paths->gl_pathv, cmd,
 		ref);
 		free (ref);
@@ -43,11 +30,7 @@ error_var_t *int_value)
 		my_free_tab(ref_tab);
 		int_value->check_passed_at_least_one_tour += 1;
 	} else {
-		int_value->check_passed_at_least_one_tour != 1
-		&& int_value->check_error_nomatch != 1
-		&& check_brackets(*cmd) != 1 ? printf("%s: No match.\n",
-		ref_tab[0]), int_value->check_error_nomatch = 1 : 0;
-		check_brackets(*cmd) != 1 ? int_value->check_error = 1 : 0;
+		replace_ref(cmd, int_value, ref_tab);
 		my_free_tab(ref_tab);
 	}
 }
@@ -92,8 +75,11 @@ int process_glob(char **cmd)
 	paths.gl_pathv = NULL;
 	paths.gl_offs = 0;
 	body_glob(&paths, cmd, int_value);
-	if (int_value->check_error != 0)
+	if (int_value->check_error != 0) {
 		int_value->check_error = 0;
+		return (1);
+	}
+	*cmd = my_clean_str(*cmd);
 	free (int_value);
 	return (0);
 }
