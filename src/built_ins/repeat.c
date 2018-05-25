@@ -44,7 +44,7 @@ char **add_special_tab(char **tab, int user_choice)
 	return (tmp);
 }
 
-int process_repeat(char **str, env_t *env)
+int process_repeat(char **str, shell_t shell)
 {
 	char **tmp_tab = NULL;
 	int user_loop = atoi(str[1]);
@@ -52,17 +52,18 @@ int process_repeat(char **str, env_t *env)
 
 	tmp_tab = add_special_tab(str, 2);
 	for (int i = 0 ; i != user_loop ; i++) {
-		parse_cmd(env, convert_tab_to_string(tmp_tab), &ret_value_cmd);
+		parse_cmd(shell, convert_tab_to_string(tmp_tab),
+								&ret_value_cmd);
 	}
 	my_free_tab(tmp_tab);
 	return (ret_value_cmd);
 }
 
-void repeat_func(char **str, env_t *env, int *ret_value)
+void repeat_func(char **str, shell_t shell, int *ret_value)
 {
 	int ret = 0;
 
-	if (!str || !env) {
+	if (!str) {
 		*ret_value = 1;
 		return;
 	}
@@ -70,7 +71,7 @@ void repeat_func(char **str, env_t *env, int *ret_value)
 		ret != 2 ? *ret_value = 1 : 0;
 		return;
 	}
-	if (str[0] && str[1] && process_repeat(str, env) != 0) {
+	if (str[0] && str[1] && process_repeat(str, shell) != 0) {
 		*ret_value = 1;
 		return;
 	}

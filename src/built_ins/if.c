@@ -66,7 +66,7 @@ int process_if(char **str, env_t *env)
 	return (ret_value);
 }
 
-void if_func(char **str, env_t *env, int *ret_value)
+void if_func(char **str, shell_t shell, int *ret_value)
 {
 	if (!str) {
 		*ret_value = 1;
@@ -76,7 +76,7 @@ void if_func(char **str, env_t *env, int *ret_value)
 		*ret_value = 1;
 		return;
 	}
-	if (process_if(str, env) != 0) {
+	if (process_if(str, shell.env) != 0) {
 		*ret_value = 0;
 		return;
 	}

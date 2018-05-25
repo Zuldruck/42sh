@@ -54,7 +54,7 @@ int is_a_built_in(char *str)
 	return (0);
 }
 
-int check_built_ins(char **str, env_t *env, int *ret_value, int *fd)
+int check_built_ins(char **str, shell_t shell, int *ret_value, int *fd)
 {
 	int save[2];
 
@@ -65,7 +65,7 @@ int check_built_ins(char **str, env_t *env, int *ret_value, int *fd)
 	for (int i = 0; built_ins[i].name; i++) {
 		if (str && !my_strcmp(str[0], built_ins[i].name)) {
 			process_dups(fd);
-			built_ins[i].fptr(str, env, ret_value);
+			built_ins[i].fptr(str, shell, ret_value);
 			reset_fd(fd, save);
 			return (0);
 		}

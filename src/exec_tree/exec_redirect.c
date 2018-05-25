@@ -7,27 +7,27 @@
 
 #include "42sh.h"
 
-void exec_right_redirect(btree_t *redirect, env_t *env, int *ret_value)
+void exec_right_redirect(btree_t *redirect, shell_t shell, int *ret_value)
 {
 	int fd = open(redirect->right->cmd,
 					O_WRONLY | O_TRUNC | O_CREAT, 00664);
 
 	redirect->left->fd[1] = fd;
-	exec_tree(redirect->left, env, ret_value);
+	exec_tree(redirect->left, shell, ret_value);
 	close(fd);
 }
 
-void exec_double_right_redirect(btree_t *redirect, env_t *env, int *ret_value)
+void exec_double_right_redirect(btree_t *redirect, shell_t shell, int *ret_value)
 {
 	int fd = open(redirect->right->cmd,
 					O_WRONLY | O_CREAT | O_APPEND, 00664);
 
 	redirect->left->fd[1] = fd;
-	exec_tree(redirect->left, env, ret_value);
+	exec_tree(redirect->left, shell, ret_value);
 	close(fd);
 }
 
-void exec_left_redirect(btree_t *redirect, env_t *env, int *ret_value)
+void exec_left_redirect(btree_t *redirect, shell_t shell, int *ret_value)
 {
 	int fd = open(redirect->right->cmd, O_RDONLY);
 
@@ -38,6 +38,6 @@ void exec_left_redirect(btree_t *redirect, env_t *env, int *ret_value)
 		return;
 	}
 	redirect->left->fd[0] = fd;
-	exec_tree(redirect->left, env, ret_value);
+	exec_tree(redirect->left, shell, ret_value);
 	close(fd);
 }

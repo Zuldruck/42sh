@@ -24,7 +24,7 @@ void unset_var(env_t *env, char *var)
 	}
 }
 
-void unsetenv_func(char **str, env_t *env, int *ret_value)
+void unsetenv_func(char **str, shell_t shell, int *ret_value)
 {
 	int i = 1;
 
@@ -33,7 +33,7 @@ void unsetenv_func(char **str, env_t *env, int *ret_value)
 		*ret_value = 1;
 	} else {
 		while (str[i] != NULL) {
-			unset_var(env, str[i]);
+			unset_var(shell.env, str[i]);
 			i++;
 		}
 	}
