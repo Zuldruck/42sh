@@ -92,11 +92,8 @@ int process_glob(char **cmd)
 	paths.gl_pathv = NULL;
 	paths.gl_offs = 0;
 	body_glob(&paths, cmd, int_value);
-	if (int_value->check_error != 0) {
+	if (int_value->check_error != 0)
 		int_value->check_error = 0;
-		free (int_value);
-		return (1);
-	}
 	free (int_value);
 	return (0);
 }
