@@ -12,7 +12,7 @@ int is_alpha_string(char *str)
 	if (!str)
 		return (1);
 	for (int i = 0 ; str[i] ; i++) {
-		if (isalpha(str[i]))
+		if (isdigit(str[i]) == 0)
 			return (1);
 	}
 	return (0);

@@ -7,13 +7,24 @@
 
 #include "42sh.h"
 
+int my_str_is_alphanum(char *str)
+{
+	if (!str)
+		return (1);
+	for (int i = 0 ; str[i] ; i++) {
+		if (isalnum(str[i]) == 0)
+			return (0);
+	}
+	return (1);
+}
+
 int check_error_handling_foreach(char **str)
 {
 	if (my_tablen(str) < 3) {
 		printf("foreach: Too few arguments.\n");
 		return (1);
 	}
-	if (is_alpha_string(str[1]) != 1) {
+	if (my_str_is_alphanum(str[1]) != 1) {
 		printf("foreach: Variable name must begin with a letter.\n");
 		return (1);
 	}
@@ -53,8 +64,7 @@ char *process_foreach(void)
 		if ((input = get_next_line(stdin)) == NULL)
 			break;
 	}
-	if ((res = add_last_char(res, last_semicolon)) == NULL)
-		return (NULL);
+	res = add_last_char(res, last_semicolon);
 	return (res);
 }
 
