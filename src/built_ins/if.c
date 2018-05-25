@@ -7,6 +7,8 @@
 
 #include "42sh.h"
 
+int process_if(char **str, env_t *env);
+
 int check_if(char **s, int *ret_if)
 {
 	int ret = 0;
@@ -25,39 +27,13 @@ int check_if(char **s, int *ret_if)
 	return (ret);
 }
 
-int check_then(char **s)
-{
-	if (!s || !s[4])
-		return (1);
-	if (strcmp(s[4], "then") == 0)
-		return (0);
-	return (1);
-}
-
-int check_then_if(char **s)
-{
-	char *input = NULL;
-
-	if (check_then(s) != 0)
-		return (0);
-	isatty(0) ? write (1, "if? ", 4) : 0;
-	if ((input = get_next_line(stdin)) == NULL)
-		return (1);
-	while (input != NULL && my_strcmp(input, "endif") != 0) {
-		isatty(0) ? write (1, "if? ", 4) : 0;
-		if ((input = get_next_line(stdin)) == NULL)
-			return (1);
-	}
-	return (0);
-}
-
 int process_if(char **str, env_t *env)
 {
 	int ret_value = 0;
 	int ret_if = 0;
 
 	if (check_if(str, &ret_if) != 1) {
-		if (check_then_if(str) != 0)
+		if (check_then_if(str, env) != 0)
 			return (1);
 		return (0);
 	}

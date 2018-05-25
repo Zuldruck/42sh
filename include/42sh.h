@@ -217,5 +217,9 @@ int check_only_number(char **s, int *ret_if);
 int check_error_handling_if(char **str);
 int check_tab_len_if(char **s);
 int is_if_error(char **s);
+int check_then_if(char **s, env_t *env);
+int process_then(char *str, env_t *env);
+int check_then(char **s);
+int process_if(char **str, env_t *env);
 
 #endif /* __42sh__ */
