@@ -7,16 +7,16 @@
 
 #include "42sh.h"
 
-void read_tmp_file(btree_t *redirect, env_t *env, int *ret_value)
+void read_tmp_file(btree_t *redirect, shell_t shell, int *ret_value)
 {
 	int fd = open(".tmp_redirect/tmp_a839", O_RDONLY);
 
 	redirect->left->fd[0] = fd;
-	exec_tree(redirect->left, env, ret_value);
+	exec_tree(redirect->left, shell, ret_value);
 	close(fd);
 }
 
-void exec_double_left_redirect(btree_t *redirect, env_t *env, int *ret_value)
+void exec_double_left_redirect(btree_t *redirect, shell_t shell, int *ret_value)
 {
 	char *str = NULL;
 	int fd = open(".tmp_redirect/tmp_a839", O_RDWR | O_TRUNC);
@@ -34,5 +34,5 @@ void exec_double_left_redirect(btree_t *redirect, env_t *env, int *ret_value)
 	if (str)
 		free(str);
 	close(fd);
-	read_tmp_file(redirect, env, ret_value);
+	read_tmp_file(redirect, shell, ret_value);
 }

@@ -7,8 +7,10 @@
 
 #include "42sh.h"
 
-void env_func(char **str, env_t *env, int *ret_value)
+void env_func(char **str, shell_t shell, int *ret_value)
 {
+	env_t *env = shell.env;
+
 	if (str && str[1] != NULL) {
 		my_printf("env: Expression Syntax.\n");
 		*ret_value = 1;

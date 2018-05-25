@@ -17,7 +17,7 @@ void process_args_echo(char **str)
 	}
 }
 
-void echo_func(char **str, __attribute__((unused))env_t *env, int *ret_value)
+void echo_func(char **str, __attribute__((unused))shell_t shell, int *ret_value)
 {
 	if (!str) {
 		*ret_value = 84;
