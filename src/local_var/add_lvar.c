@@ -47,7 +47,7 @@ void add_valid_lvar(ll_lvar_t *lvar, char **str, int i, int *ret_value)
 			return;
 		}
 		create_lvar(get_lvar_one(str[i]),
-			    get_lvar_two(str[i]), lvar);
+						get_lvar_two(str[i]), lvar);
 	} else
 		create_lvar(get_lvar_one(str[i]), " ", lvar);
 }
@@ -63,7 +63,7 @@ void set_func(char **str, shell_t shell, int *ret_value)
 			add_valid_lvar(shell.local_var, str, i, ret_value);
 		} else {
 			printf("%s: Variable name must begin with a letter.\n",
-			       str[0]);
+									str[0]);
 			*ret_value = 1;
 			break;
 		}
