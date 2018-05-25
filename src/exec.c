@@ -12,7 +12,7 @@ int exec_error_handling(char **str, env_t *env)
 	if (!str || !str[0])
 		return (1);
 	if (access(str[0], F_OK) == 0
-	&& (access(str[0], X_OK) == -1 || opendir(str[0]) != NULL)
+	&& (access(str[0], X_OK) == -1 || opendir(str[0]))
 	&& !concat_exec(str, env)) {
 		my_printf("%s: Permission denied.\n", str[0]);
 		return (1);

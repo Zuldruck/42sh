@@ -59,15 +59,14 @@ int parse_env_variables(char **str, env_t *env)
 	char *var_name = NULL;
 	bool d_quote = 0;
 
-	if (!str)
-		return (0);
 	for (int i = 0; *str && (*str)[i]; i++) {
 		update_iterator(*str, &i, &d_quote);
-		if ((*str)[i] == '$' && (*str)[i + 1]
+		if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] != ' '
 		&& !is_a_env_value(env, (*str) + i)) {
 			my_printf("%s: Undefined variable.\n", (*str) + i + 1);
 			return (1);
-		} else if ((*str)[i] == '$' && (*str)[i + 1]) {
+		} else if ((*str)[i] == '$' && (*str)[i + 1]
+		&& (*str)[i + 1] != ' ') {
 			var_name = get_var_name(*str + i + 1);
 			new_str = strndup(*str, i);
 			*str = get_str_with_env(env, var_name, new_str, str);
