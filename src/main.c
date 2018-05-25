@@ -7,27 +7,14 @@
 
 #include "42sh.h"
 
-void sig_handler(int sig_num)
-{
-	if (sig_num == SIGINT) {
-		my_putchar('\n');
-		print_prompt(global_env);
-	} else if (sig_num == SIGSEGV) {
-		my_printf("Error.\n");
-		exit(84);
-	} else if (sig_num == SIGPIPE) {
-		my_printf("Error.\n");
-		exit(84);
-	}
-}
-
 int main(int ac, char **av, char **envp)
 {
+	ll_alias_t *lla = init_lla();
+	ll_lvar_t *lvar = init_lvar();
 	env_t *my_env = NULL;
+	shell_t shell = {.env = my_env, .aliases = lla, .local_var = lvar};
 	int ret = 0;
-
-	lla = init_lla();
-	lvar = init_lvar();
+	
 	(void) av;
 	if (ac != 1)
 		return (84);
@@ -35,6 +22,7 @@ int main(int ac, char **av, char **envp)
 		my_env = fill_my_env(my_env);
 	else
 		my_env = create_list(envp);
-	my_loop(my_env, ret);
+	shell.env = my_env;
+	my_loop(shell, ret);
 	return (0);
 }

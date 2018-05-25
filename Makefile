@@ -5,57 +5,62 @@
 ## Makefile
 ##
 
-SRC	= 	src/main.c					\
-		src/local_var/add_lvar.c			\
-		src/local_var/create_lvar.c			\
-		src/local_var/sort_lvar.c			\
-		src/local_var/too_deep.c			\
-		src/local_var/unset.c				\
-		src/alias/unalias.c				\
-		src/alias/alias.c				\
-		src/alias/alias_loop.c				\
-		src/alias/create_alias.c			\
-		src/alias/get_alias.c				\
-		src/alias/sort_alias.c				\
-		src/loop.c					\
-		src/prompt.c					\
-		src/concat_exec.c				\
-		src/built_ins/check_built_ins.c			\
-		src/built_ins/cd.c				\
-		src/built_ins/exit.c				\
-		src/built_ins/setenv.c				\
-		src/built_ins/unsetenv.c			\
-		src/built_ins/env.c				\
-		src/built_ins/echo.c				\
-		src/built_ins/repeat.c				\
-		src/built_ins/if.c				\
-		src/built_ins/where.c				\
-		src/built_ins/which.c				\
-		src/built_ins/foreach.c				\
-		src/linked_list.c				\
-		src/exec.c					\
-		src/get_env_var.c				\
-		src/verif_env.c					\
-		src/check_segfault.c				\
-		src/create_env.c				\
-		src/pwd_changes.c				\
-		src/binary_tree.c				\
-		src/parser/parsing_cmd.c			\
-		src/parser/parsing_or.c				\
-		src/parser/parsing_and.c			\
-		src/parser/parsing_pipes_and_redirections.c	\
-		src/parser/error_handling.c			\
-		src/parser/parse_quotes.c			\
-		src/parser/globbing/glob.c			\
+SRC	= 	src/main.c						\
+		src/sig.c						\
+		src/local_var/add_lvar.c				\
+		src/local_var/create_lvar.c				\
+		src/local_var/sort_lvar.c				\
+		src/local_var/too_deep.c				\
+		src/local_var/unset.c					\
+		src/alias/unalias.c					\
+		src/alias/alias.c					\
+		src/alias/alias_loop.c					\
+		src/alias/create_alias.c				\
+		src/alias/get_alias.c					\
+		src/alias/sort_alias.c					\
+		src/loop.c						\
+		src/prompt.c						\
+		src/concat_exec.c					\
+		src/built_ins/check_built_ins.c				\
+		src/built_ins/cd.c					\
+		src/built_ins/exit.c					\
+		src/built_ins/setenv.c					\
+		src/built_ins/unsetenv.c				\
+		src/built_ins/env.c					\
+		src/built_ins/echo.c					\
+		src/built_ins/repeat.c					\
+		src/built_ins/if.c					\
+		src/built_ins/where.c					\
+		src/built_ins/which.c					\
+		src/built_ins/foreach.c					\
+		src/built_ins/utils_foreach.c					\
+		src/linked_list.c					\
+		src/exec.c						\
+		src/get_env_var.c					\
+		src/verif_env.c						\
+		src/check_segfault.c					\
+		src/create_env.c					\
+		src/pwd_changes.c					\
+		src/binary_tree.c					\
+		src/parser/parsing_cmd.c				\
+		src/parser/parsing_or.c					\
+		src/parser/parsing_and.c				\
+		src/parser/parsing_pipes_and_redirections.c		\
+		src/parser/error_handling.c				\
+		src/parser/parse_quotes.c				\
+		src/parser/globbing/glob.c				\
 		src/parser/globbing/process/process_glob.c		\
 		src/parser/globbing/process/process_parser_glob.c	\
-		src/set_pipefd.c				\
-		src/exec_tree/exec_tree.c			\
-		src/exec_tree/exec_pipe.c			\
-		src/exec_tree/exec_redirect.c			\
-		src/exec_tree/exec_separator.c			\
-		src/exec_tree/exec_double_left_redirect.c	\
-		src/parser/parse_env_variables.c		\
+		src/parser/globbing/process/error_glob.c	\
+		src/set_pipefd.c					\
+		src/exec_tree/exec_tree.c				\
+		src/exec_tree/exec_pipe.c				\
+		src/exec_tree/exec_redirect.c				\
+		src/exec_tree/exec_separator.c				\
+		src/exec_tree/exec_double_left_redirect.c		\
+		src/parser/parse_env_variables.c			\
+		src/scripting.c						\
+		src/error_handling_if.c					\
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -75,6 +80,10 @@ FLAGS		=	-L./lib/my -lmy
 CFLAGS		=	-I./include
 
 all:	prepare_lib $(NAME)
+
+tests_run: prepare_lib
+	make -C tests/
+	tests/unit-tests
 
 prepare_lib:
 	make -C lib/my

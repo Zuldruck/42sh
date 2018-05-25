@@ -12,7 +12,7 @@ int is_alpha_string(char *str)
 	if (!str)
 		return (1);
 	for (int i = 0 ; str[i] ; i++) {
-		if (isalpha(str[i]))
+		if (isdigit(str[i]) == 0)
 			return (1);
 	}
 	return (0);
@@ -24,12 +24,13 @@ int check_error_handling_repeat(char **str)
 		printf("repeat: Too few arguments.\n");
 		return (1);
 	}
+	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0) {
+		return (2);
+	}
 	if (is_alpha_string(str[1]) == 1) {
 		printf("repeat: Badly formed number.\n");
 		return (1);
 	}
-	if (atoi(str[1]) >= INT_MAX || atoi(str[1]) < 0)
-		return (2);
 	return (0);
 }
 
@@ -46,23 +47,20 @@ char **add_special_tab(char **tab, int user_choice)
 
 int process_repeat(char **str, env_t *env)
 {
-	char **tmp_tab = NULL;
 	int user_loop = atoi(str[1]);
 	int ret_value_cmd = 0;
 
-	tmp_tab = add_special_tab(str, 2);
 	for (int i = 0 ; i != user_loop ; i++) {
-		parse_cmd(env, convert_tab_to_string(tmp_tab), &ret_value_cmd);
+		my_exec(str + 2, env, (int[2]){0, 1});
 	}
-	my_free_tab(tmp_tab);
 	return (ret_value_cmd);
 }
 
-void repeat_func(char **str, env_t *env, int *ret_value)
+void repeat_func(char **str, shell_t shell, int *ret_value)
 {
 	int ret = 0;
 
-	if (!str || !env) {
+	if (!str) {
 		*ret_value = 1;
 		return;
 	}
@@ -70,7 +68,7 @@ void repeat_func(char **str, env_t *env, int *ret_value)
 		ret != 2 ? *ret_value = 1 : 0;
 		return;
 	}
-	if (str[0] && str[1] && process_repeat(str, env) != 0) {
+	if (str[0] && str[1] && process_repeat(str, shell.env) != 0) {
 		*ret_value = 1;
 		return;
 	}

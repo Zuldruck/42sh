@@ -43,12 +43,10 @@ int check_too_deep(char *str)
 
 	if (str[0] != '=')
 		return (0);
-	else {
-		while (str[i] != 0) {
-			if (is_int(str[i]) == 0)
-				letter = 1;
-			i++;
-		}
+	while (str[i] != 0) {
+		if (is_int(str[i]) == 0)
+			letter = 1;
+		i++;
 	}
 	if (letter == 0)
 		return (1);

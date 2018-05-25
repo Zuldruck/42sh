@@ -10,6 +10,7 @@
 int check_brackets(char *cmd)
 {
 	for (int i = 0 ; cmd[i] ; i++) {
+		update_iterator_for_quotes(cmd, &i);
 		if (cmd[i] == '[' && cmd[i + 1] == ']')
 			return (1);
 	}
@@ -20,10 +21,12 @@ int check_glob_ref(char *cmd)
 {
 	if (!cmd)
 		return (84);
-	for (int i = 0 ; cmd[i] ; i++)
+	for (int i = 0 ; cmd[i] ; i++) {
+		update_iterator_for_quotes(cmd, &i);
 		if (cmd[i] == '*' || cmd[i] == '?' || cmd[i] == '['
 		|| cmd[i] == ']')
 			return (1);
+	}
 	return (0);
 }
 
@@ -60,9 +63,10 @@ int count_glob(char *cmd)
 	if (!cmd)
 		exit (84);
 	tab_cmd = my_str_to_word_array(cmd, 32);
-	for (int i = 0 ; tab_cmd[i] ; i++)
+	for (int i = 0 ; tab_cmd[i] ; i++) {
 		if (check_glob_ref(tab_cmd[i]) == 1)
 			wildcard++;
+	}
 	my_free_tab(tab_cmd);
 	return (wildcard);
 }

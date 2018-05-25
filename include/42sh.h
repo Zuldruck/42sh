@@ -11,16 +11,26 @@
 #include "my.h"
 #include <glob.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #define PATH_42SH ".42shrc"
 #define UNUSED(x) (void)(x)
 #define FILE_TOO_LONG ("%s: File name too long.\n")
 #define N_MAX 255
 
+typedef struct shell_s shell_t;
 typedef struct env_s env_t;
 typedef struct btree_s btree_t;
 typedef struct ll_alias_s ll_alias_t;
 typedef struct ll_lvar_s ll_lvar_t;
+typedef struct error_var_s error_var_t;
+
+typedef struct error_var_s
+{
+	int check_error;
+	int check_passed_at_least_one_tour;
+	int check_error_nomatch;
+} error_var_t;
 
 typedef struct ll_alias_s
 {
@@ -36,6 +46,12 @@ typedef struct ll_lvar_s
 	char *value;
 	ll_lvar_t *next;
 } ll_lvar_t;
+
+typedef struct shell_s {
+	env_t *env;
+	ll_alias_t *aliases;
+	ll_lvar_t *local_var;
+} shell_t;
 
 typedef struct env_s {
 	char *name;
@@ -53,37 +69,28 @@ typedef struct btree_s {
 
 typedef struct operator_s {
 	char *op;
-	void (*fptr)(btree_t *, env_t *, int *);
+	void (*fptr)(btree_t *, shell_t, int *);
 } operator_t;
 
 typedef struct builtin_s {
 	char *name;
-	void (*fptr)(char **, env_t *, int *);
+	void (*fptr)(char **, shell_t, int *);
 } builtin_t;
 
 env_t *global_env;
-ll_alias_t *lla;
-ll_lvar_t *lvar;
 
+void sig_handler(int sig_num);
 int count_args(char **cmd);
 void display_args(char **cmd);
 char *get_line(void);
-void my_loop(env_t *env, int);
+void my_loop(shell_t shell, int);
 char *get_dir(env_t *env);
 int my_exec(char **cmd, env_t *env, int *ret_value);
 void my_exec_pipe(btree_t *, env_t *env, int *ret_value, int *fd);
 void print_prompt(env_t *env);
 char *concat_exec(char **cmd, env_t *env);
-int check_built_ins(char **cmd, env_t *env, int *ret_value, int *fd);
-void unsetenv_func(char **cmd, env_t *env, int *ret_value);
-void cd_func(char **cmd, env_t *env, int *ret_value);
-void where_func(char **cmd, env_t *env, int *ret_value);
-void which_func(char **cmd, env_t *env, int *ret_value);
-void exit_func(char **cmd, env_t *env, int *ret_value);
-void setenv_func(char **cmd, env_t *env, int *ret_value);
-void echo_func(char **cmd, env_t *env, int *ret_value);
 env_t *create_list(char **cmd);
-void env_func(char **cmd, env_t *env, int *ret_value);
+void env_func(char **cmd, shell_t shell, int *ret_value);
 char **list_to_2d_arr(env_t *env);
 char *get_env(env_t *env, char *);
 int find_command_size(char **cmd);
@@ -95,28 +102,32 @@ void free_list(env_t *env);
 void change_pwd(env_t *env);
 void free_btree_node(btree_t *);
 btree_t *create_btree_node(char *, char *);
-void parse_cmd(env_t *env, char *, int *ret_value);
+void parse_cmd(shell_t shell, char *, int *ret_value);
 void display_btree(btree_t *tree);
 int parse_cmd_for_pipes_and_redirections(btree_t *tree);
 int parse_cmd_for_semicolon(btree_t *tree);
 int parse_cmd_for_and(btree_t *node);
 int parse_cmd_for_or(btree_t *node);
-void exec_tree(btree_t *tree, env_t *env, int *ret_value);
+void exec_tree(btree_t *tree, shell_t shell, int *ret_value);
 int set_pipefd(btree_t *tree);
-void exec_semicolon(btree_t *tree, env_t *env, int *ret_value);
-void exec_double_and(btree_t *tree, env_t *env, int *ret_value);
-void exec_double_or(btree_t *tree, env_t *env, int *ret_value);
-void exec_pipe(btree_t *tree, env_t *env, int *ret_value);
-void exec_right_redirect(btree_t *tree, env_t *env, int *ret_value);
-void exec_double_right_redirect(btree_t *tree, env_t *env, int *ret_value);
-void exec_left_redirect(btree_t *tree, env_t *env, int *ret_value);
-void exec_double_left_redirect(btree_t *tree, env_t *env, int *ret_value);
+void exec_semicolon(btree_t *tree, shell_t shell, int *ret_value);
+void exec_double_and(btree_t *tree, shell_t shell, int *ret_value);
+void exec_double_or(btree_t *tree, shell_t shell, int *ret_value);
+void exec_pipe(btree_t *tree, shell_t shell, int *ret_value);
+void exec_right_redirect(btree_t *tree, shell_t shell, int *ret_value);
+void exec_double_right_redirect(btree_t *tree, shell_t shell, int *ret_value);
+void exec_left_redirect(btree_t *tree, shell_t shell, int *ret_value);
+void exec_double_left_redirect(btree_t *tree, shell_t shell, int *ret_value);
 int redirect_error_handling(int, char **cmd, env_t *env, int *ret_value);
 int btree_error_handling(btree_t *tree, int);
-int parse_env_variables(char **cmd, env_t *env, int *ret_value);
+int parse_env_variables(char **str, env_t *env);
 int check_quotes(char *cmd, int i);
+int check_bad_quotes(char *cmd);
 int is_a_built_in(char *str);
 int test_concat_exec(char *test_access, char **path, char **str);
+char **parse_quotes(char **cmd);
+void update_iterator(char *str, int *i, bool *d_quote);
+void update_iterator_for_quotes(char *str, int *i);
 
 // GLOBBING
 
@@ -127,6 +138,11 @@ char *parse_glob(char *cmd, int clean);
 int count_glob(char *cmd);
 int process_glob(char **cmd);
 int check_brackets(char *cmd);
+void replace_ref(char **cmd, error_var_t *int_value, char **ref_tab);
+int check_no_match(error_var_t *int_value, char **ref_tab, char **cmd);
+void clear_string_pointer(char **string, char user_choice);
+void add_new_value_from_glob(char **tab, char **cmd, char *ref);
+int check_whereis_ref(char **tab , char *ref);
 
 //ALIAS
 void synchro_with_file(ll_alias_t *n);
@@ -135,7 +151,6 @@ void add_alias(char *name, char *alias, ll_alias_t *lla, int par);
 void print_alias(ll_alias_t *n);
 ll_alias_t *init_lla(void);
 void sort_lla(ll_alias_t *lla);
-void alias_func(char **str, env_t *env, int *ret_value);
 void my_free_lla(ll_alias_t *lla);
 char **replace_alias(char **, ll_alias_t *, int *);
 char *get_str_alias(char **str);
@@ -146,17 +161,13 @@ char **my_strtab_cat(char **cmd, char **str);
 char *get_file(char *path);
 void write_alias(ll_alias_t *lla);
 char **get_alias(char *line);
-void unalias_func(char **str, env_t *env, int *ret_value);
 
 //LOCAL_VAR
 ll_lvar_t *init_lvar(void);
-void set_func(char **str, env_t *env, int *ret_value);
-void unset_func(char **str, env_t *env, int *ret_value);
 void create_lvar(char *name, char *value, ll_lvar_t *lvar);
 int replace_lvar(char *name, char *value, ll_lvar_t *lvar);
 void create_lvar(char *name, char *value, ll_lvar_t *lvar);
-void add_valid_lvar(char **str, int i);
-void set_func(char **str, env_t *env, int *ret_value);
+void add_valid_lvar(ll_lvar_t *lvar, char **str, int i, int *ret_value);
 int there_is_a_equal(char *str);
 int begin_with_letter(char *str);
 int is_int(char c);
@@ -172,13 +183,39 @@ char *get_lvar_two(char *str);
 int valid_lvar(char *str);
 
 // BUILTIN
-void repeat_func(char **str, env_t *env, int *ret_value);
-void if_func(char **str, env_t *env, int *ret_value);
-void foreach_func(char **str, env_t *env, int *ret_value);
+int check_built_ins(char **cmd, shell_t shell, int *ret_value, int *fd);
+void repeat_func(char **str, shell_t shell, int *ret_value);
+void if_func(char **str, shell_t shell, int *ret_value);
+void foreach_func(char **str, shell_t shell, int *ret_value);
+void unsetenv_func(char **cmd, shell_t shell, int *ret_value);
+void cd_func(char **cmd, shell_t shell, int *ret_value);
+void where_func(char **cmd, shell_t shell, int *ret_value);
+void which_func(char **cmd, shell_t shell, int *ret_value);
+void exit_func(char **cmd, shell_t shell, int *ret_value);
+void setenv_func(char **cmd, shell_t shell, int *ret_value);
+void echo_func(char **cmd, shell_t shell, int *ret_value);
+void set_func(char **str, shell_t shell, int *ret_value);
+void unset_func(char **str, shell_t shell, int *ret_value);
+void alias_func(char **str, shell_t shell, int *ret_value);
+void unalias_func(char **str, shell_t shell, int *ret_value);
+int count_loop_foreach(char **str);
 
+//SCRIPTING
+
+void replace_argument(char **parsed, char **arguments, int i);
+void seek_arguments(char **parsed, char **arguments);
+char *replace_arguments(char *buffer, char **arguments);
+int seek_script(shell_t shell, char **binary, int *ret_value);
 
 // UTILS
 int is_alpha_string(char *str);
 void print_tab(char **tab);
+
+
+// IF
+int check_only_number(char **s, int *ret_if);
+int check_error_handling_if(char **str);
+int check_tab_len_if(char **s);
+int is_if_error(char **s);
 
 #endif /* __42sh__ */

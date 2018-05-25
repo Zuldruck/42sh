@@ -7,9 +7,6 @@
 
 #include "42sh.h"
 
-static int check_passed_at_least_one_tour;
-static int check_error_nomatch;
-
 int check_whereis_ref(char **tab , char *ref)
 {
 	for (int i = 0 ; tab[i] ; i++)
@@ -18,42 +15,27 @@ int check_whereis_ref(char **tab , char *ref)
 	return (0);
 }
 
-void add_new_value_from_glob(char **tab, char **cmd, char *ref)
-{
-	char **tab_tmp = my_str_to_word_array(*cmd, ' ');
-	char *ret_convert = NULL;
-	int pos_ref = check_whereis_ref(tab_tmp, ref);
-
-	ret_convert = convert_tab_to_string(tab);
-	tab_tmp[pos_ref] = strdup(ret_convert);
-	*cmd = convert_tab_to_string(tab_tmp);
-	free (ret_convert);
-	my_free_tab(tab_tmp);
-}
-
-void loop_glob(char **cmd, int retval, glob_t *paths, int *check_error)
+void loop_glob(char **cmd, int retval, glob_t *paths,
+error_var_t *int_value)
 {
 	char *ref = NULL;
 	char **ref_tab = my_str_to_word_array(*cmd, 32);
 
+	ref = parse_glob(*cmd, 2);
 	if (retval == 0) {
-		ref = parse_glob(*cmd, 2);
 		add_new_value_from_glob(paths->gl_pathv, cmd,
 		ref);
 		free (ref);
 		globfree(paths);
 		my_free_tab(ref_tab);
-		check_passed_at_least_one_tour += 1;
+		int_value->check_passed_at_least_one_tour += 1;
 	} else {
-		check_passed_at_least_one_tour != 1 && check_error_nomatch != 1
-		&& check_brackets(*cmd) != 1 ? printf("%s: No match.\n",
-		ref_tab[0]), check_error_nomatch = 1 : 0;
-		check_brackets(*cmd) != 1 ? *check_error = 1 : 0;
+		replace_ref(cmd, int_value, ref_tab);
 		my_free_tab(ref_tab);
 	}
 }
 
-void body_glob(glob_t *paths, char **cmd, int *check_error)
+void body_glob(glob_t *paths, char **cmd, error_var_t *int_value)
 {
 	char *parse_star = NULL;
 	int count_globcard = count_glob(*cmd);
@@ -63,29 +45,41 @@ void body_glob(glob_t *paths, char **cmd, int *check_error)
 		parse_star = parse_glob(*cmd, 0);
 		retval = glob(parse_star, GLOB_NOCHECK && GLOB_NOSORT
 		&& GLOB_NOMATCH, NULL, paths);
-		loop_glob(cmd, retval, paths, check_error);
+		loop_glob(cmd, retval, paths, int_value);
 		count_globcard--;
 		free (parse_star);
 	}
 	parse_glob(*cmd, 1);
 }
 
+error_var_t *init_struct_var(void)
+{
+	error_var_t *int_value = malloc(sizeof(*int_value));
+
+	if (!int_value)
+		return (NULL);
+	int_value->check_error = 0;
+	int_value->check_passed_at_least_one_tour = 0;
+	int_value->check_error_nomatch = 0;
+	return (int_value);
+}
+
 int process_glob(char **cmd)
 {
 	glob_t paths;
-	int check_error = 0;
+	error_var_t *int_value = init_struct_var();
 
 	if (!cmd)
 		return (0);
 	paths.gl_pathc = 0;
 	paths.gl_pathv = NULL;
 	paths.gl_offs = 0;
-	check_passed_at_least_one_tour = 0;
-	check_error_nomatch = 0;
-	body_glob(&paths, cmd, &check_error);
-	if (check_error != 0) {
-		check_error = 0;
+	body_glob(&paths, cmd, int_value);
+	if (int_value->check_error != 0) {
+		int_value->check_error = 0;
 		return (1);
 	}
+	*cmd = my_clean_str(*cmd);
+	free (int_value);
 	return (0);
 }

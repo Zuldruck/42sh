@@ -49,19 +49,19 @@ int str_is_num(char *str)
 	return (0);
 }
 
-void exec_exit(int ret_value, env_t *env)
+void exec_exit(int ret_value, shell_t shell)
 {
 	if (isatty(STDIN_FILENO))
 		my_printf("exit\n");
-	free_list(env);
-	my_free_lla(lla);
+	free_list(shell.env);
+	my_free_lla(shell.aliases);
 	exit(ret_value);
 }
 
-void exit_func(char **str, env_t *env, int *ret_value)
+void exit_func(char **str, shell_t shell, int *ret_value)
 {
 	if (my_tablen(str) == 1)
-		exec_exit(0, env);
+		exec_exit(0, shell);
 	if (my_tablen(str) == 2 && is_malformed(str[1]) == 1) {
 		my_printf("exit: Malformed file inquiry.\n");
 		*ret_value = 1;
@@ -75,5 +75,5 @@ void exit_func(char **str, env_t *env, int *ret_value)
 		*ret_value = 1;
 		return;
 	}
-	exec_exit(my_getnbr(str[1]), env);
+	exec_exit(my_getnbr(str[1]), shell);
 }

@@ -30,7 +30,7 @@ int print_first_path(env_t *env, char *str)
 	return (1);
 }
 
-void which_func(char **str, env_t *env, int *ret_value)
+void which_func(char **str, shell_t shell, int *ret_value)
 {
 	if (my_tablen(str) < 2) {
 		*ret_value = 1;
@@ -42,7 +42,7 @@ void which_func(char **str, env_t *env, int *ret_value)
 			printf("%s: shell built-in command.\n", str[i]);
 			continue;
 		}
-		if (print_first_path(env, str[i])
+		if (print_first_path(shell.env, str[i])
 		&& !is_a_built_in(str[i])) {
 			printf("%s: Command not found.\n", str[i]);
 			*ret_value = 1;

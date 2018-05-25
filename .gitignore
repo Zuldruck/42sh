@@ -29,4 +29,5 @@ norminette_similar_to_epitech
 .idea/workspace.xml
 cmake-build-debug
 norm
+termcaps.c
 .idea
