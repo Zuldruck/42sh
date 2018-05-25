@@ -65,6 +65,7 @@ void set_func(char **str, shell_t shell, int *ret_value)
 			printf("%s: Variable name must begin with a letter.\n",
 			       str[0]);
 			*ret_value = 1;
+			break;
 		}
 	}
 }

@@ -40,25 +40,11 @@ void 		alias_func(char **str, shell_t shell, int *ret_value)
 
 }
 
-// char **alias_core(char **cmd, ll_alias_t *tmp, char **str, int *loop)
-// {
-// 	if (alias_loop(tmp, lla) == 1) {
-// 		printf("Alias loop.\n");
-// 		*loop = 1;
-// 		return (str);
-// 	} else if (alias_loop(tmp, lla) == 2)
-// 		return (str);
-// 	while (alias_is_another(tmp->alias, lla))
-// 		tmp = step_up_alias(tmp->alias, lla);
-// 	cmd = my_str_to_word_array(tmp->alias, ' ');
-// 	cmd = my_strtab_cat(cmd, str);
-// 	return (cmd);
-// }
-
 char **replace_alias(char **str, ll_alias_t *lla, int *loop)
 {
 	ll_alias_t *tmp = lla->next;
 	char **cmd = NULL;
+	int ret = 0;
 
 	for (; tmp; tmp = tmp->next) {
 		if (strcmp(str[0], tmp->name) != 0 || !tmp->name)
@@ -69,8 +55,11 @@ char **replace_alias(char **str, ll_alias_t *lla, int *loop)
 			return (str);
 		} else if (alias_loop(tmp, lla) == 2)
 			return (str);
-		while (alias_is_another(tmp->alias, lla))
-			tmp = step_up_alias(tmp->alias, lla);
+		while (alias_is_another(tmp->alias, lla)) {
+			tmp = step_up_alias(tmp->alias, lla, &ret);
+			if (ret == -1)
+				return (str);
+		}
 		cmd = my_str_to_word_array(tmp->alias, ' ');
 		cmd = my_strtab_cat(cmd, str);
 		return (cmd);

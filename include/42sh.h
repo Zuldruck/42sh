@@ -156,7 +156,7 @@ char **replace_alias(char **, ll_alias_t *, int *);
 char *get_str_alias(char **str);
 int alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
 int alias_is_another(char *alias, ll_alias_t *lla);
-ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla);
+ll_alias_t *step_up_alias(char *alias, ll_alias_t *lla, int *ret);
 char **my_strtab_cat(char **cmd, char **str);
 char *get_file(char *path);
 void write_alias(ll_alias_t *lla);
