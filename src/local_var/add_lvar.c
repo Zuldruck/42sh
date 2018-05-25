@@ -46,8 +46,7 @@ void add_valid_lvar(ll_lvar_t *lvar, char **str, int i, int *ret_value)
 			*ret_value = 1;
 			return;
 		}
-		create_lvar(get_lvar_one(str[i]),
-						get_lvar_two(str[i]), lvar);
+		create_lvar(get_lvar_one(str[i]), get_lvar_two(str[i]), lvar);
 	} else
 		create_lvar(get_lvar_one(str[i]), " ", lvar);
 }
