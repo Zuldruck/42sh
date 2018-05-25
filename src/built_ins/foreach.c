@@ -71,7 +71,7 @@ char *process_foreach(void)
 int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 {
 	char **tmp_tab= NULL;
-	char *tmp= NULL;
+	char *tmp = NULL;
 	int loop_foreach = 0;
 
 	if (!ret || !str)
@@ -80,7 +80,6 @@ int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 	tmp_tab[my_tablen(tmp_tab)] = NULL;
 	tmp = convert_tab_to_string(tmp_tab);
 	loop_foreach = count_loop_foreach(str);
-	(void) ret_value;
 	for (int i = 0 ; i < loop_foreach ; i++) {
 		parse_cmd(shell, tmp, ret_value);
 		tmp = convert_tab_to_string(tmp_tab);
