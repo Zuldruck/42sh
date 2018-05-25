@@ -7,7 +7,7 @@
 
 #include "42sh.h"
 
-void exec_pipe(btree_t *pipe, env_t *env, int *ret_value)
+void exec_pipe(btree_t *pipe, shell_t shell, int *ret_value)
 {
 	pid_t pid = 0;
 
@@ -17,11 +17,11 @@ void exec_pipe(btree_t *pipe, env_t *env, int *ret_value)
 	}
 	pid = fork();
 	if (!pid) {
-		exec_tree(pipe->left, env, ret_value);
+		exec_tree(pipe->left, shell, ret_value);
 		close(pipe->left->fd[1]);
 		exit(0);
 	}
 	close(pipe->left->fd[1]);
-	exec_tree(pipe->right, env, ret_value);
+	exec_tree(pipe->right, shell, ret_value);
 	waitpid(pid, NULL, 0);
 }

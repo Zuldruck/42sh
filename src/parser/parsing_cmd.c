@@ -48,13 +48,13 @@ void free_tree(btree_t *tree)
 	free(tree);
 }
 
-void parse_cmd(env_t *env, char *cmd, int *ret_value)
+void parse_cmd(shell_t shell, char *cmd, int *ret_value)
 {
 	btree_t *node = create_btree_node(my_clean_str(cmd), NULL);
 
 	free(cmd);
 	if (check_bad_quotes(node->cmd)
-	|| parse_env_variables(&(node->cmd), env)
+	|| parse_env_variables(&(node->cmd), shell.env)
 	|| parse_cmd_for_semicolon(node)
 	|| parse_cmd_for_or(node)
 	|| parse_cmd_for_and(node)
@@ -64,6 +64,6 @@ void parse_cmd(env_t *env, char *cmd, int *ret_value)
 		free_tree(node);
 		return;
 	}
-	exec_tree(node, env, ret_value);
+	exec_tree(node, shell, ret_value);
 	free_tree(node);
 }

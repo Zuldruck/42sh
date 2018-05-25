@@ -8,7 +8,7 @@
 #include "my.h"
 #include "42sh.h"
 
-void delete_alias(char *str)
+void delete_alias(char *str, ll_alias_t *lla)
 {
 	ll_alias_t *tmp = lla;
 
@@ -21,24 +21,23 @@ void delete_alias(char *str)
 	}
 }
 
-void unalias_loop(char **str)
+void unalias_loop(char **str, ll_alias_t *lla)
 {
 	int i = 1;
 
 	while (str[i]) {
-		delete_alias(str[i]);
+		delete_alias(str[i], lla);
 		i++;
 	}
 }
 
-void unalias_func(char **str, env_t *env, int *ret_value)
+void unalias_func(char **str, shell_t shell, int *ret_value)
 {
 	if (my_tablen(str) == 1) {
 		printf("unalias: Too few arguments.\n");
+		*ret_value = 1;
 		return;
 	} else {
-		unalias_loop(str);
+		unalias_loop(str, shell.aliases);
 	}
-	(void) env;
-	(void) ret_value;
 }

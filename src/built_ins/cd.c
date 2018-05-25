@@ -42,9 +42,9 @@ void exec_cd(env_t *env, char **str, int *ret_value)
 	free(cur_dir);
 }
 
-void cd_func(char **str, env_t *env, int *ret_value)
+void cd_func(char **str, shell_t shell, int *ret_value)
 {
-	char *home = get_env(env, "HOME");
+	char *home = get_env(shell.env, "HOME");
 
 	if (str[1] == NULL) {
 		if (home == NULL) {
@@ -53,10 +53,10 @@ void cd_func(char **str, env_t *env, int *ret_value)
 			return;
 		}
 		chdir(home);
-		change_pwd(env);
+		change_pwd(shell.env);
 	} else if (str[2] != NULL) {
 		my_printf("cd: Too many arguments.\n");
 		*ret_value = 1;
 	} else
-		exec_cd(env, str, ret_value);
+		exec_cd(shell.env, str, ret_value);
 }

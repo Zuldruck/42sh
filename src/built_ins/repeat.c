@@ -56,11 +56,11 @@ int process_repeat(char **str, env_t *env)
 	return (ret_value_cmd);
 }
 
-void repeat_func(char **str, env_t *env, int *ret_value)
+void repeat_func(char **str, shell_t shell, int *ret_value)
 {
 	int ret = 0;
 
-	if (!str || !env) {
+	if (!str) {
 		*ret_value = 1;
 		return;
 	}
@@ -68,7 +68,7 @@ void repeat_func(char **str, env_t *env, int *ret_value)
 		ret != 2 ? *ret_value = 1 : 0;
 		return;
 	}
-	if (str[0] && str[1] && process_repeat(str, env) != 0) {
+	if (str[0] && str[1] && process_repeat(str, shell.env) != 0) {
 		*ret_value = 1;
 		return;
 	}

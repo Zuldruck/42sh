@@ -38,11 +38,12 @@ void create_lvar(char *name, char *value, ll_lvar_t *lvar)
 	tmp->next = n;
 }
 
-void add_valid_lvar(char **str, int i)
+void add_valid_lvar(ll_lvar_t *lvar, char **str, int i, int *ret_value)
 {
 	if (there_is_a_equal(str[i]) == 1) {
 		if (check_too_deep(get_lvar_two(str[i])) == 1) {
 			printf("Directory stack not that deep.\n");
+			*ret_value = 1;
 			return;
 		}
 		create_lvar(get_lvar_one(str[i]),
@@ -51,20 +52,19 @@ void add_valid_lvar(char **str, int i)
 		create_lvar(get_lvar_one(str[i]), " ", lvar);
 }
 
-void set_func(char **str, env_t *env, int *ret_value)
+void set_func(char **str, shell_t shell, int *ret_value)
 {
 	if (my_tablen(str) == 1) {
-		print_lvar(lvar);
+		print_lvar(shell.local_var);
 		return;
 	}
 	for (int i = 1; i < my_tablen(str); i++) {
 		if (begin_with_letter(str[i]) == 1) {
-			add_valid_lvar(str, i);
+			add_valid_lvar(shell.local_var, str, i, ret_value);
 		} else {
 			printf("%s: Variable name must begin with a letter.\n",
 			       str[0]);
+			*ret_value = 1;
 		}
 	}
-	(void)env;
-	(void)ret_value;
 }

@@ -63,7 +63,7 @@ void print_str_error(int error, int *ret_value)
 	*ret_value = 1;
 }
 
-void setenv_func(char **str, env_t *env, int *ret_value)
+void setenv_func(char **str, shell_t shell, int *ret_value)
 {
 	int size = my_tablen(str);
 	int str_error = verif_name_var(str[1]);
@@ -76,9 +76,9 @@ void setenv_func(char **str, env_t *env, int *ret_value)
 		return;
 	}
 	if (size == 1)
-		env_func(str, env, ret_value);
+		env_func(str, shell, ret_value);
 	else if (size < 4 && size > 1)
-		add_elem_to_env(env, str[1], str[2]);
+		add_elem_to_env(shell.env, str[1], str[2]);
 	else {
 		my_printf("%s: Too many arguments.\n", str[0]);
 		*ret_value = 1;

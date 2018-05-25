@@ -21,14 +21,13 @@ void delete_lvar(char *name, ll_lvar_t *lvar)
 	}
 }
 
-void unset_func(char **str, env_t *env, int *ret_value)
+void unset_func(char **str, shell_t shell, int *ret_value)
 {
-	(void)env;
-	(void)ret_value;
 	if (my_tablen(str) == 1) {
 		printf("%s: Too few arguments.\n", str[0]);
+		*ret_value = 1;
 		return;
 	}
 	for (int i = 1; i < my_tablen(str); i++)
-		delete_lvar(str[i], lvar);
+		delete_lvar(str[i], shell.local_var);
 }

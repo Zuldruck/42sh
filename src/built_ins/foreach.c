@@ -58,13 +58,13 @@ char *process_foreach(void)
 	return (res);
 }
 
-int process_loop_foreach(char *ret, char **str, env_t *env, int *ret_value)
+int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 {
 	char **tmp_tab= NULL;
 	char *tmp= NULL;
 	int loop_foreach = 0;
 
-	if (!ret || !str || !env)
+	if (!ret || !str)
 		return (84);
 	tmp_tab = my_str_to_word_array(my_clean_str(ret), ' ');
 	tmp_tab[my_tablen(tmp_tab)] = NULL;
@@ -80,17 +80,17 @@ int process_loop_foreach(char *ret, char **str, env_t *env, int *ret_value)
 	return (0);
 }
 
-void foreach_func(char **str, env_t *env, int *ret_value)
+void foreach_func(char **str, shell_t shell, int *ret_value)
 {
 	char *ret = NULL;
 
-	if (!str || !env) {
+	if (!str || !shell.env) {
 		*ret_value = 1;
 		return;
 	}
 	if (check_error_handling_foreach(str) != 0
 	|| (ret = process_foreach()) == NULL
-	|| process_loop_foreach(ret, str, env, ret_value) != 0) {
+	|| process_loop_foreach(ret, str, shell, ret_value) != 0) {
 		*ret_value = 1;
 		return;
 	}
