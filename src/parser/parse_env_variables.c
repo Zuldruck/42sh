@@ -68,7 +68,8 @@ int parse_env_variables(char **str, shell_t shell)
 		update_iterator(*str, &i, &d_quote);
 		if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] != ' '
 		&& !is_a_env_value(shell.env, shell.local_var, (*str) + i)) {
-			my_printf("%s: Undefined variable.\n", (*str) + i + 1);
+			my_printf("%s: Undefined variable.\n",
+			get_var_name((*str) + i + 1));
 			return (1);
 		} else if ((*str)[i] == '$' && (*str)[i + 1]
 		&& (*str)[i + 1] != ' ') {
