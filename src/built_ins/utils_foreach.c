@@ -48,6 +48,5 @@ int count_loop_foreach(char **str)
 {
 	int decrease = decrease_parenthesis(str);
 
-	printf("debug %d\n", decrease);
 	return (my_tablen(str) - 2 - decrease);
 }
