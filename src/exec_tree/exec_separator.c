@@ -26,5 +26,6 @@ void exec_double_or(btree_t *semicolon, shell_t shell, int *ret_value)
 	exec_tree(semicolon->left, shell, ret_value);
 	if (*ret_value == 0)
 		return;
+	*ret_value = 0;
 	exec_tree(semicolon->right, shell, ret_value);
 }

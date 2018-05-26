@@ -61,7 +61,8 @@ void parse_cmd(shell_t shell, char *cmd, int *ret_value)
 	|| parse_cmd_for_or(node)
 	|| parse_cmd_for_and(node)
 	|| parse_cmd_for_pipes_and_redirections(node)
-	|| btree_error_handling(node, 0)) {
+	|| btree_error_handling(node, 0)
+	|| replace_alias(node, shell.aliases)) {
 		*ret_value = 1;
 		free_tree(node);
 		return;
