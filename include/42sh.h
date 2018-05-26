@@ -152,7 +152,6 @@ void print_alias(ll_alias_t *n);
 ll_alias_t *init_lla(void);
 void sort_lla(ll_alias_t *lla);
 void my_free_lla(ll_alias_t *lla);
-char **replace_alias(char **, ll_alias_t *, int *);
 char *get_str_alias(char **str);
 int alias_loop(ll_alias_t *tmp, ll_alias_t *lla);
 int alias_is_another(char *alias, ll_alias_t *lla);
@@ -161,6 +160,7 @@ char **my_strtab_cat(char **cmd, char **str);
 char *get_file(char *path);
 void write_alias(ll_alias_t *lla);
 char **get_alias(char *line);
+int replace_alias(btree_t *tree, ll_alias_t *lla);
 
 //LOCAL_VAR
 ll_lvar_t *init_lvar(void);

@@ -14,14 +14,25 @@ int test_exec(char *test_access)
 	return (0);
 }
 
-char *concat_exec(char **str, env_t *env)
+char **get_path(env_t *env)
 {
 	char **path = my_str_to_word_array(get_env(env, "PATH"), ':');
+
+	if (!path)
+		path = my_str_to_word_array(
+		"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+		':');
+	return (path);
+}
+
+char *concat_exec(char **str, env_t *env)
+{
+	char **path = get_path(env);
 	char *test_access = NULL;
 	char *concat = NULL;
 	int i = 0;
 
-	if (!path || !str || !str[0] || !str[0][0])
+	if (!str || !str[0] || !str[0][0])
 		return (0);
 	while (path[i] != NULL) {
 		concat = my_strcat("/", str[0]);

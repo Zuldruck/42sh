@@ -39,7 +39,6 @@ int 	alias_loop(ll_alias_t *tmp, ll_alias_t *lla)
 
 	if (strcmp(tmp->name, tmp->alias) == 0)
 		return (2);
-
 	strcpy(name, tmp->name);
 	while (alias_is_another(tmp->alias, lla) == 1) {
 		tmp = step_up_alias(tmp->alias, lla, &ret);

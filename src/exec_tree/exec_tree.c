@@ -23,7 +23,6 @@ static const operator_t op_tab[] =
 void exec_tree(btree_t *tree, shell_t shell, int *ret_value)
 {
 	char **word_tab = NULL;
-	int loop = 0;
 
 	for (int i = 0; tree->op && op_tab[i].fptr; i++) {
 		if (!my_strcmp(tree->op, op_tab[i].op)) {
@@ -36,10 +35,7 @@ void exec_tree(btree_t *tree, shell_t shell, int *ret_value)
 		return;
 	}
 	word_tab = my_str_to_word_array(tree->cmd, ' ');
-	word_tab = replace_alias(word_tab, shell.aliases, &loop);
 	word_tab = parse_quotes(word_tab);
-	if (loop == 1)
-		return;
 	if (check_built_ins(word_tab, shell, ret_value, tree->fd) == 1
 	&& seek_script(shell, word_tab, ret_value) == 1)
 		if (word_tab && word_tab[0])
