@@ -18,11 +18,11 @@ char *get_var_name(char *str)
 	return (name);
 }
 
-int is_a_env_value(env_t *env, char *str)
+int is_a_env_value(env_t *env, ll_lvar_t *lvar, char *str)
 {
 	char *var_name = get_var_name(str + 1);
 
-	if (get_env(env, var_name) == NULL) {
+	if (!get_env(env, var_name) && !get_lvar(var_name, lvar)) {
 		free(var_name);
 		return (0);
 	}
@@ -30,13 +30,18 @@ int is_a_env_value(env_t *env, char *str)
 	return (1);
 }
 
-char *get_str_with_env(env_t *env, char *var_name,
+char *get_str_with_env(shell_t shell, char *var_name,
 						char *beg_str, char **str)
 {
+	char *value = get_lvar(var_name, shell.local_var);
 	char *end_str = *str + strlen(beg_str) + 1 + strlen(var_name);
-	char *end_with_env = my_strcat(get_env(env, var_name), end_str);
-	char *ret = my_strcat(beg_str, end_with_env);
+	char *end_with_env = NULL;
+	char *ret = NULL;
 
+	if (!value)
+		value = get_env(shell.env, var_name);
+	end_with_env = my_strcat(value, end_str);
+	ret = my_strcat(beg_str, end_with_env);
 	free(*str);
 	free(beg_str);
 	free(var_name);
@@ -53,7 +58,7 @@ void update_iterator(char *str, int *i, bool *d_quote)
 	for (*i += 1; str[*i] && str[*i] != '\''; *i += 1);
 }
 
-int parse_env_variables(char **str, env_t *env)
+int parse_env_variables(char **str, shell_t shell)
 {
 	char *new_str = NULL;
 	char *var_name = NULL;
@@ -62,14 +67,14 @@ int parse_env_variables(char **str, env_t *env)
 	for (int i = 0; *str && (*str)[i]; i++) {
 		update_iterator(*str, &i, &d_quote);
 		if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] != ' '
-		&& !is_a_env_value(env, (*str) + i)) {
+		&& !is_a_env_value(shell.env, shell.local_var, (*str) + i)) {
 			my_printf("%s: Undefined variable.\n", (*str) + i + 1);
 			return (1);
 		} else if ((*str)[i] == '$' && (*str)[i + 1]
 		&& (*str)[i + 1] != ' ') {
 			var_name = get_var_name(*str + i + 1);
 			new_str = strndup(*str, i);
-			*str = get_str_with_env(env, var_name, new_str, str);
+			*str = get_str_with_env(shell, var_name, new_str, str);
 			return (0);
 		}
 	}

@@ -12,6 +12,7 @@ SRC	= 	src/main.c						\
 		src/local_var/sort_lvar.c				\
 		src/local_var/too_deep.c				\
 		src/local_var/unset.c					\
+		src/local_var/get_lvar.c				\
 		src/alias/unalias.c					\
 		src/alias/alias.c					\
 		src/alias/alias_loop.c					\

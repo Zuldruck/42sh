@@ -42,7 +42,7 @@ char *replace_arguments(char *buffer, char **arguments)
 	char **parsed = my_str_to_word_array(buffer, ' ');
 
 	if (!parsed)
-		exit(84);
+		return (NULL);
 	seek_arguments(parsed, arguments);
 	cmd = convert_tab_to_string(parsed);
 	return (cmd);
@@ -56,7 +56,7 @@ int seek_script(shell_t shell, char **binary, int *ret_value)
 	if (!binary || !binary[0])
 		return (1);
 	file = fopen(binary[0], "r");
-	if (!file || !(buffer = get_next_line(file))
+	if (!file || !(buffer = get_next_line(file)) || !buffer[0]
 	|| (buffer[1] == 'E' && buffer[2] == 'L' && buffer[3] == 'F'))
 		return (1);
 	buffer = replace_arguments(buffer, binary);
