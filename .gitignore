@@ -31,3 +31,4 @@ cmake-build-debug
 norm
 termcaps.c
 .idea
+mouli.sh

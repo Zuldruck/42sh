@@ -223,4 +223,8 @@ int process_then(char *str, env_t *env);
 int check_then(char **s);
 int process_if(char **str, env_t *env);
 
+
+//UTILS FOREACH
+int count_parenthesis(char **str);
+
 #endif /* __42sh__ */

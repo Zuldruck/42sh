@@ -21,13 +21,13 @@ int is_parenthese(char *str)
 int check_pos_parenthesis(int *decrease, char **str)
 {
 	for (int i = 0 ; str[i] ; i++)
-		if (is_parenthese(str[i]) == 1 && strcmp(str[i], "(") == 0) {
-			*decrease += 1;
+		if (is_parenthese(str[i]) == 1) {
+			strcmp(str[i], "(") == 0 ? *decrease += 1 : 0;
 			break;
 		}
-	for (int i = my_tablen(str) - 1 ; str[i] ; i--)
-		if (is_parenthese(str[i]) == 1 && strcmp(str[i], ")") == 0) {
-			*decrease += 1;
+	for (int i = my_tablen(str) - 1 ; i >= 0 ; i--)
+		if (is_parenthese(str[i]) == 1) {
+			strcmp(str[i], ")") == 0 ? *decrease += 1 : 0;
 			break;
 		}
 	return (*decrease != 0 ? 1 : 0);
@@ -49,4 +49,14 @@ int count_loop_foreach(char **str)
 	int decrease = decrease_parenthesis(str);
 
 	return (my_tablen(str) - 2 - decrease);
+}
+
+int count_parenthesis(char **str)
+{
+	int count = 0;
+
+	for (int i = 0 ; str[i] ; i++)
+		if (is_parenthese(str[i]) == 1)
+			count++;
+	return (count);
 }
