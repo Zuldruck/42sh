@@ -50,3 +50,13 @@ int count_loop_foreach(char **str)
 
 	return (my_tablen(str) - 2 - decrease);
 }
+
+int count_parenthesis(char **str)
+{
+	int count = 0;
+
+	for (int i = 0 ; str[i] ; i++)
+		if (is_parenthese(str[i]) == 1)
+			count++;
+	return (count);
+}
