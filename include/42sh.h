@@ -215,7 +215,6 @@ int my_str_is_alphanum(char *str);
 // IF
 int check_only_number(char **s, int *ret_if);
 int check_error_handling_if(char **str);
-int check_tab_len_if(char **s);
 int is_if_error(char **s);
 int check_then_if(char **s, shell_t shell);
 int process_then(char *str, shell_t shell);
@@ -225,18 +224,24 @@ int is_parenthese(char *str);
 int parse_if(char **str);
 char **set_null_empty_case_tab(char **str);
 char **clean_tab(char **str);
-void my_memmove(char **s1, char **s2);
+int my_memmove(char **s1, char **s2);
 int empty_string(char *str);
 void clean_parenthesis(char **str);
-
+int check_expression(char **str);
 char **set_null_empty_case_tab(char **str);
 char **clean_tab(char **str);
-void my_memmove(char **s1, char **s2);
 int empty_string(char *str);
 void clean_parenthesis(char **str);
 char **memmove_tab(char **str);
 int pos_empty_case(char **str);
 int need_to_memmove(char **str);
+int missing_parenthesis(char *temp);
+int expression_syntax_if(char *tmp);
+int check_badly(char *str);
+int empty_if(char *temp);
+int too_few_args(char *tmp, int paren);
+char *delete_all_parenthese(char **str, int *parenthesis);
+
 
 //UTILS FOREACH
 int count_parenthesis(char **str);

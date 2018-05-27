@@ -39,7 +39,8 @@ char **memmove_tab(char **str)
 		j = i;
 		while (empty_string(str[i]) == 0)
 			i++;
-		my_memmove(&str[j - 1], &str[i]);
+		if (my_memmove(&str[j - 1], &str[i]) != 0)
+			break;
 	}
 	str = clean_tab(str);
 	return (str);
@@ -56,6 +57,5 @@ int parse_if(char **str)
 	}
 	str = clean_tab(str);
 	str = memmove_tab(str);
-	str = set_null_empty_case_tab(str);
 	return (0);
 }

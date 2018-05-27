@@ -7,6 +7,22 @@
 
 #include "42sh.h"
 
+char *delete_all_parenthese(char **str, int *parenthesis)
+{
+	char *tmp = NULL;
+
+	if (!str)
+		return (NULL);
+	tmp = convert_tab_to_string(str);
+	for (int i = 0 ; tmp[i] ; i++)
+		if (tmp[i] == ')' || tmp[i] == '(') {
+			*parenthesis = 1;
+			tmp[i] = 32;
+		}
+	tmp = my_clean_str(tmp);
+	return (tmp);
+}
+
 int check_then(char **s)
 {
 	if (!s || my_tablen(s) < 4)
@@ -38,7 +54,7 @@ int check_then_if(char **s, shell_t shell)
 {
 	char *input = NULL;
 
-	if (!s || parse_if(s) != 0)
+	if (!s)
 		return (84);
 	if (check_then(s) != 0)
 		return (0);
