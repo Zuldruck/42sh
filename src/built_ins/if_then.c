@@ -9,16 +9,17 @@
 
 int check_then(char **s)
 {
-	if (!s || !s[4])
+	if (!s || my_tablen(s) < 4)
 		return (1);
-	if (strcmp(s[4], "then") == 0)
+	if (s[4] && strcmp(s[4], "then") == 0)
 		return (0);
 	return (1);
 }
 
-int process_then(char *str, env_t *env)
+int process_then(char *str, shell_t shell)
 {
 	char **tmp = NULL;
+	int err = 0;
 
 	if (str && strncmp(str, "else if",7) == 0) {
 		tmp = my_str_to_word_array(str + 4, 32);
@@ -26,18 +27,21 @@ int process_then(char *str, env_t *env)
 			free (tmp);
 			return (1);
 		}
-		process_if(tmp, env);
+		if_func(tmp, shell, &err);
 		free (tmp);
 		return (1);
 	}
 	return (0);
 }
 
-int check_then_if(char **s, env_t *env)
+int check_then_if(char **s, shell_t shell)
 {
 	char *input = NULL;
 
-	(void) env;
+	if (!s)
+		return (84);
+	if (parse_if(s) != 0)
+		return (84);
 	if (check_then(s) != 0)
 		return (0);
 	isatty(0) ? write (1, "if? ", 4) : 0;
@@ -45,7 +49,7 @@ int check_then_if(char **s, env_t *env)
 		return (1);
 	while (input != NULL && ((my_strcmp(input, "endif") != 0) &&
 	(my_strcmp(input, "else") != 0))) {
-		if (process_then(input, env) != 0)
+		if (process_then(input, shell) != 0)
 			break;
 		isatty(0) ? write (1, "if? ", 4) : 0;
 		if ((input = get_next_line(stdin)) == NULL)
