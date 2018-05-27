@@ -9,11 +9,11 @@
 
 char *convert_tab_to_string(char **tab)
 {
-	char *result = NULL;
+	char *result = strdup(tab[0]);
 	char *tmp = NULL;
 	char *tmp_result = NULL;
 
-	for (int i = 0 ; tab[i] ; i++) {
+	for (int i = 1; tab[i]; i++) {
 		tmp = my_strcat(" ", tab[i]);
 		if (result) {
 			tmp_result = strdup(result);

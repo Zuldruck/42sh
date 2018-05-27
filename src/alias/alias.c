@@ -82,5 +82,6 @@ int replace_alias(btree_t *tree, ll_alias_t *lla)
 		return (1);
 	free(tree->cmd);
 	tree->cmd = convert_tab_to_string(cmd);
+	my_free_tab(cmd);
 	return (0);
 }
