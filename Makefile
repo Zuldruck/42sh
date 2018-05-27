@@ -70,7 +70,7 @@ SRC	= 	src/main.c						\
 
 OBJ	=	$(SRC:.c=.o)
 
-CC	= 	gcc -Wextra -Wall -Werror -g3 -no-pie
+CC	= 	gcc -Wextra -Wall -Werror -no-pie
 
 _END=$'\x1b[0m'
 _RED=$'\x1b[31m'
