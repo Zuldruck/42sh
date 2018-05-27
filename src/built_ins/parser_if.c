@@ -45,7 +45,6 @@ char **memmove_tab(char **str)
 	return (str);
 }
 
-
 int parse_if(char **str)
 {
 	if (!(str))

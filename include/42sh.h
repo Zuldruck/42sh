@@ -211,7 +211,7 @@ int seek_script(shell_t shell, char **binary, int *ret_value);
 // UTILS
 int is_alpha_string(char *str);
 void print_tab(char **tab);
-
+int my_str_is_alphanum(char *str);
 
 // IF
 int check_only_number(char **s, int *ret_if);
@@ -238,7 +238,6 @@ void clean_parenthesis(char **str);
 char **memmove_tab(char **str);
 int pos_empty_case(char **str);
 int need_to_memmove(char **str);
-
 
 //UTILS FOREACH
 int count_parenthesis(char **str);

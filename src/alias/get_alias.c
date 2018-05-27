@@ -52,7 +52,8 @@ char **get_alias(char *line)
 
 char		**my_strtab_cat(char **cmd, char **str)
 {
-	char **nstr = malloc(sizeof(char *) * my_tablen(str) + my_tablen(cmd) + 100);
+	char **nstr = malloc(sizeof(char *) * my_tablen(str)
+	+ my_tablen(cmd) + 100);
 	int i = 0;
 	int b = 1;
 

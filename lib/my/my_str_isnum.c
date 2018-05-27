@@ -5,6 +5,19 @@
 ** my str is num
 */
 
+#include <ctype.h>
+
+int my_str_is_alphanum(char *str)
+{
+	if (!str)
+		return (1);
+	for (int i = 0 ; str[i] ; i++) {
+		if (isalnum(str[i]) == 0)
+			return (0);
+	}
+	return (1);
+}
+
 int my_str_isnum(char const *str)
 {
 	int i = 0;

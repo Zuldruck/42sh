@@ -15,7 +15,7 @@ void set_new_elem_name(env_t *new_elem, char *str)
 	new_elem->name = malloc(sizeof(char) * len + 1);
 	for (len = 0; str[len] && str[len] != '='; len++)
 		new_elem->name[len] = str[len];
-	new_elem->name[len] = 0;;
+	new_elem->name[len] = 0;
 }
 
 void set_new_elem_value(env_t *new_elem, char *str)
