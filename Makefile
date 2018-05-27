@@ -66,6 +66,7 @@ SRC	= 	src/main.c						\
 		src/parser/parse_env_variables.c			\
 		src/scripting.c						\
 		src/error_handling_if.c					\
+		src/func_error_handling_if.c				\
 
 OBJ	=	$(SRC:.c=.o)
 

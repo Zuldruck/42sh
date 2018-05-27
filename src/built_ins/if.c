@@ -31,6 +31,7 @@ int process_if(char **str, shell_t shell)
 {
 	int ret_value = 0;
 	int ret_if = 0;
+	char *tmp = NULL;
 
 	if (check_if(str, &ret_if) != 1) {
 		if (check_then_if(str, shell) != 0)
@@ -39,8 +40,10 @@ int process_if(char **str, shell_t shell)
 	}
 	if (check_then_if(str, shell) != 0)
 		return (1);
+	tmp = convert_tab_to_string(str + ret_if);
+	tmp = my_clean_str(tmp);
 	check_then(str) != 0 && str[ret_if] != NULL ?
-	my_exec(str + ret_if, shell.env, (int[2]){0, 1}): 0;
+	parse_cmd(shell, tmp, &ret_value) : 0;
 	return (ret_value);
 }
 
@@ -62,4 +65,5 @@ void if_func(char **str, shell_t shell, int *ret_value)
 		*ret_value = 0;
 		return;
 	}
+	(void)shell;
 }

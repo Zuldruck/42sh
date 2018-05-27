@@ -7,9 +7,9 @@
 
 #include "42sh.h"
 
-void process_args_echo(char **str)
+void process_args_echo(char **str, int pos_last_flag)
 {
-	for (int i = 1 ; str[i] ; i++) {
+	for (int i = pos_last_flag ; str[i] ; i++) {
 		if (str[i]) {
 			my_printf("%s", str[i]);
 			(str[i + 1] != NULL ? write(1, " ", 1) : 0);
@@ -17,8 +17,21 @@ void process_args_echo(char **str)
 	}
 }
 
+void detect_flag(int *pos_flag, int *flag_n, char **str)
+{
+	if (my_tablen(str) > 1) {
+		if (strcmp(str[1], "-n") == 0) {
+			*pos_flag += 1;
+			*flag_n += 1;
+		}
+	}
+}
+
 void echo_func(char **str, __attribute__((unused))shell_t shell, int *ret_value)
 {
+	int pos_flag = 0;
+	int flag_n = 0;
+
 	if (!str) {
 		*ret_value = 84;
 		return;
@@ -27,6 +40,7 @@ void echo_func(char **str, __attribute__((unused))shell_t shell, int *ret_value)
 		*ret_value = 0;
 		return;
 	}
-	process_args_echo(str);
-	write(1, "\n", 1);
+	detect_flag(&pos_flag, &flag_n, str);
+	process_args_echo(str, pos_flag + 1);
+	flag_n == 0 ? write(1, "\n", 1) : 0;
 }

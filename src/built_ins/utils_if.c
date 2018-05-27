@@ -21,6 +21,8 @@ void clean_parenthesis(char **str)
 
 int empty_string(char *str)
 {
+	if (!str)
+		return (1);
 	for (int i = 0 ; str[i] ; i++) {
 		if (str[i] != 32)
 			return (1);
@@ -28,15 +30,22 @@ int empty_string(char *str)
 	return (0);
 }
 
-void my_memmove(char **s1, char **s2)
+int my_memmove(char **s1, char **s2)
 {
-	memset(*s1, 0, sizeof(char) * strlen(*s1));
-	*s1 = strdup(*s2);
-	memset(*s2, 0, sizeof(char) * strlen(*s2));
+	if (s1 && s2) {
+		memset(*s1, 0, sizeof(char) * strlen(*s1));
+		*s1 = strdup(*s2);
+		memset(*s2, 0, sizeof(char) * strlen(*s2));
+
+	} else
+		return (1);
+	return (0);
 }
 
 char **clean_tab(char **str)
 {
+	if (!str)
+		return (NULL);
 	for (int i = 0 ; str[i] ; i++) {
 		str[i] = my_clean_str(str[i]);
 	}

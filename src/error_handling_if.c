@@ -19,38 +19,45 @@ int is_if_error(char **s)
 	return (0);
 }
 
-int check_tab_len_if(char **s)
+int check_expression(char **str)
 {
-	if (!s[2])
+	int pos = 0;
+
+	if (!str)
 		return (0);
-	if (strcmp(s[2], ">") == 0 || strcmp(s[2], ">=") == 0 ||
-	strcmp(s[2], "<") == 0 || strcmp(s[2], "<=") == 0 ||
-	strcmp(s[2], "==") == 0 || strcmp(s[2], "!=") == 0)
-		if (my_tablen(s) < 5)
+	if (my_tablen(str) < 2)
+		return (0);
+	if (strcmp(str[1], "(") == 0 || strcmp(str[1], ")") == 0)
+		pos += 1;
+	if (!str[1 + pos])
+		return (0);
+	for (int i = 0 ; str[1 + pos][i] ; i++) {
+		if ((str[1 + pos][i] < '0' || str[1 + pos][i] > '9')
+		&& (str[1 + pos][i] != '(' && str[1 + pos][i] != ')'))
 			return (1);
+	}
+	return (0);
+}
+
+int process_error_handlings(char *temp, char *tmp, int paren)
+{
+	if (too_few_args(tmp, paren) != 0 || missing_parenthesis(temp) != 0 ||
+	expression_syntax_if(tmp) != 0 || empty_if(temp) != 0)
+		return (1);
 	return (0);
 }
 
 int check_error_handling_if(char **str)
 {
-	if (my_tablen(str) < 3 || check_tab_len_if(str) != 0) {
-		if (is_if_error(str) != 0) {
-			printf("if: Expression Syntax.\n");
-			return (1);
-		}
-		my_tablen(str) < 2 ?
-		printf("if: Too few arguments.\n") : printf("if: Empty if.\n");
+	int paren = 0;
+	char *tmp = delete_all_parenthese(str, &paren);
+	char *temp = NULL;
+
+	if (!tmp)
+		return (84);
+	temp = convert_tab_to_string(str);
+	if (process_error_handlings(temp, tmp, paren) != 0)
 		return (1);
-	}
-	if (isdigit(str[1][0]) && isalpha(str[1][1])) {
-		printf("if: Badly formed number.\n");
-		return (1);
-	}
-	if (strlen(str[1]) == 1 && is_alpha_string(str[1]) &&
-	is_if_error(str) != 0) {
-		printf("if: Expression Syntax.\n");
-		return (1);
-	}
 	return (0);
 }
 
