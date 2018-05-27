@@ -38,7 +38,7 @@ int check_then_if(char **s, shell_t shell)
 {
 	char *input = NULL;
 
-	if (!s || parse_if(s) != 0)
+	if (!s || parse_if(s) != 0)
 		return (84);
 	if (check_then(s) != 0)
 		return (0);
