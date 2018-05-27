@@ -32,6 +32,8 @@ SRC	= 	src/main.c						\
 		src/built_ins/repeat.c					\
 		src/built_ins/if.c					\
 		src/built_ins/if_then.c					\
+		src/built_ins/parser_if.c				\
+		src/built_ins/utils_if.c				\
 		src/built_ins/where.c					\
 		src/built_ins/which.c					\
 		src/built_ins/foreach.c					\

@@ -224,6 +224,21 @@ int check_then(char **s);
 int process_if(char **str, shell_t shell);
 int is_parenthese(char *str);
 int parse_if(char **str);
+char **set_null_empty_case_tab(char **str);
+char **clean_tab(char **str);
+void my_memmove(char **s1, char **s2);
+int empty_string(char *str);
+void clean_parenthesis(char **str);
+
+char **set_null_empty_case_tab(char **str);
+char **clean_tab(char **str);
+void my_memmove(char **s1, char **s2);
+int empty_string(char *str);
+void clean_parenthesis(char **str);
+char **memmove_tab(char **str);
+int pos_empty_case(char **str);
+int need_to_memmove(char **str);
+
 
 //UTILS FOREACH
 int count_parenthesis(char **str);
