@@ -7,7 +7,6 @@
 
 #include "42sh.h"
 
-
 void add_new_value_from_glob(char **tab, char **cmd, char *ref)
 {
 	char **tab_tmp = my_str_to_word_array(*cmd, ' ');
