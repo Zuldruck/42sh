@@ -37,8 +37,6 @@ char *parse_glob(char *cmd, int clean)
 	static int pos_tab = 0;
 
 	if (!cmd || clean == 1) {
-		if (!cmd)
-			exit (84);
 		pos_tab = 0;
 		return (NULL);
 	}

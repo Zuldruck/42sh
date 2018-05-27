@@ -27,20 +27,3 @@ btree_t *create_btree_node(char *cmd, char *op)
 	node->right = NULL;
 	return (node);
 }
-
-void display_btree(btree_t *tree)
-{
-	if (tree->op)
-		my_printf("op = %s\n", tree->op);
-	if (tree->cmd)
-		my_printf("cmd = %s\n", tree->cmd);
-	my_printf("fd[0] = %d\nfd[1] = %d\n", tree->fd[0], tree->fd[1]);
-	if (tree->left) {
-		my_printf("LEFT =\n");
-		display_btree(tree->left);
-	}
-	if (tree->right) {
-		my_printf("RIGHT =\n");
-		display_btree(tree->right);
-	}
-}

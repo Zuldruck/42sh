@@ -21,7 +21,7 @@ int process_then(char *str, shell_t shell)
 	char **tmp = NULL;
 	int err = 0;
 
-	if (str && strncmp(str, "else if",7) == 0) {
+	if (str && strncmp(str, "else if", 7) == 0) {
 		tmp = my_str_to_word_array(str + 4, 32);
 		if (check_error_handling_if(tmp) != 0) {
 			free (tmp);

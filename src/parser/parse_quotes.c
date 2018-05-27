@@ -70,7 +70,7 @@ char *get_next_arg(char ***cmd, char *arg, int *size, char *quote_char)
 		*size += 1;
 	}
 	*cmd += 1;
-	check_recursivity_quote(cmd, &arg, size,quote_char);
+	check_recursivity_quote(cmd, &arg, size, quote_char);
 	arg = realloc(arg, *size);
 	arg[*size - 1] = 0;
 	return (arg);

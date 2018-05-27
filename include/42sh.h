@@ -103,7 +103,6 @@ void change_pwd(env_t *env);
 void free_btree_node(btree_t *);
 btree_t *create_btree_node(char *, char *);
 void parse_cmd(shell_t shell, char *, int *ret_value);
-void display_btree(btree_t *tree);
 int parse_cmd_for_pipes_and_redirections(btree_t *tree);
 int parse_cmd_for_semicolon(btree_t *tree);
 int parse_cmd_for_and(btree_t *node);
