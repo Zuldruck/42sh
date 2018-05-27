@@ -65,7 +65,7 @@ char *process_foreach(int *ret_value)
 
 int process_loop_foreach(char *ret, char **str, shell_t shell, int *ret_value)
 {
-	char **tmp_tab= NULL;
+	char **tmp_tab = NULL;
 	char *tmp = NULL;
 	int loop_foreach = 0;
 
